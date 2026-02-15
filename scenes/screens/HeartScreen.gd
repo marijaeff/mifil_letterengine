@@ -72,4 +72,4 @@ func go_next():
 
 	await tween.finished
 	
-	print("Переход к следующему экрану")
+	SceneLoader.goto_scene("res://scenes/screens/IntroScreen.tscn")

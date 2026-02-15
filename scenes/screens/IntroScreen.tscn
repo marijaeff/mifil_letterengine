@@ -1,0 +1,181 @@
+[gd_scene load_steps=9 format=3 uid="uid://byylw3iuixtqc"]
+
+[ext_resource type="Texture2D" uid="uid://bnigpfsif0juq" path="res://clients/vika/assets/backgrounds/intro_bg.png" id="1_jed7j"]
+[ext_resource type="Texture2D" uid="uid://ceobahitlyqhq" path="res://clients/vika/assets/objects/rope_top.png" id="2_iw5bc"]
+[ext_resource type="Texture2D" uid="uid://m5ug3w6c3pfv" path="res://clients/vika/assets/objects/ground_line.png" id="3_cnhtm"]
+[ext_resource type="Texture2D" uid="uid://bltmpn5pdkj1v" path="res://clients/vika/assets/characters/girl_letter.png" id="4_ao2vd"]
+[ext_resource type="Texture2D" uid="uid://5qsyi60ermue" path="res://clients/vika/assets/objects/baby_idle.png" id="5_55tla"]
+[ext_resource type="Texture2D" uid="uid://c5m0lsf5mvnjt" path="res://clients/vika/assets/objects/cat_idle.png" id="6_dd3vc"]
+[ext_resource type="Texture2D" uid="uid://g04tmfgbqlyr" path="res://clients/vika/assets/ui/button_yes.png" id="7_b8bfb"]
+[ext_resource type="Texture2D" uid="uid://bdpbtvx00y6lf" path="res://clients/vika/assets/ui/button_no.png" id="8_yaqsu"]
+
+[node name="IntroScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.00953, 0.997252)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_jed7j")
+stretch_mode = 6
+
+[node name="SafeArea" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_bottom = 100
+metadata/_edit_use_anchors_ = true
+
+[node name="MainLayout" type="VBoxContainer" parent="SafeArea"]
+layout_mode = 2
+
+[node name="TopDecoration" type="Control" parent="SafeArea/MainLayout"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+
+[node name="Rope" type="TextureRect" parent="SafeArea/MainLayout/TopDecoration"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -464.0
+offset_top = -40.0
+offset_right = 464.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_iw5bc")
+
+[node name="SapcerTop" type="Control" parent="SafeArea/MainLayout"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.05
+
+[node name="TextBlock" type="VBoxContainer" parent="SafeArea/MainLayout"]
+layout_mode = 2
+size_flags_vertical = 4
+size_flags_stretch_ratio = 0.4
+
+[node name="Label" type="Label" parent="SafeArea/MainLayout/TextBlock"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 50
+text = "yhgfhgfhfghg
+gdfgklfdg
+fdgk;lfgk
+dfgkdfl;gk;ldf
+dfgkl"
+
+[node name="SapcerMiddle" type="Control" parent="SafeArea/MainLayout"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.05
+
+[node name="BottomWorld" type="Control" parent="SafeArea/MainLayout"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Ground" type="TextureRect" parent="SafeArea/MainLayout/BottomWorld"]
+layout_mode = 2
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -517.0
+offset_top = 213.0
+offset_right = 517.0
+offset_bottom = 283.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("3_cnhtm")
+
+[node name="Girl" type="TextureRect" parent="SafeArea/MainLayout/BottomWorld"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.492
+anchor_right = 0.5
+anchor_bottom = 0.492
+offset_left = 221.0
+offset_top = -297.776
+offset_right = 427.0
+offset_bottom = 297.224
+texture = ExtResource("4_ao2vd")
+
+[node name="Baby" type="TextureRect" parent="SafeArea/MainLayout/BottomWorld"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -85.4768
+offset_top = 99.4523
+offset_right = -0.476807
+offset_bottom = 297.452
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("5_55tla")
+stretch_mode = 5
+
+[node name="Cat" type="TextureRect" parent="SafeArea/MainLayout/BottomWorld"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -390.0
+offset_top = 85.0
+offset_right = -266.0
+offset_bottom = 239.0
+grow_vertical = 0
+texture = ExtResource("6_dd3vc")
+
+[node name="Buttons" type="VBoxContainer" parent="SafeArea/MainLayout/BottomWorld"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -164.0
+offset_top = -73.0
+offset_right = 197.0
+offset_bottom = 151.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+
+[node name="ButtonYes" type="Button" parent="SafeArea/MainLayout/BottomWorld/Buttons"]
+layout_mode = 2
+text = "Хочу"
+icon = ExtResource("7_b8bfb")
+flat = true
+icon_alignment = 1
+
+[node name="ButtonNo" type="Button" parent="SafeArea/MainLayout/BottomWorld/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "нет"
+icon = ExtResource("8_yaqsu")
+flat = true
+icon_alignment = 1

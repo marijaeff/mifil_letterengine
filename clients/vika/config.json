@@ -3,8 +3,9 @@
 	"heart": {
 	  "background": "assets/backgrounds/heart_bg.png",
 	  "heart_texture": "assets/ui/heart.png",
-	  "auto_delay": 3.0,
-	  "beats": 8
+	  "beats": 4,
+	  "music": "assets/music/ambient.mp3",
+	  "heartbeat_sfx": "assets/sfx/heartbeat.wav"
 	}
   }
 }
