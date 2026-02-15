@@ -1,19 +1,96 @@
-[gd_scene format=3 uid="uid://w236skchxv7v"]
+[gd_scene load_steps=6 format=3 uid="uid://w236skchxv7v"]
+
+[ext_resource type="Script" uid="uid://cx8erhmpcj2k6" path="res://scenes/screens/HeartScreen.gd" id="1_132yt"]
+
+[sub_resource type="Animation" id="Animation_132yt"]
+resource_name = "pulse"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.05, 1.05), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_vw43y"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_el42o"]
+resource_name = "pulse_strong"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.14, 1.14), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_el42o"]
+_data = {
+&"RESET": SubResource("Animation_vw43y"),
+&"pulse": SubResource("Animation_132yt"),
+&"pulse_strong": SubResource("Animation_el42o")
+}
 
 [node name="HeartScreen" type="Control"]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_132yt")
 
-[node name="Label" type="Label" parent="."]
-layout_mode = 0
-offset_left = 351.0
-offset_top = 904.0
-offset_right = 777.0
-offset_bottom = 1095.0
-theme_override_font_sizes/font_size = 50
-text = "Heart Screen
-"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HeartWrapper" type="Control" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="Heart" type="Sprite2D" parent="CenterContainer/HeartWrapper"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CenterContainer/HeartWrapper/Heart"]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_el42o")
+}
