@@ -11,8 +11,14 @@ config_version=5
 [application]
 
 config/name="MiFiL_LetterEngine"
+run/main_scene="uid://xxs8fl6ee3um"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+DataLoader="*res://core/managers/DataLoader.gd"
+SceneLoader="*res://core/managers/SceneLoader.gd"
 
 [display]
 
