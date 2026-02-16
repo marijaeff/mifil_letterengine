@@ -15,7 +15,7 @@ func _ready():
 	load_visuals()
 	setup_animation()
 
-	beats = config.get("beats", 6)  # если вдруг не задано — по умолчанию 6
+	beats = config.get("beats", 6) 
 
 	wait_for_beats()
 
@@ -51,7 +51,7 @@ func go_next():
 
 	transitioning = true
 
-	animation.stop()  # останавливаем обычное биение
+	animation.stop() 
 	
 	var current_scale = heart.scale
 	

@@ -3,6 +3,6 @@ extends Node
 @export var client_id : String = "vika"
 
 func _ready():
-	print("Bootstrap started")
-	DataLoader.load_client(client_id)
+	DataLoader.load_client("vika")  
+	UIManager.apply_theme()
 	SceneLoader.goto_scene("res://scenes/screens/HeartScreen.tscn")
