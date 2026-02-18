@@ -23,11 +23,9 @@ func _transition(path: String):
 
 	var tween = create_tween()
 
-	# старая сцена плавно исчезает
 	if current_scene:
 		tween.tween_property(current_scene, "modulate:a", 0.0, 0.4)
 
-	# новая плавно появляется
 	tween.parallel().tween_property(new_scene, "modulate:a", 1.0, 0.4)
 
 	await tween.finished

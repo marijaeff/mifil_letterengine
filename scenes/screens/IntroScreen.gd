@@ -112,7 +112,7 @@ func _on_yes_pressed():
 		return
 	
 	transitioning = true
-	SceneLoader.goto_scene("res://scenes/screens/NextScene.tscn")
+	SceneLoader.goto_scene("res://scenes/screens/EnvelopeScreen.tscn")
 
 # --------------------------------------------------
 func _on_no_pressed():
@@ -120,7 +120,7 @@ func _on_no_pressed():
 		return
 	
 	transitioning = true
-	SceneLoader.goto_scene("res://scenes/screens/NextScene.tscn")
+	SceneLoader.goto_scene("res://scenes/screens/EnvelopeScreen.tscn")
 
 # --------------------------------------------------
 

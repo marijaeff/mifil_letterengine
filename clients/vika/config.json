@@ -7,6 +7,7 @@
   },
 
   "screens": {
+
 	"heart": {
 	  "background": "assets/backgrounds/heart_bg.png",
 	  "heart_texture": "assets/ui/heart.png",
@@ -17,20 +18,17 @@
 
 	"intro": {
 	  "background": "assets/backgrounds/intro_bg.png",
- 	  "button_no_rotation": -5,
+	  "button_no_rotation": -5,
 	  "colors": {
 		"text": "#E8D7B4",
 		"button_yes": "#E8D7B4",
 		"button_no": "#ABABAB"
- 	  },	
-	
+	  },
 	  "decor": {
 		"top_line": "assets/objects/rope_top.png",
 		"ground": "assets/objects/ground_line.png"
 	  },
-
 	  "text": "Привет.\nЯ кое-что приготовила\n для тебя.\nХочешь увидеть?",
-
 	  "buttons": {
 		"yes": {
 		  "text": "Хочу",
@@ -41,12 +39,19 @@
 		  "outline": "assets/ui/button_no.png"
 		}
 	  },
-
 	  "characters": {
 		"girl": "assets/characters/girl_letter.png",
 		"baby": "assets/objects/baby_idle.png",
 		"cat": "assets/objects/cat_idle.png"
 	  }
+	},
+
+	"envelope": {
+	  "background": "assets/backgrounds/envelope_bg.png",
+	  "envelope_texture": "assets/objects/envelope.png",
+	  "button_outline": "assets/ui/button_read.png",
+	  "button_text": "Прочесть"
 	}
+
   }
 }
