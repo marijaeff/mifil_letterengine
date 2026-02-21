@@ -28,7 +28,9 @@ window/size/viewport_width=1080
 window/size/viewport_height=1920
 window/size/initial_position_type=0
 window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
 
 [rendering]
 
+textures/vram_compression/import_etc2_astc=true
 environment/defaults/default_clear_color=Color(0, 0, 0, 1)
