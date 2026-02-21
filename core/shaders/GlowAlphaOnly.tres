@@ -1,0 +1,6 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dybb6vh8pmxll"]
+
+[ext_resource type="Shader" uid="uid://p2ll86g5ggmv" path="res://core/shaders/GlowAlphaOnly.gdshader" id="1_bvm3m"]
+
+[resource]
+shader = ExtResource("1_bvm3m")

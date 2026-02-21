@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bd0yxf88q7yfv"]
+
+[ext_resource type="Shader" uid="uid://b4som12dflck8" path="res://core/shaders/OuterGlowFromAlpha.gdshader" id="1_ijt0r"]
+
+[resource]
+shader = ExtResource("1_ijt0r")
+shader_parameter/radius_px = 6.0
+shader_parameter/softness = 1.2
+shader_parameter/intensity = 2.0

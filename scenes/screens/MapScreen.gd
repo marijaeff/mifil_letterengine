@@ -81,6 +81,7 @@ func build_path():
 	path_line.width_curve = width_curve
 
 	build_dashed_line(baked, path_data)
+	build_levels(raw_points)
 	
 func build_dashed_line(points, path_data):
 
@@ -142,7 +143,6 @@ func build_dashed_line(points, path_data):
 				glow_line.add_point(end)
 				path_line.add_child(glow_line)
 
-				# основной штрих (сверху)
 				var dash_line = Line2D.new()
 				dash_line.width = current_width
 				dash_line.default_color = line_color
@@ -159,3 +159,91 @@ func build_dashed_line(points, path_data):
 			if distance_accumulated >= total_local:
 				distance_accumulated = 0.0
 				drawing = not drawing
+
+func create_level_point(position: Vector2, state: String, t: float, tex_paths: Dictionary) -> void:
+	var level_node: Node2D = Node2D.new()
+	level_node.position = position
+
+	var perspective_power: float = 1.25
+	var scale_bottom: float = 1.10
+	var scale_top: float = 0.52
+	var scale_t: float = lerp(scale_bottom, scale_top, pow(t, perspective_power))
+	level_node.scale = Vector2.ONE * scale_t
+
+	var base_path: String = "res://clients/%s/" % DataLoader.client_id
+
+	var rel_path: String = ""
+	if tex_paths.has(state):
+		rel_path = String(tex_paths[state])
+	elif tex_paths.has("locked"):
+		rel_path = String(tex_paths["locked"])
+	else:
+		match state:
+			"active":
+				rel_path = "assets/ui/lvl_active.png"
+			"completed":
+				rel_path = "assets/ui/lvl_completed.png"
+			_:
+				rel_path = "assets/ui/lvl_locked.png"
+
+	var tex: Texture2D = load(base_path + rel_path) as Texture2D
+	if tex == null:
+		push_error("MapScreen: cannot load level texture: %s" % (base_path + rel_path))
+		return
+
+	var sprite: Sprite2D = Sprite2D.new()
+	sprite.texture = tex
+	sprite.centered = true
+	level_node.add_child(sprite)
+
+	lights_container.add_child(level_node)
+
+	if state == "active":
+
+		var pulse: Sprite2D = Sprite2D.new()
+		pulse.texture = tex
+		pulse.centered = true
+		pulse.scale = Vector2.ONE * 1.15
+		pulse.z_index = -1
+		pulse.modulate = Color("#FF2D2D", 0.6)
+
+		level_node.add_child(pulse)
+
+		var tween: Tween = create_tween()
+		tween.set_loops()
+		tween.set_trans(Tween.TRANS_SINE)
+		tween.set_ease(Tween.EASE_IN_OUT)
+
+		tween.parallel().tween_property(pulse, "modulate:a", 0.85, 1.8)
+		tween.parallel().tween_property(pulse, "scale", Vector2.ONE * 1.22, 1.8)
+
+		tween.parallel().tween_property(pulse, "modulate:a", 0.55, 1.8)
+		tween.parallel().tween_property(pulse, "scale", Vector2.ONE * 1.15, 1.8)
+
+
+func build_levels(raw_points: Array) -> void:
+	for child in lights_container.get_children():
+		child.queue_free()
+
+	var levels_data: Dictionary = config.get("levels", {}) as Dictionary
+
+	var count: int = int(levels_data.get("count", 0))
+	var active: int = int(levels_data.get("active", 1))
+	var completed: int = int(levels_data.get("completed", 0))
+
+	var tex_paths: Dictionary = levels_data.get("textures", {}) as Dictionary
+
+	count = min(count, raw_points.size())
+
+	for i in range(count):
+		var state: String = "locked"
+		if i + 1 == active:
+			state = "active"
+		elif i + 1 <= completed:
+			state = "completed"
+
+		var t: float = 0.0
+		if count > 1:
+			t = float(i) / float(count - 1)
+
+		create_level_point(raw_points[i] as Vector2, state, t, tex_paths)
