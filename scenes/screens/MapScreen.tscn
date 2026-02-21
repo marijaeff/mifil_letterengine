@@ -56,6 +56,7 @@ size_flags_horizontal = 8
 size_flags_vertical = 4
 
 [node name="EnvelopeIcon" type="TextureRect" parent="CenterWrap/Canvas/EnvelopeIcon"]
+layout_mode = 0
 offset_left = -3.0
 offset_top = -2.0
 offset_right = 88.0

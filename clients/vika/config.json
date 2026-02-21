@@ -1,100 +1,100 @@
-    {
-      "ui": {
-        "font": "assets/fonts/Neucha-Regular.ttf",
-        "font_size": 80,
-        "button_font_size": 50,
-        "button_no_font_size": 30
-      },
+	{
+	  "ui": {
+		"font": "assets/fonts/Neucha-Regular.ttf",
+		"font_size": 80,
+		"button_font_size": 50,
+		"button_no_font_size": 30
+	  },
 
-      "screens": {
+	  "screens": {
 
-        "heart": {
-          "background": "assets/backgrounds/heart_bg.png",
-          "heart_texture": "assets/ui/heart.png",
-          "beats": 4,
-          "music": "assets/music/ambient.mp3",
-          "heartbeat_sfx": "assets/sfx/heartbeat.wav"
-        },
+		"heart": {
+		  "background": "assets/backgrounds/heart_bg.png",
+		  "heart_texture": "assets/ui/heart.png",
+		  "beats": 4,
+		  "music": "assets/music/ambient.mp3",
+		  "heartbeat_sfx": "assets/sfx/heartbeat.wav"
+		},
 
-        "intro": {
-          "background": "assets/backgrounds/intro_bg.png",
-          "button_no_rotation": -5,
-          "colors": {
-            "text": "#E8D7B4",
-            "button_yes": "#E8D7B4",
-            "button_no": "#ABABAB"
-          },
-          "decor": {
-            "top_line": "assets/objects/rope_top.png",
-            "ground": "assets/objects/ground_line.png"
-          },
-          "text": "Привет.\nЯ кое-что приготовила\n для тебя.\nХочешь увидеть?",
-          "buttons": {
-            "yes": {
-              "text": "Хочу",
-              "outline": "assets/ui/button_yes.png"
-            },
-            "no": {
-              "text": "Нет",
-              "outline": "assets/ui/button_no.png"
-            }
-          },
-          "characters": {
-            "girl": "assets/characters/girl_letter.png",
-            "baby": "assets/objects/baby_idle.png",
-            "cat": "assets/objects/cat_idle.png"
-          }
-        },
+		"intro": {
+		  "background": "assets/backgrounds/intro_bg.png",
+		  "button_no_rotation": -5,
+		  "colors": {
+			"text": "#E8D7B4",
+			"button_yes": "#E8D7B4",
+			"button_no": "#ABABAB"
+		  },
+		  "decor": {
+			"top_line": "assets/objects/rope_top.png",
+			"ground": "assets/objects/ground_line.png"
+		  },
+		  "text": "Привет.\nЯ кое-что приготовила\n для тебя.\nХочешь увидеть?",
+		  "buttons": {
+			"yes": {
+			  "text": "Хочу",
+			  "outline": "assets/ui/button_yes.png"
+			},
+			"no": {
+			  "text": "Нет",
+			  "outline": "assets/ui/button_no.png"
+			}
+		  },
+		  "characters": {
+			"girl": "assets/characters/girl_letter.png",
+			"baby": "assets/objects/baby_idle.png",
+			"cat": "assets/objects/cat_idle.png"
+		  }
+		},
 
-        "envelope": {
-          "background": "assets/backgrounds/envelope_bg.png",
-          "envelope_texture": "assets/objects/envelope.png",
-          "button_outline": "assets/ui/button_read.png",
-          "button_text": "Прочесть"
-        },
+		"envelope": {
+		  "background": "assets/backgrounds/envelope_bg.png",
+		  "envelope_texture": "assets/objects/envelope.png",
+		  "button_outline": "assets/ui/button_read.png",
+		  "button_text": "Прочесть"
+		},
 
-        "map": {
-            "levels": {
-            "count": 4,
-            "active": 1,
-            "completed": 0,
-            "textures": {
-                "locked": "assets/ui/lvl_locked.png",
-                "active": "assets/ui/lvl_active.png",
-                "completed": "assets/ui/lvl_completed.png"
-            }
-            },
-              "background": "assets/backgrounds/map_bg_1.png",
+		"map": {
+			"levels": {
+			"count": 4,
+			"active": 1,
+			"completed": 0,
+			"textures": {
+				"locked": "assets/ui/lvl_locked.png",
+				"active": "assets/ui/lvl_active.png",
+				"completed": "assets/ui/lvl_completed.png"
+			}
+			},
+			  "background": "assets/backgrounds/map_bg_1.png",
 
-              "title": "Каждый \nогонёк — \nшаг ближе",
+			  "title": "Каждый \nогонёк — \nшаг ближе",
 
-              "button": {
-                "text": "В путь",
-                "texture": "assets/ui/btn_map.png"
-      },
-      "envelope": {
-        "base": "assets/objects/envelope_0.png",
-        "piece": "assets/objects/envelope_1st.png"
-      },
-      "path": {
-      "points": [
-    [344, 1512],
-    [728, 1184],
-    [488, 815],
-    [896, 559],
-    [584, 463],
-    [784, 351]
-    ],
+			  "button": {
+				"text": "В путь",
+				"texture": "assets/ui/btn_map.png"
+	  },
+	  "envelope": {
+		"base": "assets/objects/envelope_0.png",
+		"piece": "assets/objects/envelope_1st.png"
+	  },
+	  "path": {
+	  "points": [
+	[344, 1512],
+	[728, 1184],
+	[488, 815],
+	[896, 559],
+	[584, 463],
+	[784, 351]
+	],
   "dash_length": 40,
   "gap_length": 30,
   "width_start": 9,
   "width_end": 3,
  "style": {
-    "color": "#FFB200",
-    "glow_color": "#FFD98A",
-    "glow_alpha": 0.06,
-    "glow_width_multiplier": 1.8,
-    "perspective_power": 1.2
+	"color": "#FFB200",
+	"glow_color": "#FFD98A",
+	"glow_alpha": 0.06,
+	"glow_width_multiplier": 1.8,
+	"perspective_power": 1.2
   }
 },
 }
