@@ -1,9 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://sv12r2t3448l"]
+[gd_scene load_steps=2 format=3 uid="uid://sv12r2t3448l"]
 
-[ext_resource type="Texture2D" uid="uid://hud7s3ws2l8p" path="res://clients/vika/assets/backgrounds/envelope_bg.png" id="1_1vr7n"]
-[ext_resource type="Texture2D" uid="uid://dn0schinfxosg" path="res://clients/vika/assets/objects/envelope_0.png" id="2_5vsjl"]
-[ext_resource type="Texture2D" uid="uid://g63a4fejaspx" path="res://clients/vika/assets/objects/envelope_1st.png" id="3_r5pwq"]
-[ext_resource type="Texture2D" uid="uid://dmoevjousdl72" path="res://clients/vika/assets/ui/btn_map.png" id="4_1vr7n"]
+[ext_resource type="Script" uid="uid://bycjah7yrq2vk" path="res://scenes/screens/MapScreen.gd" id="1_03exp"]
 
 [node name="MapScreen" type="Control"]
 layout_mode = 3
@@ -12,6 +9,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_03exp")
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
@@ -20,7 +18,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_1vr7n")
 stretch_mode = 6
 
 [node name="CenterWrap" type="CenterContainer" parent="."]
@@ -42,10 +39,6 @@ offset_top = 136.0
 offset_right = 504.0
 offset_bottom = 472.0
 size_flags_horizontal = 0
-theme_override_font_sizes/font_size = 80
-text = "Каждый 
-огонёк
-шаг ближе"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -57,26 +50,28 @@ anchor_right = 0.758
 anchor_bottom = 0.179
 offset_left = -66.64
 offset_top = -167.68
-offset_right = 66.36
-offset_bottom = -65.68
+offset_right = 101.36
+offset_bottom = -39.68
 size_flags_horizontal = 8
 size_flags_vertical = 4
-texture = ExtResource("2_5vsjl")
 
 [node name="EnvelopeIcon" type="TextureRect" parent="CenterWrap/Canvas/EnvelopeIcon"]
 offset_left = -3.0
 offset_top = -2.0
 offset_right = 88.0
 offset_bottom = 71.0
-texture = ExtResource("3_r5pwq")
 
 [node name="PathLayer" type="Node2D" parent="CenterWrap/Canvas"]
-position = Vector2(56, 0)
+position = Vector2(16, 8)
 
 [node name="PathLine" type="Line2D" parent="CenterWrap/Canvas/PathLayer"]
-position = Vector2(309, 205)
-points = PackedVector2Array(458, 136, 329, 274, 592, 391, 270, 721, 463, 997, 120, 1360)
-default_color = Color(1, 0.698039, 0, 1)
+texture_repeat = 2
+position = Vector2(-8, 8)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+metadata/_edit_group_ = true
 
 [node name="LightsContainer" type="Node2D" parent="CenterWrap/Canvas/PathLayer"]
 
@@ -87,15 +82,12 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -460.0
+offset_left = -220.0
 offset_top = -272.0
-offset_right = 460.0
+offset_right = 220.0
 offset_bottom = -145.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_vertical = 8
-theme_override_font_sizes/font_size = 70
-text = "В путь"
-icon = ExtResource("4_1vr7n")
 flat = true
 icon_alignment = 1
