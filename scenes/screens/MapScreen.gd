@@ -13,10 +13,22 @@ extends Control
 
 var config
 
+var selected_level: int = 1
+
+var DEBUG_RESET_PROGRESS: bool = true
+
+var cached_raw_points: Array = []
+
 func _ready():
 
 	config = DataLoader.config["screens"]["map"]
-
+	
+	if DEBUG_RESET_PROGRESS:
+		ProgressManager.reset_progress()
+	
+	ProgressManager.load_progress()
+	selected_level = ProgressManager.selected_level
+	
 	load_content()
 	build_path()
 	show_button()
@@ -26,9 +38,11 @@ func load_content():
 
 	background.texture = load(base_path + config["background"])
 
-	title_label.text = config["title"]
+	var map_texts: Dictionary = DataLoader.texts.get("map", {}) as Dictionary
 
-	start_button.text = config["button"]["text"]
+	title_label.text = map_texts.get("title", "")
+	
+	start_button.text = map_texts.get("button", "")
 	start_button.icon = load(base_path + config["button"]["texture"])
 
 	envelope_base.texture = load(base_path + config["envelope"]["base"])
@@ -43,45 +57,42 @@ func show_button():
 	var tween = create_tween()
 	tween.tween_property(start_button, "modulate:a", 1.0, 0.8)
 	
-func build_path():
+func build_path() -> void:
 
-	var path_data = config["path"]
-	var curve = Curve2D.new()
+	var path_data: Dictionary = config["path"] as Dictionary
+	var curve: Curve2D = Curve2D.new()
 
-	var raw_points: Array = []
+	cached_raw_points.clear()
 
 	for p in path_data["points"]:
-		raw_points.append(Vector2(p[0], p[1]))
+		cached_raw_points.append(Vector2(p[0], p[1]))
 
-	for point in raw_points:
+	for point in cached_raw_points:
 		curve.add_point(point)
 
 	for i in range(curve.point_count):
-
 		if i == 0 or i == curve.point_count - 1:
 			continue
 
-		var prev = curve.get_point_position(i - 1)
-		var next = curve.get_point_position(i + 1)
+		var prev: Vector2 = curve.get_point_position(i - 1)
+		var next: Vector2 = curve.get_point_position(i + 1)
 
-		var dir = (next - prev).normalized()
-		var distance = prev.distance_to(next) * 0.18
+		var dir: Vector2 = (next - prev).normalized()
+		var distance: float = prev.distance_to(next) * 0.18
 
 		curve.set_point_in(i, -dir * distance)
 		curve.set_point_out(i, dir * distance)
 
 	curve.bake_interval = 2.0
+	var baked: Array = curve.get_baked_points()
 
-	var baked = curve.get_baked_points()
-
-	var width_curve = Curve.new()
+	var width_curve: Curve = Curve.new()
 	width_curve.add_point(Vector2(0.0, path_data["width_start"]))
 	width_curve.add_point(Vector2(1.0, path_data["width_end"]))
-
 	path_line.width_curve = width_curve
 
 	build_dashed_line(baked, path_data)
-	build_levels(raw_points)
+	build_levels(cached_raw_points)
 	
 func build_dashed_line(points, path_data):
 
@@ -160,7 +171,7 @@ func build_dashed_line(points, path_data):
 				distance_accumulated = 0.0
 				drawing = not drawing
 
-func create_level_point(position: Vector2, state: String, t: float, tex_paths: Dictionary) -> void:
+func create_level_point(position: Vector2, state: String, t: float, tex_paths: Dictionary, level_index: int) -> void:
 	var level_node: Node2D = Node2D.new()
 	level_node.position = position
 
@@ -172,53 +183,38 @@ func create_level_point(position: Vector2, state: String, t: float, tex_paths: D
 
 	var base_path: String = "res://clients/%s/" % DataLoader.client_id
 
-	var rel_path: String = ""
-	if tex_paths.has(state):
-		rel_path = String(tex_paths[state])
-	elif tex_paths.has("locked"):
-		rel_path = String(tex_paths["locked"])
-	else:
-		match state:
-			"active":
-				rel_path = "assets/ui/lvl_active.png"
-			"completed":
-				rel_path = "assets/ui/lvl_completed.png"
-			_:
-				rel_path = "assets/ui/lvl_locked.png"
-
+	var rel_path: String = tex_paths.get(state, "assets/ui/lvl_locked.png")
 	var tex: Texture2D = load(base_path + rel_path) as Texture2D
 	if tex == null:
 		push_error("MapScreen: cannot load level texture: %s" % (base_path + rel_path))
 		return
 
-	var sprite: Sprite2D = Sprite2D.new()
-	sprite.texture = tex
-	sprite.centered = true
-	level_node.add_child(sprite)
+	var button: TextureButton = TextureButton.new()
+	button.texture_normal = tex
+	button.texture_hover = tex
+	button.texture_pressed = tex
+	button.stretch_mode = TextureButton.STRETCH_KEEP_CENTERED
+	
+	button.position = -tex.get_size() / 2
 
+	level_node.add_child(button)
 	lights_container.add_child(level_node)
 
-	if state == "active":
+	if state == "locked":
+		button.disabled = true
+	else:
+		button.connect("pressed", Callable(self, "_on_level_pressed").bind(level_index))
 
-		var pulse: Sprite2D = Sprite2D.new()
-		pulse.texture = tex
-		pulse.centered = true
-		pulse.scale = Vector2.ONE * 1.15
-		pulse.z_index = -1
-		pulse.modulate = Color("#FF2D2D", 0.6)
-
-		level_node.add_child(pulse)
+	if level_index == selected_level:
+		var base_scale: Vector2 = level_node.scale
 
 		var tween: Tween = create_tween()
 		tween.set_loops()
 		tween.set_trans(Tween.TRANS_SINE)
 		tween.set_ease(Tween.EASE_IN_OUT)
 
-		tween.parallel().tween_property(pulse, "modulate:a", 0.85, 1.8)
-		tween.parallel().tween_property(pulse, "scale", Vector2.ONE * 1.22, 1.8)
-
-		tween.parallel().tween_property(pulse, "modulate:a", 0.55, 1.8)
-		tween.parallel().tween_property(pulse, "scale", Vector2.ONE * 1.15, 1.8)
+		tween.tween_property(level_node, "scale", base_scale * 1.12, 1.4)
+		tween.tween_property(level_node, "scale", base_scale, 1.4)
 
 
 func build_levels(raw_points: Array) -> void:
@@ -228,8 +224,8 @@ func build_levels(raw_points: Array) -> void:
 	var levels_data: Dictionary = config.get("levels", {}) as Dictionary
 
 	var count: int = int(levels_data.get("count", 0))
-	var active: int = int(levels_data.get("active", 1))
-	var completed: int = int(levels_data.get("completed", 0))
+	var completed: int = ProgressManager.completed_level
+	var active: int = completed + 1
 
 	var tex_paths: Dictionary = levels_data.get("textures", {}) as Dictionary
 
@@ -246,4 +242,17 @@ func build_levels(raw_points: Array) -> void:
 		if count > 1:
 			t = float(i) / float(count - 1)
 
-		create_level_point(raw_points[i] as Vector2, state, t, tex_paths)
+		create_level_point(raw_points[i] as Vector2, state, t, tex_paths, i + 1)
+
+func rebuild_levels_only() -> void:
+	build_levels(cached_raw_points)
+
+func _on_level_pressed(level_index: int) -> void:
+
+	if level_index == ProgressManager.completed_level + 1:
+		ProgressManager.complete_level(level_index)
+	else:
+		ProgressManager.select_level(level_index)
+
+	selected_level = ProgressManager.selected_level
+	rebuild_levels_only()

@@ -21,6 +21,7 @@ DataLoader="*res://core/managers/DataLoader.gd"
 SceneLoader="*res://core/managers/SceneLoader.gd"
 AudioManager="*res://core/managers/AudioManager.gd"
 UIManager="*res://core/managers/UIManager.gd"
+ProgressManager="*res://core/managers/ProgressManager.gd"
 
 [display]
 

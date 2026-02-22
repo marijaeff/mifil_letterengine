@@ -37,7 +37,9 @@ func load_content():
 
 	background.texture = load(base_path + config["background"])
 
-	label.text = config["text"]
+	label.text = DataLoader.texts["intro"]["text"]
+
+
 
 	rope.texture = load(base_path + config["decor"]["top_line"])
 	ground.texture = load(base_path + config["decor"]["ground"])
@@ -45,16 +47,15 @@ func load_content():
 	girl.texture = load(base_path + config["characters"]["girl"])
 	baby.texture = load(base_path + config["characters"]["baby"])
 	cat.texture = load(base_path + config["characters"]["cat"])
-
-	button_yes.text = config["buttons"]["yes"]["text"]
-	button_no.text = config["buttons"]["no"]["text"]
-
+	
+	button_yes.text = DataLoader.texts["intro"]["buttons"]["yes"]
+	button_no.text = DataLoader.texts["intro"]["buttons"]["no"]
+	
 	button_yes.icon = load(base_path + config["buttons"]["yes"]["outline"])
 	button_no.icon = load(base_path + config["buttons"]["no"]["outline"])
 	
 	apply_colors_from_config()
 
-# --------------------------------------------------
 func setup_initial_state():
 	label.visible_characters = 0
 	label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
@@ -65,10 +66,6 @@ func setup_initial_state():
 	button_yes.visible = false
 	button_no.visible = false
 
-
-
-# --------------------------------------------------
-
 func type_text():
 	var total_chars = label.text.length()
 	
@@ -78,7 +75,7 @@ func type_text():
 	
 	await get_tree().create_timer(0.2).timeout
 	
-# --------------------------------------------------
+
 func show_buttons():
 	await get_tree().create_timer(0.2).timeout
 
@@ -101,12 +98,10 @@ func show_buttons():
 	
 	connect_buttons()
 
-# --------------------------------------------------
 func connect_buttons():
 	button_yes.pressed.connect(_on_yes_pressed)
 	button_no.pressed.connect(_on_no_pressed)
 
-# --------------------------------------------------
 func _on_yes_pressed():
 	if transitioning:
 		return
@@ -114,7 +109,6 @@ func _on_yes_pressed():
 	transitioning = true
 	SceneLoader.goto_scene("res://scenes/screens/EnvelopeScreen.tscn")
 
-# --------------------------------------------------
 func _on_no_pressed():
 	if transitioning:
 		return
@@ -122,7 +116,6 @@ func _on_no_pressed():
 	transitioning = true
 	SceneLoader.goto_scene("res://scenes/screens/EnvelopeScreen.tscn")
 
-# --------------------------------------------------
 
 func _color_from_config(value, fallback: Color) -> Color:
 	if value is Color:

@@ -23,8 +23,10 @@ func load_content():
 
 	background.texture = load(base_path + config["background"])
 	envelope.texture = load(base_path + config["envelope_texture"])
-
-	read_button.text = config["button_text"]
+	
+	var envelope_texts: Dictionary = DataLoader.texts.get("envelope", {}) as Dictionary
+	
+	read_button.text = envelope_texts.get("button_text", "")
 	read_button.icon = load(base_path + config["button_outline"])
 
 
@@ -32,7 +34,6 @@ func setup_initial_state():
 	read_button.modulate.a = 0.0
 	read_button.visible = false
 
-	# ВАЖНО — применяем тот же стиль, что и в Intro
 	read_button.add_theme_font_size_override(
 		"font_size",
 		DataLoader.config["ui"]["button_font_size"]

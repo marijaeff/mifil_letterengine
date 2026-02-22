@@ -48,10 +48,10 @@ anchor_left = 0.758
 anchor_top = 0.179
 anchor_right = 0.758
 anchor_bottom = 0.179
-offset_left = -66.64
-offset_top = -167.68
-offset_right = 101.36
-offset_bottom = -39.68
+offset_left = -74.64
+offset_top = -127.68
+offset_right = 93.36
+offset_bottom = 0.319977
 size_flags_horizontal = 8
 size_flags_vertical = 4
 
