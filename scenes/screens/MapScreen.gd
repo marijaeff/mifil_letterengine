@@ -208,7 +208,7 @@ func create_level_point(position: Vector2, state: String, t: float, tex_paths: D
 	if level_index == selected_level:
 		var base_scale: Vector2 = level_node.scale
 
-		var tween: Tween = create_tween()
+		var tween: Tween = level_node.create_tween()
 		tween.set_loops()
 		tween.set_trans(Tween.TRANS_SINE)
 		tween.set_ease(Tween.EASE_IN_OUT)
