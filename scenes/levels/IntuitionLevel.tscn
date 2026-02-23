@@ -1,15 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://du2pqpnes67lv"]
+[gd_scene load_steps=2 format=3 uid="uid://cdl3p4wcfi18q"]
 
-[ext_resource type="Script" uid="uid://dpoh2g0ydw3qo" path="res://scenes/levels/CatchLevel.gd" id="1_fqbcu"]
+[ext_resource type="Script" uid="uid://cpk2lycxokhvs" path="res://scenes/levels/IntuitionLevel.gd" id="1_snlua"]
 
-[node name="CatchLevel" type="Control"]
+[node name="IntuitionLevel" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_fqbcu")
+script = ExtResource("1_snlua")
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
@@ -22,13 +22,14 @@ stretch_mode = 6
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 1
-anchors_preset = 10
+anchors_preset = 14
+anchor_top = 0.5
 anchor_right = 1.0
-offset_left = 8.0
-offset_top = 448.0
-offset_right = 8.0
-offset_bottom = 531.0
+anchor_bottom = 0.5
+offset_top = -657.0
+offset_bottom = -574.0
 grow_horizontal = 2
+grow_vertical = 2
 theme_override_font_sizes/font_size = 60
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -40,10 +41,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -84.0
-offset_top = -408.0
-offset_right = 106.0
-offset_bottom = -263.0
+offset_left = -86.0
+offset_top = -508.0
+offset_right = 104.0
+offset_bottom = -363.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 100

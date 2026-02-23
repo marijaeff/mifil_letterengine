@@ -15,7 +15,7 @@ var config
 
 var selected_level: int = 1
 
-var DEBUG_RESET_PROGRESS: bool = true
+var DEBUG_RESET_PROGRESS: bool = false
 
 var cached_raw_points: Array = []
 

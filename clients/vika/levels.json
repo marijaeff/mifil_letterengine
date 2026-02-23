@@ -2,17 +2,27 @@
   "levels": [
 	{
 	  "id": 1,
-	  "type": "catch",
 	  "scene": "res://scenes/levels/CatchLevel.tscn",
-	  "music": "assets/music/level_1.mp3",
+	  "title": "Росток",
 	  "background": "assets/backgrounds/envelope_bg.png"
 	},
 	{
 	  "id": 2,
-	  "type": "intuition",
 	  "scene": "res://scenes/levels/IntuitionLevel.tscn",
-	  "music": "assets/music/level_2.mp3",
-	  "background": "assets/backgrounds/level_2_bg.png"
+	  "title": "Интуиция",
+	  "background": "assets/backgrounds/envelope_bg.png"
+	},
+	{
+	  "id": 3,
+	  "scene": "res://scenes/levels/QuestionLevel.tscn",
+	  "title": "Вопросы",
+	  "background": "assets/backgrounds/envelope_bg.png"
+	},
+	{
+	  "id": 4,
+	  "scene": "res://scenes/levels/LightLevel.tscn",
+	  "title": "Свет",
+	  "background": "assets/backgrounds/envelope_bg.png"
 	}
   ]
 }
