@@ -1,0 +1,18 @@
+{
+  "levels": [
+	{
+	  "id": 1,
+	  "type": "catch",
+	  "scene": "res://scenes/levels/CatchLevel.tscn",
+	  "music": "assets/music/level_1.mp3",
+	  "background": "assets/backgrounds/envelope_bg.png"
+	},
+	{
+	  "id": 2,
+	  "type": "intuition",
+	  "scene": "res://scenes/levels/IntuitionLevel.tscn",
+	  "music": "assets/music/level_2.mp3",
+	  "background": "assets/backgrounds/level_2_bg.png"
+	}
+  ]
+}

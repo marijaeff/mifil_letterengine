@@ -3,14 +3,13 @@ extends Node
 var client_id: String
 var config: Dictionary
 var texts: Dictionary
-
+var levels: Dictionary
 
 func load_client(id: String) -> void:
 	client_id = id
 
 	var base_path: String = "res://clients/%s/" % id
 
-	# --- CONFIG ---
 	var config_path: String = base_path + "config.json"
 
 	if not FileAccess.file_exists(config_path):
@@ -19,7 +18,6 @@ func load_client(id: String) -> void:
 
 	config = load_json(config_path)
 
-	# --- TEXTS ---
 	var texts_path: String = base_path + "texts.json"
 
 	if FileAccess.file_exists(texts_path):
@@ -29,6 +27,13 @@ func load_client(id: String) -> void:
 		push_warning("Texts not found: " + texts_path)
 
 	print("Client loaded:", client_id)
+	
+	var levels_path: String = base_path + "levels.json"
+	if FileAccess.file_exists(levels_path):
+		levels = load_json(levels_path)
+	else:
+		levels = {}
+		push_warning("Levels not found: " + levels_path)
 
 func load_json(path: String) -> Dictionary:
 	var file: FileAccess = FileAccess.open(path, FileAccess.READ)

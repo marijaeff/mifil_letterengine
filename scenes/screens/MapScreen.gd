@@ -32,6 +32,7 @@ func _ready():
 	load_content()
 	build_path()
 	show_button()
+	start_button.pressed.connect(_on_start_pressed)
 	
 func load_content():
 	var base_path = "res://clients/%s/" % DataLoader.client_id
@@ -248,11 +249,16 @@ func rebuild_levels_only() -> void:
 	build_levels(cached_raw_points)
 
 func _on_level_pressed(level_index: int) -> void:
-
-	if level_index == ProgressManager.completed_level + 1:
-		ProgressManager.complete_level(level_index)
-	else:
-		ProgressManager.select_level(level_index)
-
+	if not LevelRouter.can_open(level_index):
+		return
+	
+	ProgressManager.select_level(level_index)
 	selected_level = ProgressManager.selected_level
+	
 	rebuild_levels_only()
+	
+func _on_start_pressed() -> void:
+	if not LevelRouter.can_open(selected_level):
+		return
+	
+	LevelRouter.start_level(selected_level)
