@@ -8,8 +8,4 @@ func setup(level_def: Dictionary) -> void:
 
 func complete() -> void:
 	ProgressManager.complete_level(level_id)
-
-	if level_id >= 4:
-		SceneLoader.goto_scene("res://scenes/screens/LetterScreen.tscn")
-	else:
-		SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
+	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")

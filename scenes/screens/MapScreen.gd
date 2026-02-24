@@ -3,15 +3,14 @@ extends Control
 @onready var background = $Background
 @onready var title_label = $CenterWrap/Canvas/TitleLabel
 
-@onready var envelope_root = $CenterWrap/Canvas/EnvelopeIcon
-@onready var envelope_base = $CenterWrap/Canvas/EnvelopeIcon/EnvelopeIcon
+@onready var envelope_icon: EnvelopeIcon = $CenterWrap/Canvas/EnvelopeIcon
 
 @onready var path_line = $CenterWrap/Canvas/PathLayer/PathLine
 @onready var lights_container = $CenterWrap/Canvas/PathLayer/LightsContainer
 
 @onready var start_button = $CenterWrap/Canvas/StartButton
 
-var config
+var config: Dictionary
 
 var selected_level: int = 1
 
@@ -21,7 +20,7 @@ var cached_raw_points: Array = []
 
 func _ready():
 
-	config = DataLoader.config["screens"]["map"]
+	config = DataLoader.config["screens"]["map"] as Dictionary
 	
 	if DEBUG_RESET_PROGRESS:
 		ProgressManager.reset_progress()
@@ -35,7 +34,7 @@ func _ready():
 	start_button.pressed.connect(_on_start_pressed)
 	
 func load_content():
-	var base_path = "res://clients/%s/" % DataLoader.client_id
+	var base_path: String = "res://clients/%s/" % DataLoader.client_id
 
 	background.texture = load(base_path + config["background"])
 
@@ -45,12 +44,9 @@ func load_content():
 	
 	start_button.text = map_texts.get("button", "")
 	start_button.icon = load(base_path + config["button"]["texture"])
-
-	envelope_base.texture = load(base_path + config["envelope"]["base"])
-
-	var piece = TextureRect.new()
-	piece.texture = load(base_path + config["envelope"]["piece"])
-	envelope_root.add_child(piece)
+	
+	envelope_icon.setup_from_map_def(config)
+	envelope_icon.apply_progress(ProgressManager.completed_level)
 	
 func show_button():
 	start_button.visible = true
@@ -247,6 +243,7 @@ func build_levels(raw_points: Array) -> void:
 
 func rebuild_levels_only() -> void:
 	build_levels(cached_raw_points)
+	envelope_icon.apply_progress(ProgressManager.completed_level)
 
 func _on_level_pressed(level_index: int) -> void:
 	if not LevelRouter.can_open(level_index):

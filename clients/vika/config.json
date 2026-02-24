@@ -64,10 +64,21 @@
 		"texture": "assets/ui/btn_map.png"
 	  },
 
-	  "envelope": {
-		"base": "assets/objects/envelope_0.png",
-		"piece": "assets/objects/envelope_1st.png"
-	  },
+		"envelope": {
+		  "bases": [
+			"assets/objects/base1.png",
+			"assets/objects/base2.png",
+			"assets/objects/base3.png",
+			"assets/objects/base4.png"
+		  ],
+		  "pieces": [
+			"assets/objects/piece1.png",
+			"assets/objects/piece2.png",
+			"assets/objects/piece3.png",
+			"assets/objects/piece4.png"
+		  ],
+			"glow": "assets/objects/glow_envelope.png"
+		},
 
 	  "path": {
 		"points": [

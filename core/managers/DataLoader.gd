@@ -47,3 +47,13 @@ func load_json(path: String) -> Dictionary:
 		return {}
 
 	return parsed as Dictionary
+
+func resolve_client_path(rel_path: String) -> String:
+	if rel_path.begins_with("res://") or rel_path.begins_with("user://"):
+		return rel_path
+
+	if client_id.is_empty():
+		push_error("DataLoader.resolve_client_path: client_id is empty. Call load_client() first.")
+		return rel_path
+
+	return "res://clients/%s/%s" % [client_id, rel_path]
