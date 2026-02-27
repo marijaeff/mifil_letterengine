@@ -32,6 +32,7 @@ func _ready():
 	build_path()
 	show_button()
 	start_button.pressed.connect(_on_start_pressed)
+	envelope_icon.letter_requested.connect(_on_letter_requested)
 	
 func load_content():
 	var base_path: String = "res://clients/%s/" % DataLoader.client_id
@@ -259,3 +260,6 @@ func _on_start_pressed() -> void:
 		return
 	
 	LevelRouter.start_level(selected_level)
+	
+func _on_letter_requested() -> void:
+	SceneLoader.goto_scene("res://scenes/screens/LetterScreen.tscn")

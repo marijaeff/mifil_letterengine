@@ -1,0 +1,116 @@
+[gd_scene load_steps=5 format=3 uid="uid://dv57cuptcbsya"]
+
+[ext_resource type="Script" uid="uid://c2vopp4plije4" path="res://scenes/screens/LetterScreen.gd" id="1_8q2r2"]
+[ext_resource type="Texture2D" uid="uid://hud7s3ws2l8p" path="res://clients/vika/assets/backgrounds/envelope_bg.png" id="2_l6cg8"]
+[ext_resource type="Texture2D" uid="uid://bt44qrgk13t8k" path="res://clients/vika/assets/objects/heart_letter.png" id="3_l52g8"]
+[ext_resource type="Texture2D" uid="uid://dxaooy6jaa1gl" path="res://clients/vika/assets/objects/paper_letter.png" id="4_bfr6v"]
+
+[node name="LetterScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8q2r2")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_l6cg8")
+stretch_mode = 6
+
+[node name="Control2" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Heart" type="TextureRect" parent="VBox/Control"]
+layout_mode = 2
+anchor_left = 0.5
+anchor_top = 0.008
+anchor_right = 0.5
+anchor_bottom = 0.008
+offset_left = -372.0
+offset_top = -101.376
+offset_right = 378.0
+offset_bottom = 703.624
+texture = ExtResource("3_l52g8")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBox/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 168.0
+offset_top = 560.0
+offset_right = -152.0
+offset_bottom = -304.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="Paper" type="NinePatchRect" parent="VBox/Control/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("4_bfr6v")
+patch_margin_left = 40
+patch_margin_top = 40
+patch_margin_right = 40
+patch_margin_bottom = 40
+
+[node name="MarginContainer" type="MarginContainer" parent="VBox/Control/ScrollContainer/Paper"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 43.0
+offset_top = 4.0
+offset_right = -20.0
+offset_bottom = -15.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 70
+theme_override_constants/margin_top = 70
+theme_override_constants/margin_right = 90
+theme_override_constants/margin_bottom = 70
+
+[node name="TextLabel" type="RichTextLabel" parent="VBox/Control/ScrollContainer/Paper/MarginContainer"]
+layout_mode = 2
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CloseButton" type="Button" parent="VBox/Control"]
+layout_mode = 2
+anchor_left = 0.5
+anchor_top = 0.842
+anchor_right = 0.5
+anchor_bottom = 0.842
+offset_left = -244.0
+offset_top = 111.36
+offset_right = 244.0
+offset_bottom = 202.36
+theme_override_font_sizes/font_size = 60
+text = "кнопка"

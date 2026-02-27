@@ -6,7 +6,7 @@ class_name EnvelopeIcon
 @onready var glow: TextureRect = $glow
 
 var _pulse_tween: Tween
-
+signal letter_requested
 
 func setup_from_map_def(map_def: Dictionary) -> void:
 	var env: Dictionary = map_def.get("envelope", {}) as Dictionary
@@ -85,3 +85,9 @@ func _stop_pulse() -> void:
 	if _pulse_tween and _pulse_tween.is_valid():
 		_pulse_tween.kill()
 	_pulse_tween = null
+
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			if ProgressManager.completed_level >= total:
+				emit_signal("letter_requested")

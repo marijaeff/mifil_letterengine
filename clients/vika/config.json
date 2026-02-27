@@ -101,6 +101,14 @@
 		  "perspective_power": 1.2
 		}
 	  }
-	}
+	},
+	
+  	"letter": {
+	"background": "assets/backgrounds/intro_bg.png",
+	"heart": "assets/objects/heart_letter.png",
+	"paper": "assets/objects/paper_letter.png",
+	"letter_font_size": 52,
+	"letter_text_color": "#29241C"
   }
+}
 }
