@@ -239,8 +239,11 @@ func build_levels(raw_points: Array) -> void:
 		var t: float = 0.0
 		if count > 1:
 			t = float(i) / float(count - 1)
-
+			
 		create_level_point(raw_points[i] as Vector2, state, t, tex_paths, i + 1)
+		
+	if completed >= count:
+		_start_letter_pulse()
 
 func rebuild_levels_only() -> void:
 	build_levels(cached_raw_points)
@@ -260,6 +263,17 @@ func _on_start_pressed() -> void:
 		return
 	
 	LevelRouter.start_level(selected_level)
+
+func _start_letter_pulse() -> void:
+	var base_scale: Vector2 = envelope_icon.scale
+	
+	var tween: Tween = envelope_icon.create_tween()
+	tween.set_loops()
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_IN_OUT)
+
+	tween.tween_property(envelope_icon, "scale", base_scale * 1.06, 1.6)
+	tween.tween_property(envelope_icon, "scale", base_scale, 1.6)
 	
 func _on_letter_requested() -> void:
 	SceneLoader.goto_scene("res://scenes/screens/LetterScreen.tscn")
