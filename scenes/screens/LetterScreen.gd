@@ -18,12 +18,10 @@ func _ready() -> void:
 	_load_assets()
 	_load_text()
 	_configure_scroll()
-	_load_text()
 	_apply_ui_style()
 	_update_paper_height()
 	
-	if close_button:
-		close_button.pressed.connect(_on_close_pressed)
+	close_button.pressed.connect(_on_close_button_pressed)
 
 
 func _load_assets() -> void:
@@ -48,8 +46,8 @@ func _configure_scroll() -> void:
 	scroll.get_v_scroll_bar().visible = false
 
 
-func _on_close_pressed() -> void:
-	SceneLoader.goto_scene("res://scenes/screens/HugScreen.tscn")
+#func _on_close_pressed() -> void:
+	#SceneLoader.goto_scene("res://scenes/screens/HugScreen.tscn")
 
 func _update_paper_height() -> void:
 	await get_tree().process_frame
@@ -79,3 +77,12 @@ func _apply_ui_style() -> void:
 	)
 	text_label.bbcode_enabled = true
 	text_label.add_theme_constant_override("line_separation", 25)
+
+func _on_close_button_pressed() -> void:
+	ProgressManager.reset_progress()
+	
+	var t = create_tween()
+	t.tween_property(self, "modulate:a", 0.0, 1.0)
+	await t.finished
+	
+	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")

@@ -67,6 +67,7 @@ offset_right = -152.0
 offset_bottom = -304.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 0
 horizontal_scroll_mode = 0
 
 [node name="Paper" type="NinePatchRect" parent="VBox/Control/ScrollContainer"]
@@ -97,6 +98,7 @@ theme_override_constants/margin_bottom = 70
 
 [node name="TextLabel" type="RichTextLabel" parent="VBox/Control/ScrollContainer/Paper/MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 fit_content = true
 scroll_active = false
 horizontal_alignment = 1
