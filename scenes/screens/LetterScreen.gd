@@ -15,9 +15,9 @@ var _min_typing_speed: float = 15.0
 var _end_reached: bool = false
 
 var _auto_scroll: bool = true
-var _auto_scroll_speed: float = 60.0
+var _auto_scroll_speed: float = 50.0
 
-var _auto_scroll_delay: float = 4.0
+var _auto_scroll_delay: float = 6.0
 var _auto_scroll_timer: float = 0.0
 
 var _manual_lock_time: float = 1.2
@@ -35,6 +35,9 @@ func _ready() -> void:
 	_start_letter()
 
 	close_button.pressed.connect(_on_close_pressed)
+	
+	text_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	paper.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 
 func _apply_ui_style() -> void:
@@ -77,26 +80,6 @@ func _configure_scroll() -> void:
 
 	scroll.add_theme_constant_override("v_separation", 0)
 
-
-func _on_scroll_input(event: InputEvent) -> void:
-
-	if event is InputEventMouseButton:
-		var mb: InputEventMouseButton = event as InputEventMouseButton
-		if mb.pressed and (mb.button_index == MOUSE_BUTTON_WHEEL_UP or mb.button_index == MOUSE_BUTTON_WHEEL_DOWN):
-			_auto_scroll = false
-			_manual_lock_timer = _manual_lock_time
-
-	elif event is InputEventScreenDrag or event is InputEventPanGesture:
-		_auto_scroll = false
-		_manual_lock_timer = _manual_lock_time
-
-	elif event is InputEventMouseMotion:
-		var mm: InputEventMouseMotion = event as InputEventMouseMotion
-		if mm.button_mask != 0:
-			_auto_scroll = false
-			_manual_lock_timer = _manual_lock_time
-
-
 func _start_heart_pulse() -> void:
 	var base_scale: Vector2 = heart.scale
 	
@@ -105,11 +88,9 @@ func _start_heart_pulse() -> void:
 	_heart_tween.set_trans(Tween.TRANS_SINE)
 	_heart_tween.set_ease(Tween.EASE_IN_OUT)
 
-	# первый мягкий толчок
 	_heart_tween.tween_property(heart, "scale", base_scale * 1.005, 0.9)
 	_heart_tween.tween_property(heart, "scale", base_scale, 0.9)
 
-	# лёгкая пауза
 	_heart_tween.tween_interval(0.6)
 
 
@@ -193,3 +174,15 @@ func _show_close_button() -> void:
 func _on_close_pressed() -> void:
 	ProgressManager.reset_progress()
 	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
+
+func _unhandled_input(event: InputEvent) -> void:
+
+	if event is InputEventMouseButton:
+		var mb: InputEventMouseButton = event
+		if mb.pressed and (mb.button_index == MOUSE_BUTTON_WHEEL_UP or mb.button_index == MOUSE_BUTTON_WHEEL_DOWN):
+			_auto_scroll = false
+			_manual_lock_timer = _manual_lock_time
+
+	elif event is InputEventScreenDrag:
+		_auto_scroll = false
+		_manual_lock_timer = _manual_lock_time
