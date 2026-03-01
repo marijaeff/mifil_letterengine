@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cdl3p4wcfi18q"]
+[gd_scene load_steps=3 format=3 uid="uid://cdl3p4wcfi18q"]
 
 [ext_resource type="Script" uid="uid://cpk2lycxokhvs" path="res://scenes/levels/IntuitionLevel.gd" id="1_snlua"]
+[ext_resource type="Script" uid="uid://bn5yfaitfruy1" path="res://scenes/ui/AnimatedButton.gd" id="2_vcouy"]
 
 [node name="IntuitionLevel" type="Control"]
 layout_mode = 3
@@ -49,3 +50,4 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 100
 text = "End"
+script = ExtResource("2_vcouy")

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b76y8u74bhla3"]
+[gd_scene load_steps=3 format=3 uid="uid://b76y8u74bhla3"]
 
 [ext_resource type="Script" uid="uid://bqfu8fvg3sg5q" path="res://scenes/levels/QuestionLevel.gd" id="1_lkm2a"]
+[ext_resource type="Script" uid="uid://bn5yfaitfruy1" path="res://scenes/ui/AnimatedButton.gd" id="2_8lw1p"]
 
 [node name="QuestionLevel" type="Control"]
 layout_mode = 3
@@ -48,3 +49,4 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 100
 text = "End"
+script = ExtResource("2_8lw1p")

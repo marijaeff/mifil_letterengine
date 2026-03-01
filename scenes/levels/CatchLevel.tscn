@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://du2pqpnes67lv"]
+[gd_scene load_steps=3 format=3 uid="uid://du2pqpnes67lv"]
 
 [ext_resource type="Script" uid="uid://dpoh2g0ydw3qo" path="res://scenes/levels/CatchLevel.gd" id="1_fqbcu"]
+[ext_resource type="Script" uid="uid://bn5yfaitfruy1" path="res://scenes/ui/AnimatedButton.gd" id="2_fqbcu"]
 
 [node name="CatchLevel" type="Control"]
 layout_mode = 3
@@ -48,3 +49,4 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 100
 text = "End"
+script = ExtResource("2_fqbcu")

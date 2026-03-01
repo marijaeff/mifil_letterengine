@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://2qjsqu5iwu6"]
+[gd_scene load_steps=3 format=3 uid="uid://2qjsqu5iwu6"]
 
 [ext_resource type="Script" uid="uid://b0i8pkycyvtfg" path="res://scenes/screens/EnvelopeScreen.gd" id="1_pq3gq"]
+[ext_resource type="Script" uid="uid://bn5yfaitfruy1" path="res://scenes/ui/AnimatedButton.gd" id="2_wput5"]
 
 [node name="EnvelopeScreen" type="Control"]
 layout_mode = 3
@@ -52,3 +53,4 @@ size_flags_vertical = 2
 theme_override_font_sizes/font_size = 60
 flat = true
 icon_alignment = 1
+script = ExtResource("2_wput5")

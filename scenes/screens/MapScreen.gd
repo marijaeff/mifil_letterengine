@@ -30,6 +30,7 @@ func _ready():
 	
 	load_content()
 	build_path()
+	update_start_button_state()
 	show_button()
 	start_button.pressed.connect(_on_start_pressed)
 	envelope_icon.letter_requested.connect(_on_letter_requested)
@@ -214,6 +215,16 @@ func create_level_point(position: Vector2, state: String, t: float, tex_paths: D
 		tween.tween_property(level_node, "scale", base_scale * 1.12, 1.4)
 		tween.tween_property(level_node, "scale", base_scale, 1.4)
 
+func update_start_button_state():
+	var levels_data: Dictionary = config.get("levels", {}) as Dictionary
+	var count: int = int(levels_data.get("count", 0))
+	var completed: int = ProgressManager.completed_level
+
+	if completed >= count:
+		start_button.text = "Прочесть"
+	else:
+		var map_texts: Dictionary = DataLoader.texts.get("map", {}) as Dictionary
+		start_button.text = map_texts.get("button", "")
 
 func build_levels(raw_points: Array) -> void:
 	for child in lights_container.get_children():
@@ -259,9 +270,17 @@ func _on_level_pressed(level_index: int) -> void:
 	rebuild_levels_only()
 	
 func _on_start_pressed() -> void:
+	var levels_data: Dictionary = config.get("levels", {}) as Dictionary
+	var count: int = int(levels_data.get("count", 0))
+	var completed: int = ProgressManager.completed_level
+
+	if completed >= count:
+		SceneLoader.goto_scene("res://scenes/screens/LetterScreen.tscn")
+		return
+
 	if not LevelRouter.can_open(selected_level):
 		return
-	
+
 	LevelRouter.start_level(selected_level)
 
 func _start_letter_pulse() -> void:

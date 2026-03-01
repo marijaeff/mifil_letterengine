@@ -21,12 +21,14 @@ func apply_theme():
 	var font = load(full_path)
 	
 	var theme = Theme.new()
-	
+
 	theme.set_font("font", "Label", font)
 	theme.set_font_size("font_size", "Label", font_size)
 
 	theme.set_font("font", "Button", font)
-	
 	theme.set_font_size("font_size", "Button", button_font_size)
-	
+
+	var empty_style := StyleBoxEmpty.new()
+	theme.set_stylebox("focus", "Button", empty_style)
+
 	get_tree().root.theme = theme

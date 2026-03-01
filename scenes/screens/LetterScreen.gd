@@ -170,7 +170,6 @@ func _show_close_button() -> void:
 	t.set_ease(Tween.EASE_IN_OUT)
 	t.tween_property(close_button, "modulate:a", 1.0, 1.2)
 
-
 func _on_close_pressed() -> void:
-	ProgressManager.reset_progress()
-	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
+	#ProgressManager.reset_progress()
+	SceneLoader.goto_scene("res://scenes/screens/HugScreen.tscn")

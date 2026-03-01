@@ -1,4 +1,7 @@
-[gd_scene format=3 uid="uid://cxgdw5l1nt1eu"]
+[gd_scene load_steps=3 format=3 uid="uid://cxgdw5l1nt1eu"]
+
+[ext_resource type="Script" uid="uid://blayjmosutjr" path="res://scenes/screens/HugScreen.gd" id="1_04dpv"]
+[ext_resource type="Texture2D" uid="uid://cdhrfg23gtyb0" path="res://clients/vika/assets/backgrounds/hug_bg.png" id="2_emfkx"]
 
 [node name="HugScreen" type="Control"]
 layout_mode = 3
@@ -7,11 +10,39 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_04dpv")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("2_emfkx")
+
+[node name="Heart" type="Sprite2D" parent="."]
+
+[node name="Characters" type="Sprite2D" parent="."]
+
+[node name="Girl" type="Sprite2D" parent="Characters"]
+position = Vector2(392, 912)
+
+[node name="Boy" type="Sprite2D" parent="Characters"]
+position = Vector2(680, 928)
+
+[node name="Duo" type="Sprite2D" parent="Characters"]
+
+[node name="ButtonsContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DownloadButton" type="Button" parent="ButtonsContainer"]
+layout_mode = 2
+
+[node name="MapButton" type="Button" parent="ButtonsContainer"]
+layout_mode = 2
+
+[node name="FinishButton" type="Button" parent="ButtonsContainer"]
+layout_mode = 2

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://byylw3iuixtqc"]
+[gd_scene load_steps=3 format=3 uid="uid://byylw3iuixtqc"]
 
 [ext_resource type="Script" uid="uid://b07mfqu0jkqxg" path="res://scenes/screens/IntroScreen.gd" id="1_2ldns"]
+[ext_resource type="Script" uid="uid://bn5yfaitfruy1" path="res://scenes/ui/AnimatedButton.gd" id="2_etnof"]
 
 [node name="IntroScreen" type="Control"]
 layout_mode = 3
@@ -154,9 +155,11 @@ theme_override_constants/separation = 50
 layout_mode = 2
 flat = true
 icon_alignment = 1
+script = ExtResource("2_etnof")
 
 [node name="ButtonNo" type="Button" parent="SafeArea/MainLayout/BottomWorld/Buttons"]
 layout_mode = 2
 size_flags_horizontal = 8
 flat = true
 icon_alignment = 1
+script = ExtResource("2_etnof")

@@ -1,0 +1,147 @@
+extends Control
+
+@onready var girl: Sprite2D = $Characters/Girl
+@onready var boy: Sprite2D = $Characters/Boy
+@onready var duo: Sprite2D = $Characters/Duo
+@onready var heart: Sprite2D = $Heart
+@onready var buttons: Control = $ButtonsContainer
+
+var tex_girl: Texture2D
+var tex_boy: Texture2D
+var tex_lean: Texture2D
+var tex_hug: Texture2D
+var tex_heart: Texture2D
+
+var center_position: Vector2
+
+
+func _ready() -> void:
+	_load_textures()
+	center_position = get_viewport_rect().size / 2.0
+	_prepare_scene()
+
+	await _frame_close()
+	await _frame_lean()
+	await _frame_hug()
+	await _finish_sequence()
+
+
+func _load_textures() -> void:
+	tex_girl = load("res://clients/vika/assets/characters/person1_hug.png")
+	tex_boy = load("res://clients/vika/assets/characters/person2_hug.png")
+	tex_lean = load("res://clients/vika/assets/characters/hug_before.png")
+	tex_hug = load("res://clients/vika/assets/characters/hug.png")
+	tex_heart = load("res://clients/vika/assets/objects/heart_hug.png")
+
+
+func _prepare_scene() -> void:
+	girl.texture = tex_girl
+	boy.texture = tex_boy
+	heart.texture = tex_heart
+
+	girl.modulate.a = 0.0
+	boy.modulate.a = 0.0
+
+	duo.modulate.a = 0.0
+	duo.visible = false
+
+	heart.modulate.a = 0.0
+	buttons.modulate.a = 0.0
+	heart.global_position = center_position + Vector2(0, -400)
+	heart.scale = Vector2(1.6, 1.6)
+
+func _start_heart_pulse() -> void:
+	heart.scale = Vector2(1.4, 1.4)
+
+	var t := create_tween()
+	t.set_loops()
+	t.set_trans(Tween.TRANS_SINE)
+	t.set_ease(Tween.EASE_IN_OUT)
+	t.tween_property(heart, "scale", Vector2(1.45, 1.45), 3.0)
+	t.tween_property(heart, "scale", Vector2(1.4, 1.4), 3.0)
+	
+func _pause(time: float) -> void:
+	await get_tree().create_timer(time).timeout
+
+func _frame_close() -> void:
+	var offset := 120.0
+	girl.global_position = center_position + Vector2(-offset, 0)
+	boy.global_position = center_position + Vector2(offset, 0)
+
+	girl.visible = true
+	boy.visible = true
+
+	var fade_in := create_tween()
+	fade_in.set_trans(Tween.TRANS_SINE)
+	fade_in.set_ease(Tween.EASE_IN_OUT)
+	fade_in.tween_property(girl, "modulate:a", 1.0, 2.0)
+	fade_in.parallel().tween_property(boy, "modulate:a", 1.0, 2.0)
+	await fade_in.finished
+
+	await _pause(0.5)
+
+	var fade_out := create_tween()
+	fade_out.set_trans(Tween.TRANS_SINE)
+	fade_out.set_ease(Tween.EASE_IN_OUT)
+	fade_out.tween_property(girl, "modulate:a", 0.0, 2.0)
+	fade_out.parallel().tween_property(boy, "modulate:a", 0.0, 2.0)
+	await fade_out.finished
+
+	girl.visible = false
+	boy.visible = false
+
+
+func _frame_lean() -> void:
+	duo.texture = tex_lean
+	duo.global_position = center_position
+	duo.visible = true
+
+	var fade_in := create_tween()
+	fade_in.set_trans(Tween.TRANS_SINE)
+	fade_in.set_ease(Tween.EASE_IN_OUT)
+	fade_in.tween_property(duo, "modulate:a", 1.0, 1.7)
+	await fade_in.finished
+
+	await _pause(0.4)
+
+	var fade_out := create_tween()
+	fade_out.set_trans(Tween.TRANS_SINE)
+	fade_out.set_ease(Tween.EASE_IN_OUT)
+	fade_out.tween_property(duo, "modulate:a", 0.0, 1.7)
+	await fade_out.finished
+
+	duo.visible = false
+
+
+func _frame_hug() -> void:
+	duo.texture = tex_hug
+	duo.global_position = center_position
+	duo.visible = true
+
+	var fade_in := create_tween()
+	fade_in.set_trans(Tween.TRANS_SINE)
+	fade_in.set_ease(Tween.EASE_IN_OUT)
+	fade_in.tween_property(duo, "modulate:a", 1.0, 2.0)
+	await fade_in.finished
+
+	_start_heart_pulse()
+
+	var heart_fade := create_tween()
+	heart_fade.set_trans(Tween.TRANS_SINE)
+	heart_fade.set_ease(Tween.EASE_IN_OUT)
+	heart_fade.tween_property(heart, "modulate:a", 0.85, 2.0)
+
+	await _pause(3.0)
+
+
+func _finish_sequence() -> void:
+	var fade_in := create_tween()
+	fade_in.set_trans(Tween.TRANS_SINE)
+	fade_in.set_ease(Tween.EASE_IN_OUT)
+	fade_in.tween_property(heart, "modulate:a", 0.85, 3.5)
+	await fade_in.finished
+
+	var buttons_tween := create_tween()
+	buttons_tween.set_trans(Tween.TRANS_SINE)
+	buttons_tween.set_ease(Tween.EASE_IN_OUT)
+	buttons_tween.tween_property(buttons, "modulate:a", 1.0, 3.0)

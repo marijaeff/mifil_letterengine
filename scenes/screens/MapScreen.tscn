@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://sv12r2t3448l"]
+[gd_scene load_steps=4 format=3 uid="uid://sv12r2t3448l"]
 
 [ext_resource type="Script" uid="uid://bycjah7yrq2vk" path="res://scenes/screens/MapScreen.gd" id="1_03exp"]
 [ext_resource type="Script" uid="uid://cjki707wiyrjt" path="res://scenes/screens/EnvelopeIcon.gd" id="2_7sm12"]
+[ext_resource type="Script" uid="uid://bn5yfaitfruy1" path="res://scenes/ui/AnimatedButton.gd" id="3_16o3d"]
 
 [node name="MapScreen" type="Control"]
 layout_mode = 3
@@ -167,3 +168,4 @@ grow_vertical = 0
 size_flags_vertical = 8
 flat = true
 icon_alignment = 1
+script = ExtResource("3_16o3d")

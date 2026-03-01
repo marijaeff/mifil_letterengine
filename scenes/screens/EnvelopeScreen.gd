@@ -78,5 +78,5 @@ func _on_read_pressed():
 		.set_ease(Tween.EASE_OUT)
 
 	await tween.finished
-
+	ProgressManager.reset_progress()
 	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dcehylxdcd50r"]
+[gd_scene load_steps=3 format=3 uid="uid://dcehylxdcd50r"]
 
 [ext_resource type="Script" uid="uid://byqicb6cvx1at" path="res://scenes/levels/LightLevel.gd" id="1_0aj31"]
+[ext_resource type="Script" uid="uid://bn5yfaitfruy1" path="res://scenes/ui/AnimatedButton.gd" id="2_78uvp"]
 
 [node name="LightLevel" type="Control"]
 layout_mode = 3
@@ -48,3 +49,4 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_font_sizes/font_size = 100
 text = "End"
+script = ExtResource("2_78uvp")
