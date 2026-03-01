@@ -15,7 +15,7 @@ var _min_typing_speed: float = 15.0
 var _end_reached: bool = false
 
 var _auto_scroll: bool = true
-var _auto_scroll_speed: float = 50.0
+var _auto_scroll_speed: float = 60.0
 
 var _auto_scroll_delay: float = 6.0
 var _auto_scroll_timer: float = 0.0
