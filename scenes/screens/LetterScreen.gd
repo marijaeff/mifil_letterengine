@@ -8,6 +8,7 @@ extends Control
 
 var _heart_tween: Tween
 
+
 var _is_animating: bool = false
 var _visible_chars: float = 0.0
 var _typing_speed: float = 15.0
