@@ -8,7 +8,6 @@ extends Control
 
 var _heart_tween: Tween
 
-
 var _is_animating: bool = false
 var _visible_chars: float = 0.0
 var _typing_speed: float = 15.0
@@ -24,6 +23,8 @@ var _auto_scroll_timer: float = 0.0
 var _manual_lock_time: float = 1.2
 var _manual_lock_timer: float = 0.0
 
+var _touch_down: bool = false
+
 var _button_shown: bool = false
 
 
@@ -36,7 +37,7 @@ func _ready() -> void:
 	_start_letter()
 
 	close_button.pressed.connect(_on_close_pressed)
-	
+
 	text_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	paper.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
@@ -72,7 +73,6 @@ func _configure_scroll() -> void:
 	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 
 	var vbar: VScrollBar = scroll.get_v_scroll_bar()
-
 	vbar.visible = false
 	vbar.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	vbar.custom_minimum_size = Vector2.ZERO
@@ -81,9 +81,50 @@ func _configure_scroll() -> void:
 
 	scroll.add_theme_constant_override("v_separation", 0)
 
+	scroll.gui_input.connect(_on_scroll_gui_input)
+
+
+func _on_scroll_gui_input(event: InputEvent) -> void:
+	if event is InputEventScreenTouch:
+		var t: InputEventScreenTouch = event as InputEventScreenTouch
+		_touch_down = t.pressed
+		if _touch_down:
+			_auto_scroll = false
+			_manual_lock_timer = _manual_lock_time
+
+	elif event is InputEventScreenDrag or event is InputEventPanGesture:
+		_auto_scroll = false
+		_manual_lock_timer = _manual_lock_time
+
+	elif event is InputEventMouseButton:
+		var mb: InputEventMouseButton = event as InputEventMouseButton
+		if mb.pressed and (mb.button_index == MOUSE_BUTTON_WHEEL_UP or mb.button_index == MOUSE_BUTTON_WHEEL_DOWN):
+			_auto_scroll = false
+			_manual_lock_timer = _manual_lock_time
+
+	elif event is InputEventMouseMotion:
+		var mm: InputEventMouseMotion = event as InputEventMouseMotion
+		if mm.button_mask != 0:
+			_auto_scroll = false
+			_manual_lock_timer = _manual_lock_time
+
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventScreenTouch:
+		var t: InputEventScreenTouch = event as InputEventScreenTouch
+		_touch_down = t.pressed
+		if _touch_down:
+			_auto_scroll = false
+			_manual_lock_timer = _manual_lock_time
+
+	elif event is InputEventScreenDrag:
+		_auto_scroll = false
+		_manual_lock_timer = _manual_lock_time
+
+
 func _start_heart_pulse() -> void:
 	var base_scale: Vector2 = heart.scale
-	
+
 	_heart_tween = create_tween()
 	_heart_tween.set_loops()
 	_heart_tween.set_trans(Tween.TRANS_SINE)
@@ -91,7 +132,6 @@ func _start_heart_pulse() -> void:
 
 	_heart_tween.tween_property(heart, "scale", base_scale * 1.005, 0.9)
 	_heart_tween.tween_property(heart, "scale", base_scale, 0.9)
-
 	_heart_tween.tween_interval(0.6)
 
 
@@ -102,6 +142,7 @@ func _start_letter() -> void:
 	_auto_scroll_timer = _auto_scroll_delay
 	_manual_lock_timer = 0.0
 	_auto_scroll = true
+	_touch_down = false
 
 	_is_animating = true
 	set_process(true)
@@ -137,11 +178,11 @@ func _process(delta: float) -> void:
 	var bar: VScrollBar = scroll.get_v_scroll_bar()
 	var target: float = bar.max_value
 
-	if not _auto_scroll and _manual_lock_timer <= 0.0:
+	if not _auto_scroll and _manual_lock_timer <= 0.0 and not _touch_down:
 		if absf(scroll.scroll_vertical - target) < 20.0:
 			_auto_scroll = true
 
-	if _auto_scroll and _auto_scroll_timer <= 0.0 and _manual_lock_timer <= 0.0:
+	if _auto_scroll and _auto_scroll_timer <= 0.0 and _manual_lock_timer <= 0.0 and not _touch_down:
 		scroll.scroll_vertical = move_toward(
 			scroll.scroll_vertical,
 			target,
@@ -176,14 +217,10 @@ func _on_close_pressed() -> void:
 	ProgressManager.reset_progress()
 	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
 
-func _unhandled_input(event: InputEvent) -> void:
 
+func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
-		var mb: InputEventMouseButton = event
+		var mb: InputEventMouseButton = event as InputEventMouseButton
 		if mb.pressed and (mb.button_index == MOUSE_BUTTON_WHEEL_UP or mb.button_index == MOUSE_BUTTON_WHEEL_DOWN):
 			_auto_scroll = false
 			_manual_lock_timer = _manual_lock_time
-
-	elif event is InputEventScreenDrag:
-		_auto_scroll = false
-		_manual_lock_timer = _manual_lock_time
