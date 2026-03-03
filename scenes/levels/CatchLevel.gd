@@ -186,9 +186,6 @@ func spawn_random_item() -> void:
 
 	var item: FallingItem = falling_item_scene.instantiate()
 
-	# --------------------------------------------------
-	# ЗОНАЛЬНЫЙ СПАВН
-	# --------------------------------------------------
 	var screen_width: float = get_viewport_rect().size.x
 	
 	var zone_count: int = 3
@@ -207,15 +204,9 @@ func spawn_random_item() -> void:
 	var x_pos: float = randf_range(min_x + 40.0, max_x - 40.0)
 	item.position = Vector2(x_pos, -50)
 
-	# --------------------------------------------------
-	# РАЗМЕР (глубина)
-	# --------------------------------------------------
 	var size_scale: float = randf_range(0.85, 1.15)
 	item.scale = Vector2(size_scale, size_scale)
 
-	# --------------------------------------------------
-	# СКОРОСТЬ (3 типа + рост сложности)
-	# --------------------------------------------------
 	var difficulty_factor: float = difficulty_time / 25.0
 	var speed_roll: float = randf()
 
@@ -228,12 +219,8 @@ func spawn_random_item() -> void:
 	else:
 		base_speed = randf_range(300.0, 380.0) + difficulty_factor * 60.0
 
-	# учитываем размер (крупные чуть быстрее)
 	item.fall_speed = base_speed * size_scale
 
-	# --------------------------------------------------
-	# ВЕРОЯТНОСТЬ ПЛОХИХ (растёт со временем)
-	# --------------------------------------------------
 	var spawn_bad: bool = false
 
 	if not bad_items.is_empty():
