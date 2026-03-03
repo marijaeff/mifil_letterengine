@@ -186,6 +186,9 @@ func spawn_random_item() -> void:
 
 	var item: FallingItem = falling_item_scene.instantiate()
 
+	# --------------------------------------------------
+	# ЗОНАЛЬНЫЙ СПАВН
+	# --------------------------------------------------
 	var screen_width: float = get_viewport_rect().size.x
 	
 	var zone_count: int = 3
@@ -202,24 +205,43 @@ func spawn_random_item() -> void:
 	var max_x: float = min_x + zone_width
 
 	var x_pos: float = randf_range(min_x + 40.0, max_x - 40.0)
-
 	item.position = Vector2(x_pos, -50)
-	
+
+	# --------------------------------------------------
+	# РАЗМЕР (глубина)
+	# --------------------------------------------------
+	var size_scale: float = randf_range(0.85, 1.15)
+	item.scale = Vector2(size_scale, size_scale)
+
+	# --------------------------------------------------
+	# СКОРОСТЬ (3 типа + рост сложности)
+	# --------------------------------------------------
 	var difficulty_factor: float = difficulty_time / 25.0
+	var speed_roll: float = randf()
 
-	var dynamic_min: float = 140.0 + difficulty_factor * 30.0
-	var dynamic_max: float = 340.0 + difficulty_factor * 80.0
+	var base_speed: float
 
-	item.fall_speed = randf_range(dynamic_min, dynamic_max)
+	if speed_roll < 0.3:
+		base_speed = randf_range(130.0, 180.0) + difficulty_factor * 20.0
+	elif speed_roll < 0.75:
+		base_speed = randf_range(200.0, 260.0) + difficulty_factor * 40.0
+	else:
+		base_speed = randf_range(300.0, 380.0) + difficulty_factor * 60.0
 
+	# учитываем размер (крупные чуть быстрее)
+	item.fall_speed = base_speed * size_scale
+
+	# --------------------------------------------------
+	# ВЕРОЯТНОСТЬ ПЛОХИХ (растёт со временем)
+	# --------------------------------------------------
 	var spawn_bad: bool = false
 
 	if not bad_items.is_empty():
-		difficulty_factor = difficulty_time / 40.0
-		var current_bad_chance: float = base_bad_chance + difficulty_factor * 0.3
+		var bad_difficulty: float = difficulty_time / 40.0
+		var current_bad_chance: float = base_bad_chance + bad_difficulty * 0.3
 		current_bad_chance = clamp(current_bad_chance, base_bad_chance, max_bad_chance)
 		
-		spawn_bad = randf() < current_bad_chance   
+		spawn_bad = randf() < current_bad_chance
 
 	if spawn_bad:
 		var tex: Texture2D = bad_items.pick_random()
@@ -235,7 +257,6 @@ func spawn_random_item() -> void:
 		})
 
 	$FallingItemsLayer.add_child(item)
-
 
 func _on_spawn_timer_timeout() -> void:
 	spawn_random_item()
