@@ -1,4 +1,4 @@
-extends Control
+extends Node2D
 class_name BaseLevel
 
 var level_id: int = 0

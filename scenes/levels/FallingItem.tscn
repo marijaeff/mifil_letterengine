@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://4d6843tccq5b"]
+
+[ext_resource type="Script" uid="uid://bmiuamuwfngkc" path="res://scenes/levels/FallingItem.gd" id="1_rogr3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ybd7c"]
+radius = 31.56
+
+[node name="FallingItem" type="Area2D"]
+script = ExtResource("1_rogr3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_ybd7c")
+one_way_collision_margin = 0.0
+debug_color = Color(0, 0.6, 0.701961, 0)

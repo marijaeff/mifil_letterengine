@@ -7,7 +7,6 @@
   },
 
   "screens": {
-
 	"heart": {
 	  "background": "assets/backgrounds/heart_bg.png",
 	  "heart_texture": "assets/ui/heart.png",
@@ -64,21 +63,21 @@
 		"texture": "assets/ui/btn_map.png"
 	  },
 
-		"envelope": {
-		  "bases": [
-			"assets/objects/base1.png",
-			"assets/objects/base2.png",
-			"assets/objects/base3.png",
-			"assets/objects/base4.png"
-		  ],
-		  "pieces": [
-			"assets/objects/piece1.png",
-			"assets/objects/piece2.png",
-			"assets/objects/piece3.png",
-			"assets/objects/piece4.png"
-		  ],
-			"glow": "assets/objects/glow_envelope.png"
-		},
+	  "envelope": {
+		"bases": [
+		  "assets/objects/base1.png",
+		  "assets/objects/base2.png",
+		  "assets/objects/base3.png",
+		  "assets/objects/base4.png"
+		],
+		"pieces": [
+		  "assets/objects/piece1.png",
+		  "assets/objects/piece2.png",
+		  "assets/objects/piece3.png",
+		  "assets/objects/piece4.png"
+		],
+		"glow": "assets/objects/glow_envelope.png"
+	  },
 
 	  "path": {
 		"points": [
@@ -102,13 +101,40 @@
 		}
 	  }
 	},
-	
-  	"letter": {
-	"background": "assets/backgrounds/intro_bg.png",
-	"heart": "assets/objects/heart_letter.png",
-	"paper": "assets/objects/paper_letter.png",
-	"letter_font_size": 52,
-	"letter_text_color": "#29241C"
+
+	"letter": {
+	  "background": "assets/backgrounds/intro_bg.png",
+	  "heart": "assets/objects/heart_letter.png",
+	  "paper": "assets/objects/paper_letter.png",
+	  "letter_font_size": 52,
+	  "letter_text_color": "#29241C"
+	}
+  },
+
+  "levels": {
+	"catch": {
+	  "background": "assets/backgrounds/catch_bg.png",
+	  "hands": "assets/objects/catch/hands.png",
+	  "plant_stages": [
+		"assets/objects/catch/plant_1.png",
+		"assets/objects/catch/plant_2.png",
+		"assets/objects/catch/plant_3.png",
+		"assets/objects/catch/plant_4.png"
+	  ],
+	  "pause_icon": "assets/ui/pause.png",
+	  "hearts": {
+		"max": 3,
+		"icon": "assets/ui/heart_life.png"
+	  },
+		"items": {
+		  "good": [
+			"assets/objects/catch/items/sushi.png",
+			"assets/objects/catch/items/chocolate.png"
+		  ],
+		  "bad": [
+			"assets/objects/catch/items/drop.png"
+		  ]
+		}
+	}
   }
-}
 }
