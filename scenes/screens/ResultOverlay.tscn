@@ -1,0 +1,97 @@
+[gd_scene load_steps=5 format=3 uid="uid://bkl0f7opgqrlu"]
+
+[ext_resource type="Script" uid="uid://ba3qjfq3qwk67" path="res://scenes/screens/ResultOverlay.gd" id="1_7wg85"]
+[ext_resource type="Texture2D" uid="uid://dxs6elg4fru27" path="res://clients/vika/assets/ui/result_win.png" id="2_o0lpy"]
+[ext_resource type="Texture2D" uid="uid://d1vic1c4ljpsd" path="res://clients/vika/assets/ui/envelope_1.png" id="3_7wg85"]
+[ext_resource type="Script" uid="uid://bn5yfaitfruy1" path="res://scenes/ui/AnimatedButton.gd" id="5_k7vfr"]
+
+[node name="ResultOverlay" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_7wg85")
+
+[node name="DarkFade" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.55)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="TextureRect" parent="CenterContainer"]
+layout_mode = 2
+texture = ExtResource("2_o0lpy")
+
+[node name="Content" type="VBoxContainer" parent="CenterContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1, 0.992531)
+theme_override_constants/separation = 25
+
+[node name="space1" type="Control" parent="CenterContainer/Panel/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Title" type="Label" parent="CenterContainer/Panel/Content"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 100
+text = "авпвап"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subtitle" type="Label" parent="CenterContainer/Panel/Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "павпвап"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="space4" type="Control" parent="CenterContainer/Panel/Content"]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="CenterContainer/Panel/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("3_7wg85")
+stretch_mode = 3
+
+[node name="space2" type="Control" parent="CenterContainer/Panel/Content"]
+layout_mode = 2
+
+[node name="RetryBtn" type="Button" parent="CenterContainer/Panel/Content"]
+layout_mode = 2
+text = "мвымывм"
+flat = true
+icon_alignment = 1
+script = ExtResource("5_k7vfr")
+
+[node name="NextBtn" type="Button" parent="CenterContainer/Panel/Content"]
+layout_mode = 2
+text = "вмывмывмывм"
+flat = true
+icon_alignment = 1
+script = ExtResource("5_k7vfr")
+
+[node name="space3" type="Control" parent="CenterContainer/Panel/Content"]
+layout_mode = 2
+size_flags_vertical = 3

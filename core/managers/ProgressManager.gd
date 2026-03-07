@@ -50,3 +50,12 @@ func reset_progress() -> void:
 	completed_level = 0
 	selected_level = 1
 	save_progress()
+	
+var envelope_stage: int = 0
+
+func advance_envelope():
+	envelope_stage += 1
+	save_progress()
+
+func get_envelope_stage() -> int:
+	return envelope_stage

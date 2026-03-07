@@ -1,6 +1,7 @@
 extends BaseLevel
 
 @export var falling_item_scene: PackedScene
+@export var result_overlay_scene: PackedScene
 
 @onready var bg: TextureRect = $BackgroundLayer/Background
 @onready var hands: Sprite2D = $PlantRoot/Hands
@@ -9,12 +10,15 @@ extends BaseLevel
 @onready var pause_btn: TextureButton = $UI/PauseButton
 @onready var spawn_timer: Timer = $SpawnTimer
 
+
 var plant_stages: Array[Texture2D] = []
 var hearts_max: int = 3
 var heart_icon: Texture2D = null
 
 var good_items: Array[Texture2D] = []
 var bad_items: Array[Texture2D] = []
+var good_caught: int = 0
+var total_needed: int = 10
 
 var is_touching: bool = false
 var last_spawn_zone: int = -1
@@ -31,17 +35,30 @@ var max_bad_chance: float = 0.75
 
 var difficulty_factor: float = 0.0
 
+var current_hearts: int = 0
+var is_game_over: bool = false
+
 
 func _ready() -> void:
+
 	if DataLoader.client_id.is_empty():
-		DataLoader.load_client("vika") 
+		DataLoader.load_client("vika")
+
+	var current_id: int = ProgressManager.selected_level
+	var def: Dictionary = LevelRouter.get_level_def(current_id)
+
+	if def.is_empty():
+		push_error("Level def not found")
+		return
+
+	setup(def)
 
 	var config: Dictionary = DataLoader.config
 	var levels_block: Dictionary = config.get("levels", {}) as Dictionary
 	var catch_def: Dictionary = levels_block.get("catch", {}) as Dictionary
 	
 	randomize()
-	
+
 	if catch_def.is_empty():
 		push_error("Catch level config not found")
 		return
@@ -89,7 +106,6 @@ func load_visuals(def: Dictionary) -> void:
 		pause_btn.texture_normal = load(base_path + pause_path) as Texture2D
 	
 
-
 func create_hearts() -> void:
 	for child in hearts_container.get_children():
 		child.queue_free()
@@ -100,12 +116,11 @@ func create_hearts() -> void:
 	for i in range(hearts_max):
 		var heart: TextureRect = TextureRect.new()
 		heart.texture = heart_icon
-
 		heart.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		heart.custom_minimum_size = Vector2(64, 64)
-
 		hearts_container.add_child(heart)
 
+	current_hearts = hearts_max
 
 func load_items(def: Dictionary) -> void:
 	var base_path: String = "res://clients/%s/" % DataLoader.client_id
@@ -148,10 +163,77 @@ func spawn_test_item() -> void:
 
 
 func _on_item_caught(area: Area2D) -> void:
-	if area is FallingItem:
-		print("Поймали: ", area.item_type)
-		area.queue_free()
+	if not (area is FallingItem):
+		return
+		
+	if is_game_over:
+		return
 
+	var item: FallingItem = area
+
+	if item.item_type == "bad":
+		lose_heart()
+	else:
+		catch_good()
+
+	area.queue_free()
+
+func lose_heart() -> void:
+	if current_hearts <= 0:
+		return
+
+	current_hearts -= 1
+
+	var hearts := hearts_container.get_children()
+	if current_hearts < hearts.size():
+		hearts[current_hearts].queue_free()
+
+	if current_hearts <= 0:
+		lose()
+
+func catch_good() -> void:
+	if is_game_over:
+		return
+
+	good_caught += 1
+	update_plant_growth()
+
+	if good_caught >= total_needed:
+		win()
+
+func update_plant_growth() -> void:
+	if plant_stages.is_empty():
+		return
+
+	var progress: float = float(good_caught) / float(total_needed)
+	progress = clamp(progress, 0.0, 1.0)
+
+	var stages_count: int = plant_stages.size()
+
+	var scaled_progress: float = progress * stages_count
+	var stage_index: int = int(scaled_progress)
+	stage_index = clamp(stage_index, 0, stages_count - 1)
+
+	var local_progress: float = scaled_progress - float(stage_index)
+
+	if plant.texture != plant_stages[stage_index]:
+		plant.texture = plant_stages[stage_index]
+
+	plant.modulate.a = lerp(0.25, 1.0, local_progress)
+
+	var scale_value: float = lerp(0.9, 1.25, progress)
+	plant.scale = Vector2(scale_value, scale_value)
+
+func change_plant_stage_smooth(new_texture: Texture2D) -> void:
+	var tween := create_tween()
+
+	tween.tween_property(plant, "modulate:a", 0.0, 0.18)
+
+	tween.tween_callback(func():
+		plant.texture = new_texture
+	)
+
+	tween.tween_property(plant, "modulate:a", 1.0, 0.22)
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
@@ -260,3 +342,46 @@ func _process(delta: float) -> void:
 	new_spawn_time = clamp(new_spawn_time, min_spawn_time, base_spawn_time)
 	
 	spawn_timer.wait_time = new_spawn_time
+
+func show_result_overlay(type: String):
+
+	var overlay := result_overlay_scene.instantiate()
+	$UI.add_child(overlay)
+
+	overlay.show_from_config(type)
+
+	overlay.retry_pressed.connect(_on_retry_pressed)
+	overlay.next_pressed.connect(_on_next_pressed.bind(type))
+	
+func _on_retry_pressed():
+
+	var t := create_tween()
+	t.tween_property(self, "modulate:a", 0.0, 0.2)
+
+	await t.finished
+
+	SceneLoader.goto_scene("res://scenes/levels/CatchLevel.tscn")
+
+func _on_next_pressed(type: String):
+
+	hide()
+	await get_tree().process_frame
+
+	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
+
+func lose():
+
+	is_game_over = true
+	spawn_timer.stop()
+
+	show_result_overlay("lose")
+
+func win() -> void:
+
+	is_game_over = true
+	spawn_timer.stop()
+
+	ProgressManager.advance_envelope()
+	ProgressManager.complete_level(level_id)
+
+	show_result_overlay("win")

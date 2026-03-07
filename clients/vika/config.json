@@ -136,5 +136,77 @@
 		  ]
 		}
 	}
-  }
+  },
+
+	"result": {
+
+	  "common": {
+		"icon_size": [220, 160],
+		"panel_scale": 0.92,
+
+		"fonts": {
+		  "title_size": 100,
+		  "subtitle_size": 50,
+		  "button_size": 50
+		},
+		"envelopes": [
+		  "assets/ui/envelope_1.png",
+		  "assets/ui/envelope_2.png",
+		  "assets/ui/envelope_3.png",
+		  "assets/ui/envelope_4.png"
+		]
+	  },
+
+	  "win": {
+
+		"title": "Получилось!",
+		"subtitle": "Ты стал на шаг ближе",
+
+		"panel": "assets/ui/result_win.png",
+		"icon": "assets/ui/envelope_1.png",
+
+		"colors": {
+		  "title": "#203520",
+		  "subtitle": "#143F1D",
+		  "buttons": "#2F230B"
+		},
+
+		"buttons": {
+		  "retry": {
+			"text": "Хочу снова!",
+			"icon": "assets/ui/btn_win.png"
+		  },
+		  "next": {
+			"text": "Дальше в путь",
+			"icon": "assets/ui/btn_win.png"
+		  }
+		}
+	  },
+
+	  "lose": {
+
+		"title": "Увы!",
+		"subtitle": "Не получилось",
+
+		"panel": "assets/ui/result_lose.png",
+		"icon": "assets/ui/sad_envelope.png",
+
+		"colors": {
+		  "title": "#CFCFCF",
+		  "subtitle": "#CFCFCF",
+		  "buttons": "#BDA06A"
+		},
+
+		"buttons": {
+		  "retry": {
+			"text": "Попробовать снова!",
+			"icon": "assets/ui/btn_lose.png"
+		  },
+		  "next": {
+			"text": "К карте",
+			"icon": "assets/ui/btn_lose.png"
+		  }
+		}
+	  }
+	}
 }

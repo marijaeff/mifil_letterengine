@@ -15,7 +15,10 @@ func goto_scene(path: String):
 func _transition(path: String):
 
 	var new_scene = load(path).instantiate()
-	new_scene.modulate.a = 0.0
+
+	if new_scene is CanvasItem:
+		new_scene.modulate.a = 0.0
+
 	get_tree().root.add_child(new_scene)
 
 	await get_tree().process_frame
@@ -23,10 +26,11 @@ func _transition(path: String):
 
 	var tween = create_tween()
 
-	if current_scene:
+	if current_scene and current_scene is CanvasItem:
 		tween.tween_property(current_scene, "modulate:a", 0.0, 0.4)
 
-	tween.parallel().tween_property(new_scene, "modulate:a", 1.0, 0.4)
+	if new_scene is CanvasItem:
+		tween.parallel().tween_property(new_scene, "modulate:a", 1.0, 0.4)
 
 	await tween.finished
 

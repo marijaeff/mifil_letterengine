@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://du2pqpnes67lv"]
+[gd_scene load_steps=5 format=3 uid="uid://du2pqpnes67lv"]
 
 [ext_resource type="Script" uid="uid://c78dogpyp11vj" path="res://scenes/levels/CatchLevel.gd" id="1_fqbcu"]
 [ext_resource type="PackedScene" uid="uid://4d6843tccq5b" path="res://scenes/levels/FallingItem.tscn" id="2_cg620"]
+[ext_resource type="PackedScene" uid="uid://bkl0f7opgqrlu" path="res://scenes/screens/ResultOverlay.tscn" id="3_eluft"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dqn77"]
 size = Vector2(234, 24.125)
@@ -9,6 +10,7 @@ size = Vector2(234, 24.125)
 [node name="CatchLevel" type="Node2D"]
 script = ExtResource("1_fqbcu")
 falling_item_scene = ExtResource("2_cg620")
+result_overlay_scene = ExtResource("3_eluft")
 
 [node name="BackgroundLayer" type="CanvasLayer" parent="."]
 layer = -1
@@ -27,18 +29,18 @@ stretch_mode = 6
 [node name="FallingItemsLayer" type="Node2D" parent="."]
 
 [node name="PlantRoot" type="Node2D" parent="."]
-position = Vector2(552, 1337)
-
-[node name="Hands" type="Sprite2D" parent="PlantRoot"]
-position = Vector2(-2, 218)
-scale = Vector2(0.845746, 0.857269)
+position = Vector2(556, 1319)
 
 [node name="Plant" type="Sprite2D" parent="PlantRoot"]
-position = Vector2(-8, 71)
+position = Vector2(-10, 204)
 scale = Vector2(1, 1.0901)
 
+[node name="Hands" type="Sprite2D" parent="PlantRoot"]
+position = Vector2(-6, 349)
+scale = Vector2(0.845746, 0.857269)
+
 [node name="CatchArea" type="Area2D" parent="PlantRoot"]
-position = Vector2(-6, 199)
+position = Vector2(-8, 321)
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlantRoot/CatchArea"]
@@ -58,7 +60,7 @@ theme_override_constants/separation = 10
 alignment = 1
 
 [node name="PauseButton" type="TextureButton" parent="UI"]
-anchors_preset = -1
+anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -152.0
