@@ -25,6 +25,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 expand_mode = 1
 stretch_mode = 6
+metadata/_edit_use_anchors_ = true
 
 [node name="FallingItemsLayer" type="Node2D" parent="."]
 
@@ -58,6 +59,7 @@ offset_right = 440.0
 offset_bottom = 188.0
 theme_override_constants/separation = 10
 alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="PauseButton" type="TextureButton" parent="UI"]
 anchors_preset = 1
@@ -67,6 +69,7 @@ offset_left = -152.0
 offset_top = 56.0
 offset_right = -31.0
 offset_bottom = 168.0
+metadata/_edit_use_anchors_ = true
 
 [node name="SpawnTimer" type="Timer" parent="."]
 wait_time = 1.2

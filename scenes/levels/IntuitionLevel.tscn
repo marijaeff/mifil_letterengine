@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://cdl3p4wcfi18q"]
+[gd_scene load_steps=6 format=3 uid="uid://cdl3p4wcfi18q"]
 
-[ext_resource type="Script" uid="uid://cpk2lycxokhvs" path="res://scenes/levels/IntuitionLevel.gd" id="1_snlua"]
-[ext_resource type="Script" uid="uid://bn5yfaitfruy1" path="res://scenes/ui/AnimatedButton.gd" id="2_vcouy"]
+[ext_resource type="Script" uid="uid://wd30p2vgtqsh" path="res://scenes/levels/IntuitionLevel.gd" id="1_snlua"]
+[ext_resource type="Texture2D" uid="uid://bjswyaay84xha" path="res://clients/vika/assets/backgrounds/intuition_bg.png" id="2_a7ck8"]
+[ext_resource type="PackedScene" uid="uid://bkl0f7opgqrlu" path="res://scenes/screens/ResultOverlay.tscn" id="2_ohmiu"]
+[ext_resource type="Texture2D" uid="uid://cf672pg37cfpa" path="res://clients/vika/assets/objects/intuition/table.png" id="3_a7ck8"]
+[ext_resource type="Texture2D" uid="uid://d1tngsmivfmod" path="res://clients/vika/assets/objects/intuition/box_intuition.png" id="3_b6dw6"]
 
 [node name="IntuitionLevel" type="Control"]
 layout_mode = 3
@@ -10,44 +13,118 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
 script = ExtResource("1_snlua")
+result_overlay_scene = ExtResource("2_ohmiu")
 
-[node name="Background" type="TextureRect" parent="."]
-layout_mode = 1
+[node name="BackgroundLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Background" type="TextureRect" parent="BackgroundLayer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 10.0
+offset_right = 4.0
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_a7ck8")
+expand_mode = 1
 stretch_mode = 6
 
-[node name="Label" type="Label" parent="."]
+[node name="GameLayer" type="Control" parent="."]
 layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -657.0
-offset_bottom = -574.0
+anchor_left = 0.5
+anchor_right = 0.5
 grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 60
+
+[node name="QuestionLabel" type="Label" parent="GameLayer"]
+layout_mode = 1
+offset_left = -388.0
+offset_top = 322.0
+offset_right = 410.0
+offset_bottom = 814.0
+theme_override_font_sizes/font_size = 70
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 3
 
-[node name="DoneButton" type="Button" parent="."]
+[node name="BoxesContainer" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -86.0
-offset_top = -508.0
-offset_right = 104.0
-offset_bottom = -363.0
 grow_horizontal = 2
 grow_vertical = 0
-theme_override_font_sizes/font_size = 100
-text = "End"
-script = ExtResource("2_vcouy")
+
+[node name="Table" type="TextureRect" parent="BoxesContainer"]
+modulate = Color(1, 1, 1, 0.557)
+layout_mode = 0
+offset_left = -845.0
+offset_top = -1215.0
+offset_right = 838.0
+offset_bottom = 147.0
+texture = ExtResource("3_a7ck8")
+
+[node name="Box1" type="TextureButton" parent="BoxesContainer"]
+offset_left = -482.0
+offset_top = -579.0
+offset_right = -176.0
+offset_bottom = -334.0
+texture_normal = ExtResource("3_b6dw6")
+
+[node name="Box2" type="TextureButton" parent="BoxesContainer"]
+offset_left = -169.0
+offset_top = -555.0
+offset_right = 137.0
+offset_bottom = -310.0
+texture_normal = ExtResource("3_b6dw6")
+
+[node name="Box3" type="TextureButton" parent="BoxesContainer"]
+offset_left = 144.0
+offset_top = -571.0
+offset_right = 450.0
+offset_bottom = -326.0
+texture_normal = ExtResource("3_b6dw6")
+
+[node name="RevealLayer" type="CanvasLayer" parent="."]
+
+[node name="RevealBox" type="TextureRect" parent="RevealLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="HeartsContainer" type="HBoxContainer" parent="UI"]
+offset_left = 40.0
+offset_top = 40.0
+offset_right = 440.0
+offset_bottom = 188.0
+theme_override_constants/separation = 10
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="PauseButton" type="TextureButton" parent="UI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -152.0
+offset_top = 56.0
+offset_right = -31.0
+offset_bottom = 168.0

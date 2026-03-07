@@ -112,6 +112,14 @@
   },
 
   "levels": {
+	  "shared": {
+		"pause_icon": "assets/ui/pause.png",
+
+		"hearts": {
+		  "max": 3,
+		  "icon": "assets/ui/heart_life.png"
+		}
+	  },
 	"catch": {
 	  "background": "assets/backgrounds/catch_bg.png",
 	  "hands": "assets/objects/catch/hands.png",
@@ -121,11 +129,6 @@
 		"assets/objects/catch/plant_3.png",
 		"assets/objects/catch/plant_4.png"
 	  ],
-	  "pause_icon": "assets/ui/pause.png",
-	  "hearts": {
-		"max": 3,
-		"icon": "assets/ui/heart_life.png"
-	  },
 		"items": {
 		  "good": [
 			"assets/objects/catch/items/sushi.png",
@@ -135,6 +138,20 @@
 			"assets/objects/catch/items/drop.png"
 		  ]
 		}
+	},
+	"intuition": {
+	  "box_closed": "assets/objects/intuition/box_intuition.png",
+	  "box_empty": "assets/objects/intuition/box_intuition_lose.png",
+	  "box_letter": "assets/objects/intuition/box_intuition_win.png",
+
+	  "questions": [
+		{ "text": "Как думаешь... в какую каробочку я решила спрятать кусочек письма?" },
+	  ],
+	  "question_style": {
+		"color": "#B9A98B",
+		"size": 70
+	  },
+	 "background": "assets/backgrounds/intuition_bg.png",
 	}
   },
 

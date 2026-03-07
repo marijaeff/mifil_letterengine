@@ -55,6 +55,7 @@ func _ready() -> void:
 
 	var config: Dictionary = DataLoader.config
 	var levels_block: Dictionary = config.get("levels", {}) as Dictionary
+	var shared_def: Dictionary = levels_block.get("shared", {}) as Dictionary
 	var catch_def: Dictionary = levels_block.get("catch", {}) as Dictionary
 	
 	randomize()
@@ -63,6 +64,7 @@ func _ready() -> void:
 		push_error("Catch level config not found")
 		return
 
+	load_shared_ui(shared_def) 
 	load_visuals(catch_def)
 	load_items(catch_def)
 	
@@ -104,7 +106,23 @@ func load_visuals(def: Dictionary) -> void:
 	var pause_path: String = def.get("pause_icon", "")
 	if pause_path != "":
 		pause_btn.texture_normal = load(base_path + pause_path) as Texture2D
-	
+
+func load_shared_ui(def: Dictionary) -> void:
+
+	var base_path: String = "res://clients/%s/" % DataLoader.client_id
+
+	var hearts_def: Dictionary = def.get("hearts", {}) as Dictionary
+	hearts_max = int(hearts_def.get("max", 3))
+
+	var heart_path: String = hearts_def.get("icon", "")
+	if heart_path != "":
+		heart_icon = load(base_path + heart_path) as Texture2D
+
+	create_hearts()
+
+	var pause_path: String = def.get("pause_icon", "")
+	if pause_path != "":
+		pause_btn.texture_normal = load(base_path + pause_path) as Texture2D
 
 func create_hearts() -> void:
 	for child in hearts_container.get_children():
