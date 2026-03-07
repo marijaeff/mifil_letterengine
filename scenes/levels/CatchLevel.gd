@@ -373,17 +373,13 @@ func show_result_overlay(type: String):
 	
 func _on_retry_pressed():
 
-	var t := create_tween()
-	t.tween_property(self, "modulate:a", 0.0, 0.2)
-
-	await t.finished
+	queue_free()
 
 	SceneLoader.goto_scene("res://scenes/levels/CatchLevel.tscn")
 
 func _on_next_pressed(type: String):
-
-	hide()
-	await get_tree().process_frame
+	
+	queue_free()
 
 	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
 

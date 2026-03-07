@@ -108,7 +108,10 @@ func load_visuals(def: Dictionary) -> void:
 		table.texture = load(base_path + table_path)
 
 	setup_boxes()
-
+	
+	add_shadow(box1)
+	add_shadow(box2)
+	add_shadow(box3)
 
 func apply_question_style():
 
@@ -233,6 +236,23 @@ func show_gameplay(show: bool):
 	question_label.visible = show
 	$BoxesContainer.visible = show
 
+func add_shadow(box: TextureButton):
+
+	var shadow := TextureRect.new()
+
+	shadow.texture = box.texture_normal
+	shadow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	shadow.modulate = Color(0,0,0,0.42)
+
+	var parent := box.get_parent()
+	parent.add_child(shadow)
+	parent.move_child(shadow, box.get_index())
+
+	shadow.scale = Vector2(0.95, 0.38)
+
+	shadow.position = box.position + Vector2(0, box.size.y * 0.62)
+
 func _input(event):
 
 	if waiting_next_tap and not is_game_over:
@@ -276,17 +296,13 @@ func show_result_overlay(type: String):
 
 func _on_retry_pressed():
 
-	var t := create_tween()
-	t.tween_property(self, "modulate:a", 0.0, 0.35)
-
+	queue_free()
 	SceneLoader.goto_scene("res://scenes/levels/IntuitionLevel.tscn")
 
 
 func _on_next_pressed(type: String):
 
-	var t := create_tween()
-	t.tween_property(self, "modulate:a", 0.0, 0.35)
-
+	queue_free()  
 	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
 
 func disable_boxes():
