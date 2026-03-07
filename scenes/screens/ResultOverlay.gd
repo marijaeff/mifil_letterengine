@@ -21,7 +21,7 @@ func _ready():
 
 func show_from_config(type: String) -> void:
 
-	var root_cfg: Dictionary = DataLoader.config.get("result", {})
+	var root_cfg: Dictionary = DataLoader.config.get("levels", {}).get("result", {})
 	var cfg: Dictionary = root_cfg.get(type, {})
 	var common: Dictionary = root_cfg.get("common", {})
 

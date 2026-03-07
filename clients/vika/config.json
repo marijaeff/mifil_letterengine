@@ -163,8 +163,50 @@
 		"size": 70
 	  },
 	 "background": "assets/backgrounds/intuition_bg.png",
+	},
+
+	"question": {
+	  "background": "assets/backgrounds/question_bg.png",
+
+	  "box": "assets/objects/question/box.png",
+	  "timer_circle": "assets/objects/question/timeCircle.png",
+
+	  "buttons": {
+		"outline": "assets/objects/question/btn_quest.png"
+	  },
+
+	  "torches": {
+		"off": "assets/objects/question/torch_off.png",
+		"on": "assets/objects/question/torch_on.png"
+	  },
+	
+	  "ground":  "assets/objects/question/ground.png",
+
+	  "questions": [
+		{
+		  "text": "Что я больше всего люблю заказывать из еды?",
+		  "answers": ["Пиццу", "Сушиииии", "Бургер"],
+		  "correct": 1
+		}
+	  ],
+	"text_styles": {
+
+	  "question": {
+		"color": "#B9A98B",
+		"size": 70
+	  },
+
+	  "answers": {
+		"color": "#D2FFCA",
+		"size": 70
+	  },
+
+	  "timer": {
+		"color": "#FFEDA5",
+		"size": 100
+	  }
 	}
-  },
+	},
 
 	"result": {
 
@@ -237,4 +279,5 @@
 		}
 	  }
 	}
+}
 }
