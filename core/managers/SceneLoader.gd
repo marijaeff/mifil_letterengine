@@ -5,10 +5,15 @@ var is_transitioning := false
 
 
 func goto_scene(path: String):
+
 	if is_transitioning:
 		return
 	
 	is_transitioning = true
+
+	if current_scene == null:
+		current_scene = get_tree().current_scene 
+
 	call_deferred("_transition", path)
 
 

@@ -9,6 +9,7 @@ extends BaseLevelUI
 @onready var box1: TextureButton = $BoxesContainer/Box1
 @onready var box2: TextureButton = $BoxesContainer/Box2
 @onready var box3: TextureButton = $BoxesContainer/Box3
+@onready var table: TextureRect = $BoxesContainer/Table
 
 @onready var reveal_layer: CanvasLayer = $RevealLayer
 @onready var reveal_box: TextureRect = $RevealLayer/RevealBox
@@ -33,11 +34,25 @@ var box_closed: Texture2D
 var box_open_empty: Texture2D
 var box_open_letter: Texture2D
 
+var rounds: Array = []
+var current_round := 0
+var rounds_total := 0
+
+var level_completed_once := false
 
 func _ready():
 
 	if DataLoader.client_id.is_empty():
 		DataLoader.load_client("vika")
+
+	var current_id: int = ProgressManager.selected_level
+	var def: Dictionary = LevelRouter.get_level_def(current_id)
+
+	if def.is_empty():
+		push_error("Level def not found")
+		return
+
+	setup(def)  
 
 	var config: Dictionary = DataLoader.config
 	var levels_block: Dictionary = config.get("levels", {})
@@ -80,10 +95,17 @@ func load_visuals(def: Dictionary) -> void:
 		bg.texture = load(base_path + bg_path)
 
 	questions = def.get("questions", [])
+	
+	rounds = def.get("rounds", [])
+	rounds_total = def.get("rounds_total", rounds.size())
 
 	box_closed = load(base_path + def.get("box_closed"))
 	box_open_empty = load(base_path + def.get("box_empty"))
 	box_open_letter = load(base_path + def.get("box_letter"))
+	
+	var table_path: String = def.get("table", "")
+	if table_path != "":
+		table.texture = load(base_path + table_path)
 
 	setup_boxes()
 
@@ -135,14 +157,24 @@ func lose_heart():
 
 func start_round():
 
+	if current_round >= rounds_total:
+		win()
+		return
+
 	waiting_next_tap = false
 	enable_boxes()
+
 	reveal_layer.visible = false
+	show_gameplay(true)
 
-	current_question = questions.pick_random()
+	var r: Dictionary = rounds[current_round]
+
+	var q_index: int = r.get("question", 0)
+	correct_index = r.get("correct", 0)
+
+	q_index = clamp(q_index, 0, questions.size() - 1)
+	current_question = questions[q_index]
 	question_label.text = current_question.get("text", "")
-
-	correct_index = randi() % 3
 
 
 func setup_boxes():
@@ -175,6 +207,8 @@ func on_box_pressed(index: int):
 func show_reveal(success: bool):
 
 	waiting_next_tap = true
+
+	show_gameplay(false)
 	reveal_layer.visible = true
 
 	if success:
@@ -183,22 +217,34 @@ func show_reveal(success: bool):
 		reveal_box.texture = box_open_empty
 		lose_heart()
 
-	reveal_box.scale = Vector2(0.6,0.6)
+	await get_tree().process_frame  
+
+	reveal_box.pivot_offset = reveal_box.size / 2
+
+	reveal_box.scale = Vector2(0.4,0.4)
 	reveal_box.modulate.a = 0
 
 	var t := create_tween()
 	t.tween_property(reveal_box,"modulate:a",1,0.2)
-	t.parallel().tween_property(reveal_box,"scale",Vector2.ONE,0.25)
+	t.parallel().tween_property(reveal_box,"scale",Vector2.ONE,0.28)
 
+func show_gameplay(show: bool):
+
+	question_label.visible = show
+	$BoxesContainer.visible = show
 
 func _input(event):
 
 	if waiting_next_tap and not is_game_over:
 		if event is InputEventScreenTouch and event.pressed:
-			start_round()
+			next_round()
 		if event is InputEventMouseButton and event.pressed:
-			start_round()
+			next_round()
 
+func next_round():
+
+	current_round += 1
+	start_round()
 
 func lose():
 
@@ -210,11 +256,13 @@ func win():
 
 	is_game_over = true
 
-	ProgressManager.advance_envelope()
-	ProgressManager.complete_level(level_id)
+	if not level_completed_once:
+		level_completed_once = true
+
+		ProgressManager.advance_envelope()
+		ProgressManager.complete_level(level_id)
 
 	show_result_overlay("win")
-
 
 func show_result_overlay(type: String):
 
@@ -226,18 +274,20 @@ func show_result_overlay(type: String):
 	overlay.retry_pressed.connect(_on_retry_pressed)
 	overlay.next_pressed.connect(_on_next_pressed.bind(type))
 
-
 func _on_retry_pressed():
+
+	var t := create_tween()
+	t.tween_property(self, "modulate:a", 0.0, 0.35)
+
 	SceneLoader.goto_scene("res://scenes/levels/IntuitionLevel.tscn")
 
 
 func _on_next_pressed(type: String):
 
-	hide()
-	await get_tree().process_frame
+	var t := create_tween()
+	t.tween_property(self, "modulate:a", 0.0, 0.35)
 
 	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
-
 
 func disable_boxes():
 	box1.disabled = true

@@ -1,10 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cdl3p4wcfi18q"]
+[gd_scene load_steps=3 format=3 uid="uid://cdl3p4wcfi18q"]
 
 [ext_resource type="Script" uid="uid://wd30p2vgtqsh" path="res://scenes/levels/IntuitionLevel.gd" id="1_snlua"]
-[ext_resource type="Texture2D" uid="uid://bjswyaay84xha" path="res://clients/vika/assets/backgrounds/intuition_bg.png" id="2_a7ck8"]
 [ext_resource type="PackedScene" uid="uid://bkl0f7opgqrlu" path="res://scenes/screens/ResultOverlay.tscn" id="2_ohmiu"]
-[ext_resource type="Texture2D" uid="uid://cf672pg37cfpa" path="res://clients/vika/assets/objects/intuition/table.png" id="3_a7ck8"]
-[ext_resource type="Texture2D" uid="uid://d1tngsmivfmod" path="res://clients/vika/assets/objects/intuition/box_intuition.png" id="3_b6dw6"]
 
 [node name="IntuitionLevel" type="Control"]
 layout_mode = 3
@@ -33,7 +30,6 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture = ExtResource("2_a7ck8")
 expand_mode = 1
 stretch_mode = 6
 
@@ -45,10 +41,10 @@ grow_horizontal = 2
 
 [node name="QuestionLabel" type="Label" parent="GameLayer"]
 layout_mode = 1
-offset_left = -388.0
-offset_top = 322.0
-offset_right = 410.0
-offset_bottom = 814.0
+offset_left = -392.0
+offset_top = 209.0
+offset_right = 406.0
+offset_bottom = 701.0
 theme_override_font_sizes/font_size = 70
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -71,28 +67,25 @@ offset_left = -845.0
 offset_top = -1215.0
 offset_right = 838.0
 offset_bottom = 147.0
-texture = ExtResource("3_a7ck8")
+mouse_filter = 2
 
 [node name="Box1" type="TextureButton" parent="BoxesContainer"]
 offset_left = -482.0
 offset_top = -579.0
 offset_right = -176.0
 offset_bottom = -334.0
-texture_normal = ExtResource("3_b6dw6")
 
 [node name="Box2" type="TextureButton" parent="BoxesContainer"]
 offset_left = -169.0
 offset_top = -555.0
 offset_right = 137.0
 offset_bottom = -310.0
-texture_normal = ExtResource("3_b6dw6")
 
 [node name="Box3" type="TextureButton" parent="BoxesContainer"]
 offset_left = 144.0
 offset_top = -571.0
 offset_right = 450.0
 offset_bottom = -326.0
-texture_normal = ExtResource("3_b6dw6")
 
 [node name="RevealLayer" type="CanvasLayer" parent="."]
 

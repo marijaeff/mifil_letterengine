@@ -140,12 +140,23 @@
 		}
 	},
 	"intuition": {
+	  "rounds_total": 6,
+
+	  "rounds": [
+		{ "question": 0, "correct": 0 },
+		{ "question": 0, "correct": 1 },
+		{ "question": 0, "correct": 2 },
+		{ "question": 0, "correct": 0 },
+		{ "question": 0, "correct": 1 },
+		{ "question": 0, "correct": 2 }
+	  ],
+
 	  "box_closed": "assets/objects/intuition/box_intuition.png",
 	  "box_empty": "assets/objects/intuition/box_intuition_lose.png",
 	  "box_letter": "assets/objects/intuition/box_intuition_win.png",
-
+	  "table": "assets/objects/intuition/table.png",
 	  "questions": [
-		{ "text": "Как думаешь... в какую каробочку я решила спрятать кусочек письма?" },
+		{ "text": "Как думаешь... в какую каробочку я решила спрятать кусочек письма?" }
 	  ],
 	  "question_style": {
 		"color": "#B9A98B",
