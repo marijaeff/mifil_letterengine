@@ -32,6 +32,8 @@ var torch_on: Texture2D
 var is_game_over := false
 var level_completed_once := false
 
+var needed_correct := 3
+
 
 
 func _ready():
@@ -229,21 +231,22 @@ func next_question():
 		show_question(current_index)
 
 
-# ---------- FINISH ----------
-
 func finish_level():
 
 	is_game_over = true
 
-	if not level_completed_once:
-		level_completed_once = true
-		ProgressManager.advance_envelope()
-		ProgressManager.complete_level(3)
+	if correct_answers >= needed_correct:
 
-	show_result_overlay("win")
+		if not level_completed_once:
+			level_completed_once = true
+			ProgressManager.advance_envelope()
+			ProgressManager.complete_level(3)
 
+		show_result_overlay("win")
 
-# ---------- RESULT ----------
+	else:
+		show_result_overlay("lose")
+
 
 func show_result_overlay(type: String):
 
