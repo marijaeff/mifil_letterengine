@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://dcehylxdcd50r"]
+[gd_scene load_steps=17 format=3 uid="uid://dcehylxdcd50r"]
 
 [ext_resource type="Script" uid="uid://byqicb6cvx1at" path="res://scenes/levels/LightLevel.gd" id="1_0aj31"]
 [ext_resource type="PackedScene" uid="uid://bkl0f7opgqrlu" path="res://scenes/screens/ResultOverlay.tscn" id="2_oi51c"]
 [ext_resource type="Texture2D" uid="uid://cdmguejo0718b" path="res://clients/vika/assets/backgrounds/light_bg.png" id="2_v265l"]
+[ext_resource type="PackedScene" uid="uid://d2op6qcc3uo4e" path="res://scenes/screens/PausePopup.tscn" id="3_bmqun"]
 [ext_resource type="Shader" uid="uid://muh3bmeh2mbu" path="res://scenes/levels/LightLevel.gdshader" id="3_wmrq3"]
 [ext_resource type="Texture2D" uid="uid://c0c8po70bn87m" path="res://clients/vika/assets/objects/light/light.png" id="4_oi51c"]
 [ext_resource type="Texture2D" uid="uid://dgsxwi4xmaqos" path="res://clients/vika/assets/objects/light/line.png" id="5_bmqun"]
@@ -45,6 +46,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0aj31")
 result_overlay_scene = ExtResource("2_oi51c")
+pause_popup_scene = ExtResource("3_bmqun")
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
@@ -389,14 +391,15 @@ anchor_left = -0.339
 anchor_top = -0.444
 anchor_right = -0.339
 anchor_bottom = -0.444
-offset_left = 93.7915
-offset_top = 87.1495
-offset_right = 197.791
-offset_bottom = 224.15
+offset_left = 87.9341
+offset_top = 84.2426
+offset_right = 191.934
+offset_bottom = 221.243
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1.10918, 0.841883)
 size_flags_vertical = 6
-theme_override_font_sizes/font_size = 100
+text = "5"
 horizontal_alignment = 1
 vertical_alignment = 1
 

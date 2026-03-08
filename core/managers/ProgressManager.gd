@@ -7,6 +7,7 @@ var save_path: String = "user://progress.save"
 
 
 func load_progress() -> void:
+
 	if not FileAccess.file_exists(save_path):
 		return
 
@@ -22,12 +23,15 @@ func load_progress() -> void:
 
 	completed_level = int(data.get("completed_level", 0))
 	selected_level = int(data.get("selected_level", completed_level + 1))
+	envelope_stage = int(data.get("envelope_stage", 0))
 
 
 func save_progress() -> void:
+
 	var data := {
 		"completed_level": completed_level,
-		"selected_level": selected_level
+		"selected_level": selected_level,
+		"envelope_stage": envelope_stage
 	}
 
 	var file: FileAccess = FileAccess.open(save_path, FileAccess.WRITE)
@@ -47,8 +51,11 @@ func select_level(level_index: int) -> void:
 
 
 func reset_progress() -> void:
+
 	completed_level = 0
 	selected_level = 1
+	envelope_stage = 0
+
 	save_progress()
 	
 var envelope_stage: int = 0

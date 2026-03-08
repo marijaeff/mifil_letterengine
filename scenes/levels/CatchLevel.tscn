@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://du2pqpnes67lv"]
+[gd_scene load_steps=6 format=3 uid="uid://du2pqpnes67lv"]
 
 [ext_resource type="Script" uid="uid://c78dogpyp11vj" path="res://scenes/levels/CatchLevel.gd" id="1_fqbcu"]
 [ext_resource type="PackedScene" uid="uid://4d6843tccq5b" path="res://scenes/levels/FallingItem.tscn" id="2_cg620"]
 [ext_resource type="PackedScene" uid="uid://bkl0f7opgqrlu" path="res://scenes/screens/ResultOverlay.tscn" id="3_eluft"]
+[ext_resource type="PackedScene" uid="uid://d2op6qcc3uo4e" path="res://scenes/screens/PausePopup.tscn" id="4_eluft"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dqn77"]
 size = Vector2(234, 24.125)
@@ -11,6 +12,7 @@ size = Vector2(234, 24.125)
 script = ExtResource("1_fqbcu")
 falling_item_scene = ExtResource("2_cg620")
 result_overlay_scene = ExtResource("3_eluft")
+pause_popup_scene = ExtResource("4_eluft")
 
 [node name="BackgroundLayer" type="CanvasLayer" parent="."]
 layer = -1

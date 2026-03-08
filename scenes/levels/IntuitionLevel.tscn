@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cdl3p4wcfi18q"]
+[gd_scene load_steps=4 format=3 uid="uid://cdl3p4wcfi18q"]
 
 [ext_resource type="Script" uid="uid://wd30p2vgtqsh" path="res://scenes/levels/IntuitionLevel.gd" id="1_snlua"]
 [ext_resource type="PackedScene" uid="uid://bkl0f7opgqrlu" path="res://scenes/screens/ResultOverlay.tscn" id="2_ohmiu"]
+[ext_resource type="PackedScene" uid="uid://d2op6qcc3uo4e" path="res://scenes/screens/PausePopup.tscn" id="3_a7ck8"]
 
 [node name="IntuitionLevel" type="Control"]
 layout_mode = 3
@@ -14,6 +15,7 @@ size_flags_horizontal = 6
 size_flags_vertical = 6
 script = ExtResource("1_snlua")
 result_overlay_scene = ExtResource("2_ohmiu")
+pause_popup_scene = ExtResource("3_a7ck8")
 
 [node name="BackgroundLayer" type="CanvasLayer" parent="."]
 layer = -1

@@ -1,0 +1,203 @@
+[gd_scene load_steps=6 format=3 uid="uid://d2op6qcc3uo4e"]
+
+[ext_resource type="Texture2D" uid="uid://coiydmeubrqa0" path="res://clients/vika/assets/ui/pause_panel.png" id="1_1kibj"]
+[ext_resource type="Script" uid="uid://br517cx1soucv" path="res://scenes/screens/PausePopup.gd" id="1_1sabg"]
+[ext_resource type="Texture2D" uid="uid://d1vic1c4ljpsd" path="res://clients/vika/assets/ui/envelope_1.png" id="2_1sabg"]
+[ext_resource type="Texture2D" uid="uid://dd3foe318cypq" path="res://clients/vika/assets/ui/btn_pause.png" id="3_slauy"]
+[ext_resource type="Script" uid="uid://bn5yfaitfruy1" path="res://scenes/ui/AnimatedButton.gd" id="4_0c8al"]
+
+[node name="PausePopup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_1sabg")
+
+[node name="DarkFade" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.55)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="TextureRect" parent="CenterContainer"]
+layout_mode = 2
+texture = ExtResource("1_1kibj")
+
+[node name="Content" type="VBoxContainer" parent="CenterContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1, 0.992531)
+theme_override_constants/separation = 25
+
+[node name="space1" type="Control" parent="CenterContainer/Panel/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Title" type="Label" parent="CenterContainer/Panel/Content"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 100
+text = "Пауза"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="space4" type="Control" parent="CenterContainer/Panel/Content"]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="CenterContainer/Panel/Content"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("2_1sabg")
+stretch_mode = 3
+
+[node name="space2" type="Control" parent="CenterContainer/Panel/Content"]
+layout_mode = 2
+
+[node name="Btn_1" type="Button" parent="CenterContainer/Panel/Content"]
+layout_mode = 2
+text = "мвымывм"
+icon = ExtResource("3_slauy")
+flat = true
+icon_alignment = 1
+script = ExtResource("4_0c8al")
+
+[node name="Btn_2" type="Button" parent="CenterContainer/Panel/Content"]
+layout_mode = 2
+text = "мвымывм"
+icon = ExtResource("3_slauy")
+flat = true
+icon_alignment = 1
+script = ExtResource("4_0c8al")
+
+[node name="Btn_3" type="Button" parent="CenterContainer/Panel/Content"]
+layout_mode = 2
+text = "вмывмывмывм"
+icon = ExtResource("3_slauy")
+flat = true
+icon_alignment = 1
+script = ExtResource("4_0c8al")
+
+[node name="Btn_4" type="Button" parent="CenterContainer/Panel/Content"]
+layout_mode = 2
+text = "мвымывм"
+icon = ExtResource("3_slauy")
+flat = true
+icon_alignment = 1
+script = ExtResource("4_0c8al")
+
+[node name="space3" type="Control" parent="CenterContainer/Panel/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SettingsPanel" type="TextureRect" parent="CenterContainer"]
+visible = false
+layout_mode = 2
+texture = ExtResource("1_1kibj")
+
+[node name="Content" type="VBoxContainer" parent="CenterContainer/SettingsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1, 0.992531)
+theme_override_constants/separation = 100
+
+[node name="space1" type="Control" parent="CenterContainer/SettingsPanel/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Title" type="Label" parent="CenterContainer/SettingsPanel/Content"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 100
+text = "настроки"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="space4" type="Control" parent="CenterContainer/SettingsPanel/Content"]
+visible = false
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="CenterContainer/SettingsPanel/Content"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("2_1sabg")
+stretch_mode = 3
+
+[node name="space2" type="Control" parent="CenterContainer/SettingsPanel/Content"]
+visible = false
+layout_mode = 2
+
+[node name="SoundRow" type="HBoxContainer" parent="CenterContainer/SettingsPanel/Content"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/SettingsPanel/Content/SoundRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Хвук"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CheckButton" type="CheckButton" parent="CenterContainer/SettingsPanel/Content/SoundRow"]
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_font_sizes/font_size = 50
+
+[node name="MusicRow" type="HBoxContainer" parent="CenterContainer/SettingsPanel/Content"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/SettingsPanel/Content/MusicRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Хвук"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CheckButton" type="CheckButton" parent="CenterContainer/SettingsPanel/Content/MusicRow"]
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_font_sizes/font_size = 50
+
+[node name="Btn_3" type="Button" parent="CenterContainer/SettingsPanel/Content"]
+visible = false
+layout_mode = 2
+text = "Сбросить прогресс"
+icon = ExtResource("3_slauy")
+flat = true
+icon_alignment = 1
+script = ExtResource("4_0c8al")
+
+[node name="Btn_4" type="Button" parent="CenterContainer/SettingsPanel/Content"]
+layout_mode = 2
+text = "Назад"
+icon = ExtResource("3_slauy")
+flat = true
+icon_alignment = 1
+script = ExtResource("4_0c8al")
+
+[node name="space3" type="Control" parent="CenterContainer/SettingsPanel/Content"]
+layout_mode = 2
+size_flags_vertical = 3

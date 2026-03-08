@@ -73,6 +73,7 @@ func _ready():
 
 	start_level()
 
+	pause_btn.pressed.connect(show_pause)  
 
 # ==================================================
 #                    LOAD UI

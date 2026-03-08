@@ -68,6 +68,8 @@ func _ready():
 
 	start_round()
 
+	pause_btn.pressed.connect(show_pause) 
+
 func load_shared_ui(def: Dictionary) -> void:
 
 	var base_path := "res://clients/%s/" % DataLoader.client_id

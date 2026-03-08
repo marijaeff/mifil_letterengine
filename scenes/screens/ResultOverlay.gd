@@ -77,7 +77,7 @@ func setup_button(btn: Button, data: Dictionary) -> void:
 	btn.focus_mode = Control.FOCUS_NONE
 	btn.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
 
-func apply_fonts(cfg: Dictionary, common: Dictionary):
+func apply_fonts(_cfg: Dictionary, common: Dictionary):
 
 	var ui_cfg: Dictionary = DataLoader.config.get("ui", {})
 	var font: FontFile = load(DataLoader.resolve_client_path(ui_cfg.get("font", "")))

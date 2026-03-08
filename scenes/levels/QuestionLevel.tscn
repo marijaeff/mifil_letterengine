@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://b76y8u74bhla3"]
+[gd_scene load_steps=7 format=3 uid="uid://b76y8u74bhla3"]
 
 [ext_resource type="Script" uid="uid://bqfu8fvg3sg5q" path="res://scenes/levels/QuestionLevel.gd" id="1_lkm2a"]
 [ext_resource type="PackedScene" uid="uid://bkl0f7opgqrlu" path="res://scenes/screens/ResultOverlay.tscn" id="2_8lw1p"]
 [ext_resource type="Texture2D" uid="uid://d4bg2ol3y80rs" path="res://clients/vika/assets/objects/question/box.png" id="3_1tm65"]
 [ext_resource type="Script" uid="uid://bieb7m6fhkoi" path="res://scenes/levels/Fireflies.gd" id="3_ts5er"]
 [ext_resource type="Texture2D" uid="uid://cds4wpth7r2la" path="res://clients/vika/assets/objects/question/timeCircle.png" id="3_w44cn"]
+[ext_resource type="PackedScene" uid="uid://d2op6qcc3uo4e" path="res://scenes/screens/PausePopup.tscn" id="3_ygj76"]
 
 [node name="QuestionLevel" type="Control"]
 layout_mode = 3
@@ -15,6 +16,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_lkm2a")
 result_overlay_scene = ExtResource("2_8lw1p")
+pause_popup_scene = ExtResource("3_ygj76")
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 1

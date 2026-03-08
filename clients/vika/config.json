@@ -325,6 +325,57 @@
 		  }
 		}
 	  }
-	}
+	},
+	"pause": {
+
+	  "title": "Пауза",
+
+	  "panel": "assets/ui/pause_panel.png",
+
+	  "icon": "assets/ui/btn_pause.png",
+
+	  "buttons": {
+		"resume": {
+		  "text": "Продолжить"
+		},
+		"restart": {
+		  "text": "Начать заново"
+		},
+		"settings": {
+		  "text": "Настройки"
+		},
+		"map": {
+		  "text": "К карте"
+		}
+	  },
+
+	  "colors": {
+		"title": "#E8D7B4",
+		"buttons": "#E8D7B4"
+	  }
+	},
+	"settings": {
+
+  "title": "Настройки",
+
+  "panel": "assets/ui/pause_panel.png",
+  "icon": "assets/ui/btn_pause.png",
+
+  "buttons": {
+	"reset": { "text": "Сбросить прогресс" },
+	"back": { "text": "Назад" }
+  },
+
+  "labels": {
+	"sound": "Звук",
+	"music": "Музыка"
+  },
+
+  "colors": {
+	"title": "#E8D7B4",
+	"buttons": "#E8D7B4",
+	"labels": "#E8D7B4"
+  }
 }
+	}
 }

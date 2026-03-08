@@ -55,6 +55,7 @@ func _ready():
 	move_light()
 	update_darkness()
 	light_area.area_entered.connect(_on_letter_entered)
+	pause_btn.pressed.connect(show_pause)
 
 # ---------------------------------------------------
 # LOAD VISUALS

@@ -72,6 +72,7 @@ func _ready() -> void:
 	spawn_timer.start()
 
 	$PlantRoot/CatchArea.area_entered.connect(_on_item_caught)
+	pause_btn.pressed.connect(show_pause)
 
 func load_visuals(def: Dictionary) -> void:
 	var base_path: String = "res://clients/%s/" % DataLoader.client_id
@@ -307,7 +308,7 @@ func spawn_random_item() -> void:
 	var size_scale: float = randf_range(0.85, 1.15)
 	item.scale = Vector2(size_scale, size_scale)
 
-	var difficulty_factor: float = difficulty_time / 25.0
+	difficulty_factor = difficulty_time / 25.0
 	var speed_roll: float = randf()
 
 	var base_speed: float
@@ -377,7 +378,7 @@ func _on_retry_pressed():
 
 	SceneLoader.goto_scene("res://scenes/levels/CatchLevel.tscn")
 
-func _on_next_pressed(type: String):
+func _on_next_pressed(_type: String):
 	
 	queue_free()
 
