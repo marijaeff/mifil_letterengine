@@ -6,6 +6,25 @@
 	"button_no_font_size": 30
   },
 
+	"audio": {
+	  "music": {
+		"map": "assets/music/main_theme.mp3",
+		"level": "assets/music/main_theme.mp3",
+		"final": "assets/music/main_theme.mp3"
+	  },
+	  "sfx": {
+		"heartbeat": "assets/music/sfx/heartbeat.wav",
+		"button": "assets/music/sfx/button.wav",
+		"whoosh": "assets/music/sfx/whoosh.wav",
+		"correct": "assets/music/sfx/correct.wav",
+		"wrong": "assets/music/sfx/wrong.wav",
+		"heart_loss": "assets/music/sfx/heart_loss.wav",
+		"pickup": "assets/music/sfx/pickup.mp3",
+		"letter_found": "assets/music/sfx/letter_found.wav",
+		"paper": "assets/music/sfx/paper.wav"
+	  }
+	},
+
   "screens": {
 	"heart": {
 	  "background": "assets/backgrounds/heart_bg.png",

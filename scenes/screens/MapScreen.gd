@@ -264,15 +264,22 @@ func _on_level_pressed(level_index: int) -> void:
 	if not LevelRouter.can_open(level_index):
 		return
 	
+	AudioManager.play_sfx_by_key("button", -14) 
+	
 	ProgressManager.select_level(level_index)
 	selected_level = ProgressManager.selected_level
 	
 	rebuild_levels_only()
 	
 func _on_start_pressed() -> void:
+
 	var levels_data: Dictionary = config.get("levels", {}) as Dictionary
 	var count: int = int(levels_data.get("count", 0))
 	var completed: int = ProgressManager.completed_level
+
+	AudioManager.play_sfx_by_key("whoosh", -12)
+
+	await get_tree().process_frame 
 
 	if completed >= count:
 		SceneLoader.goto_scene("res://scenes/screens/LetterScreen.tscn")
@@ -295,4 +302,7 @@ func _start_letter_pulse() -> void:
 	tween.tween_property(envelope_icon, "scale", base_scale, 1.6)
 	
 func _on_letter_requested() -> void:
+
+	AudioManager.play_sfx_by_key("button", -16)
+
 	SceneLoader.goto_scene("res://scenes/screens/LetterScreen.tscn")

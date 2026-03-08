@@ -21,6 +21,9 @@ var transitioning := false
 # --------------------------------------------------
 func _ready():
 
+	AudioManager.set_music_volume(0.25)  
+	AudioManager.play_music_by_key("map") 
+
 	config = DataLoader.config["screens"]["intro"]
 	
 	apply_individual_button_styles()
@@ -107,13 +110,18 @@ func _on_yes_pressed():
 		return
 	
 	transitioning = true
+	AudioManager.play_sfx_by_key("whoosh", -12)
+	await get_tree().process_frame
 	SceneLoader.goto_scene("res://scenes/screens/EnvelopeScreen.tscn")
+
 
 func _on_no_pressed():
 	if transitioning:
 		return
 	
 	transitioning = true
+	AudioManager.play_sfx_by_key("whoosh", -12)
+	await get_tree().process_frame
 	SceneLoader.goto_scene("res://scenes/screens/EnvelopeScreen.tscn")
 
 

@@ -137,7 +137,9 @@ func _on_letter_entered(area: Area2D):
 
 
 func on_letter_found(letter_node_name: String, area: Area2D):
-
+	
+	AudioManager.play_sfx_by_key("letter_found", -14)
+	
 	found_letters.append(letter_node_name)
 
 	var label: Label = area.get_node("Label")
@@ -271,8 +273,10 @@ func finish_level():
 	if not level_completed_once:
 		level_completed_once = true
 		ProgressManager.advance_envelope()
-		ProgressManager.complete_level(4) # поставь ID своего уровня
-
+		ProgressManager.complete_level(4)
+	
+	AudioManager.play_sfx_by_key("correct", -14)
+	
 	show_result_overlay("win")
 
 
@@ -284,6 +288,8 @@ func game_over():
 	is_game_over = true
 	timer_active = false
 	light_active = false
+
+	AudioManager.play_sfx_by_key("wrong", -14)
 
 	show_result_overlay("lose")
 
@@ -303,6 +309,9 @@ func _on_retry_pressed():
 
 
 func _restart_level():
+	
+	AudioManager.play_sfx_by_key("whoosh", -12)
+	
 	queue_free()
 	SceneLoader.goto_scene("res://scenes/levels/LightLevel.tscn")
 
@@ -311,6 +320,9 @@ func _on_next_pressed():
 	call_deferred("_go_to_map")
 
 func _go_to_map():
+	
+	AudioManager.play_sfx_by_key("whoosh", -12)
+	
 	queue_free()
 	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
 

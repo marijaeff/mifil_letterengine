@@ -339,14 +339,21 @@ func _on_answer_pressed(index: int):
 
 	if is_game_over:
 		return
-
+		
+	AudioManager.play_sfx_by_key("button", -16)
+	
 	stop_timer()
 
 	if index == current_question.get("correct", 0):
 		correct_answers += 1
+		
+		AudioManager.play_sfx_by_key("correct", -14)
+		
 		await light_torch_for_current()
 		await show_correct_feedback()
 	else:
+		AudioManager.play_sfx_by_key("wrong", -14)
+		
 		await lose_heart()
 
 		if is_game_over:
@@ -502,7 +509,8 @@ func finish_level():
 # ==================================================
 
 func lose_heart():
-
+	AudioManager.play_sfx_by_key("heart_loss", -12)
+	
 	var hearts := hearts_container.get_children()
 
 	var target: TextureRect = null

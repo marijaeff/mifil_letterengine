@@ -40,7 +40,10 @@ var is_game_over: bool = false
 
 
 func _ready() -> void:
-
+	
+	AudioManager.set_music_volume(0.06) 
+	AudioManager.play_music_by_key("level")
+	
 	if DataLoader.client_id.is_empty():
 		DataLoader.load_client("vika")
 
@@ -201,6 +204,8 @@ func lose_heart() -> void:
 	if current_hearts <= 0:
 		return
 
+	AudioManager.play_sfx_by_key("heart_loss", -12)
+
 	current_hearts -= 1
 
 	var hearts := hearts_container.get_children()
@@ -213,6 +218,8 @@ func lose_heart() -> void:
 func catch_good() -> void:
 	if is_game_over:
 		return
+
+	AudioManager.play_sfx_by_key("pickup", -14)
 
 	good_caught += 1
 	update_plant_growth()
@@ -374,11 +381,16 @@ func show_result_overlay(type: String):
 	
 func _on_retry_pressed():
 
+	AudioManager.play_sfx_by_key("whoosh", -12)
+	await get_tree().process_frame
 	queue_free()
 
 	SceneLoader.goto_scene("res://scenes/levels/CatchLevel.tscn")
 
 func _on_next_pressed(_type: String):
+	
+	AudioManager.play_sfx_by_key("whoosh", -12)
+	await get_tree().process_frame
 	
 	queue_free()
 
@@ -388,13 +400,17 @@ func lose():
 
 	is_game_over = true
 	spawn_timer.stop()
-
+	
+	AudioManager.play_sfx_by_key("wrong", -12)
+	
 	show_result_overlay("lose")
 
 func win() -> void:
 
 	is_game_over = true
 	spawn_timer.stop()
+
+	AudioManager.play_sfx_by_key("correct", -12)
 
 	ProgressManager.advance_envelope()
 	ProgressManager.complete_level(level_id)

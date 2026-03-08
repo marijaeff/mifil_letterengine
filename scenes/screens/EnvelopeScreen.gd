@@ -71,12 +71,15 @@ func _on_read_pressed():
 		return
 
 	transitioning = true
-
+	
+	AudioManager.play_sfx_by_key("whoosh", -12)
+	
 	var tween = create_tween()
 	tween.tween_property(envelope, "scale", Vector2(1.08, 1.08), 0.4)\
 		.set_trans(Tween.TRANS_SINE)\
 		.set_ease(Tween.EASE_OUT)
 
 	await tween.finished
+	await get_tree().process_frame
 	ProgressManager.reset_progress()
 	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")

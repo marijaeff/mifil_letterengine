@@ -16,8 +16,25 @@ signal next_pressed
 
 func _ready():
 
-	retry_btn.pressed.connect(func(): retry_pressed.emit())
-	next_btn.pressed.connect(func(): next_pressed.emit())
+	retry_btn.pressed.connect(_on_retry_pressed)
+	next_btn.pressed.connect(_on_next_pressed)
+
+func _on_retry_pressed():
+
+	AudioManager.play_sfx_by_key("whoosh", -12)  
+
+	await get_tree().process_frame
+
+	retry_pressed.emit()
+
+
+func _on_next_pressed():
+
+	AudioManager.play_sfx_by_key("whoosh", -12)  
+
+	await get_tree().process_frame
+
+	next_pressed.emit()
 
 func show_from_config(type: String) -> void:
 

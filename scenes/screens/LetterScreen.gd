@@ -28,6 +28,12 @@ var _button_shown: bool = false
 
 
 func _ready() -> void:
+	AudioManager.set_music_volume(0.04)
+	AudioManager.play_music_by_key("final")
+	
+	if DataLoader.client_id.is_empty():
+		DataLoader.load_client("vika")
+		
 	_apply_ui_style()
 	_load_text()
 	_configure_scroll()
@@ -111,6 +117,9 @@ func _start_heart_pulse() -> void:
 func _start_letter() -> void:
 	close_button.visible = false
 	await get_tree().create_timer(0.6).timeout
+	
+	AudioManager.play_writing_loop(30, -10)
+	
 	_auto_scroll_timer = _auto_scroll_delay
 	_is_animating = true
 	set_process(true)
@@ -138,6 +147,8 @@ func _process(delta: float) -> void:
 		if text_label.visible_characters >= total:
 			_is_animating = false
 			_end_reached = true
+		
+			AudioManager.stop_writing_loop()
 
 	var content_height: float = text_label.get_content_height()
 	paper.custom_minimum_size.y = content_height + 250.0
@@ -171,5 +182,7 @@ func _show_close_button() -> void:
 	t.tween_property(close_button, "modulate:a", 1.0, 1.2)
 
 func _on_close_pressed() -> void:
-	#ProgressManager.reset_progress()
+	AudioManager.play_sfx_by_key("whoosh", -12)
+
+	await get_tree().process_frame 
 	SceneLoader.goto_scene("res://scenes/screens/HugScreen.tscn")

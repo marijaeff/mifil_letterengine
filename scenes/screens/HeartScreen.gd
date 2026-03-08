@@ -16,8 +16,9 @@ func _ready():
 	setup_animation()
 
 	beats = config.get("beats", 6) 
-
+	AudioManager.play_heartbeat_loop(2, 0)
 	wait_for_beats()
+
 
 
 func wait_for_beats():
@@ -50,7 +51,7 @@ func go_next():
 		return
 
 	transitioning = true
-
+	AudioManager.stop_heartbeat_loop()
 	animation.stop() 
 	
 	var current_scale = heart.scale

@@ -41,7 +41,9 @@ var rounds_total := 0
 var level_completed_once := false
 
 func _ready():
-
+	AudioManager.set_music_volume(0.09) 
+	AudioManager.play_music_by_key("level")
+	
 	if DataLoader.client_id.is_empty():
 		DataLoader.load_client("vika")
 
@@ -150,7 +152,7 @@ func lose_heart():
 
 	if current_hearts <= 0:
 		return
-
+	AudioManager.play_sfx_by_key("heart_loss", -12)
 	current_hearts -= 1
 
 	var hearts := hearts_container.get_children()
@@ -201,7 +203,7 @@ func on_box_pressed(index: int):
 
 	if waiting_next_tap or is_game_over:
 		return
-
+	AudioManager.play_sfx_by_key("button", -14)
 	disable_boxes()
 
 	if index == correct_index:
@@ -217,8 +219,10 @@ func show_reveal(success: bool):
 	reveal_layer.visible = true
 
 	if success:
+		AudioManager.play_sfx_by_key("correct", -14)
 		reveal_box.texture = box_open_letter
 	else:
+		AudioManager.play_sfx_by_key("wrong", -14) 
 		reveal_box.texture = box_open_empty
 		lose_heart()
 
@@ -297,13 +301,16 @@ func show_result_overlay(type: String):
 	overlay.next_pressed.connect(_on_next_pressed.bind(type))
 
 func _on_retry_pressed():
-
+	AudioManager.play_sfx_by_key("whoosh", -12)
+	await get_tree().process_frame
 	queue_free()
 	SceneLoader.goto_scene("res://scenes/levels/IntuitionLevel.tscn")
 
 
 func _on_next_pressed(type: String):
+	AudioManager.play_sfx_by_key("whoosh", -12)  
 
+	await get_tree().process_frame
 	queue_free()  
 	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
 

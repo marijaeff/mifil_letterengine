@@ -14,6 +14,8 @@ func _on_down():
 	if _press_tween:
 		_press_tween.kill()
 
+	AudioManager.play_sfx_by_key("button", -5)
+
 	_press_tween = create_tween()
 	_press_tween.set_trans(Tween.TRANS_SINE)
 	_press_tween.set_ease(Tween.EASE_OUT)
