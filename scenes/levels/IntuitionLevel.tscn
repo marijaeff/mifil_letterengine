@@ -35,6 +35,7 @@ stretch_mode = 6
 
 [node name="GameLayer" type="Control" parent="."]
 layout_mode = 1
+anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 grow_horizontal = 2
@@ -70,18 +71,21 @@ offset_bottom = 147.0
 mouse_filter = 2
 
 [node name="Box1" type="TextureButton" parent="BoxesContainer"]
+layout_mode = 0
 offset_left = -482.0
 offset_top = -579.0
 offset_right = -176.0
 offset_bottom = -334.0
 
 [node name="Box2" type="TextureButton" parent="BoxesContainer"]
+layout_mode = 0
 offset_left = -169.0
 offset_top = -555.0
 offset_right = 137.0
 offset_bottom = -310.0
 
 [node name="Box3" type="TextureButton" parent="BoxesContainer"]
+layout_mode = 0
 offset_left = 144.0
 offset_top = -571.0
 offset_right = 450.0

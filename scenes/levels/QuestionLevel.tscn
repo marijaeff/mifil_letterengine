@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://b76y8u74bhla3"]
+[gd_scene load_steps=6 format=3 uid="uid://b76y8u74bhla3"]
 
 [ext_resource type="Script" uid="uid://bqfu8fvg3sg5q" path="res://scenes/levels/QuestionLevel.gd" id="1_lkm2a"]
 [ext_resource type="PackedScene" uid="uid://bkl0f7opgqrlu" path="res://scenes/screens/ResultOverlay.tscn" id="2_8lw1p"]
+[ext_resource type="Texture2D" uid="uid://d4bg2ol3y80rs" path="res://clients/vika/assets/objects/question/box.png" id="3_1tm65"]
+[ext_resource type="Script" uid="uid://bieb7m6fhkoi" path="res://scenes/levels/Fireflies.gd" id="3_ts5er"]
+[ext_resource type="Texture2D" uid="uid://cds4wpth7r2la" path="res://clients/vika/assets/objects/question/timeCircle.png" id="3_w44cn"]
 
 [node name="QuestionLevel" type="Control"]
 layout_mode = 3
@@ -22,6 +25,9 @@ grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 1
 stretch_mode = 6
+
+[node name="Fireflies" type="Node2D" parent="."]
+script = ExtResource("3_ts5er")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -74,22 +80,24 @@ offset_right = 86.0
 offset_bottom = 352.71
 size_flags_horizontal = 4
 size_flags_vertical = 3
+texture = ExtResource("3_w44cn")
 
-[node name="TimerLabel" type="Label" parent="SafeArea/Main/QuestionBlock"]
+[node name="TimerLabel" type="Label" parent="SafeArea/Main/QuestionBlock/TimerCircle"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
-anchor_top = -1.011
+anchor_top = -1.247
 anchor_right = 0.5
-anchor_bottom = -1.011
-offset_left = -118.0
-offset_top = 197.981
-offset_right = 112.0
-offset_bottom = 339.981
+anchor_bottom = -1.247
+offset_left = -84.5
+offset_top = 206.879
+offset_right = 85.5
+offset_bottom = 356.879
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 6
 theme_override_font_sizes/font_size = 100
+text = "5"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -194,6 +202,7 @@ offset_right = 293.0
 offset_bottom = -192.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("3_1tm65")
 stretch_mode = 2
 
 [node name="Lamps" type="Control" parent="SafeArea/Main/BoxArea"]
@@ -260,3 +269,5 @@ offset_left = 0.279968
 offset_top = -444.0
 offset_right = 250.28
 offset_bottom = -194.0
+
+[node name="QuestionTimer" type="Timer" parent="."]

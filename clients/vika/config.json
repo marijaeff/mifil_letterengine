@@ -169,8 +169,11 @@
 	  "background": "assets/backgrounds/question_bg.png",
 
 	  "box": "assets/objects/question/box.png",
+	  "final_box": "assets/objects/question/box_open_letter.png",
 	  "timer_circle": "assets/objects/question/timeCircle.png",
-
+		"timer": {
+		  "time_per_question": 10
+		},
 	  "buttons": {
 		"outline": "assets/objects/question/btn_quest.png"
 	  },
@@ -187,6 +190,21 @@
 		  "text": "Что я больше всего люблю заказывать из еды?",
 		  "answers": ["Пиццу", "Сушиииии", "Бургер"],
 		  "correct": 1
+		},
+		{
+		  "text": "Как меня зовут?",
+		  "answers": ["Вика", "Машп", "Ыика"],
+		  "correct": 0
+		},
+		{
+		  "text": "Как меня зовут?",
+		  "answers": ["Вика", "Машп", "Ыика"],
+		  "correct": 0
+		},
+		{
+		  "text": "Как меня зовут?",
+		  "answers": ["Вика", "Машп", "Ыика"],
+		  "correct": 0
 		}
 	  ],
 	"text_styles": {
