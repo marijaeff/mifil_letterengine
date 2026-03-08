@@ -1,7 +1,40 @@
-[gd_scene load_steps=3 format=3 uid="uid://dcehylxdcd50r"]
+[gd_scene load_steps=16 format=3 uid="uid://dcehylxdcd50r"]
 
 [ext_resource type="Script" uid="uid://byqicb6cvx1at" path="res://scenes/levels/LightLevel.gd" id="1_0aj31"]
-[ext_resource type="Script" uid="uid://bn5yfaitfruy1" path="res://scenes/ui/AnimatedButton.gd" id="2_78uvp"]
+[ext_resource type="PackedScene" uid="uid://bkl0f7opgqrlu" path="res://scenes/screens/ResultOverlay.tscn" id="2_oi51c"]
+[ext_resource type="Texture2D" uid="uid://cdmguejo0718b" path="res://clients/vika/assets/backgrounds/light_bg.png" id="2_v265l"]
+[ext_resource type="Shader" uid="uid://muh3bmeh2mbu" path="res://scenes/levels/LightLevel.gdshader" id="3_wmrq3"]
+[ext_resource type="Texture2D" uid="uid://c0c8po70bn87m" path="res://clients/vika/assets/objects/light/light.png" id="4_oi51c"]
+[ext_resource type="Texture2D" uid="uid://dgsxwi4xmaqos" path="res://clients/vika/assets/objects/light/line.png" id="5_bmqun"]
+[ext_resource type="Texture2D" uid="uid://cds4wpth7r2la" path="res://clients/vika/assets/objects/question/timeCircle.png" id="6_wmrq3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v265l"]
+size = Vector2(23, 25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wmrq3"]
+size = Vector2(24.75, 27.75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oi51c"]
+size = Vector2(19.25, 26)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bmqun"]
+size = Vector2(15, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ce0fa"]
+size = Vector2(15.625, 27.75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5y7ne"]
+size = Vector2(19.5, 25.5)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v265l"]
+shader = ExtResource("3_wmrq3")
+shader_parameter/light_pos = Vector2(0, 0)
+shader_parameter/radius = 0.15
+shader_parameter/softness = 0.13
+shader_parameter/darkness = 0.95
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8pxwv"]
+radius = 69.3542
 
 [node name="LightLevel" type="Control"]
 layout_mode = 3
@@ -11,6 +44,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0aj31")
+result_overlay_scene = ExtResource("2_oi51c")
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
@@ -19,34 +53,358 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("2_v265l")
 stretch_mode = 6
 
-[node name="Label" type="Label" parent="."]
+[node name="LettersWorld" type="Control" parent="."]
 layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 4.0
-offset_top = 394.0
-offset_right = 4.0
-offset_bottom = 477.0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -519.0
+offset_top = -2.0
+offset_right = 561.0
+offset_bottom = 1918.0
 grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Letter_O" type="Area2D" parent="LettersWorld"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LettersWorld/Letter_O"]
+visible = false
+position = Vector2(165.5, 1303.5)
+shape = SubResource("RectangleShape2D_v265l")
+
+[node name="Label" type="Label" parent="LettersWorld/Letter_O"]
+offset_left = 145.0
+offset_top = 1267.0
+offset_right = 185.0
+offset_bottom = 1336.0
+theme_override_font_sizes/font_size = 50
+text = "О"
+metadata/_edit_use_anchors_ = true
+
+[node name="Letter_L" type="Area2D" parent="LettersWorld"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LettersWorld/Letter_L"]
+visible = false
+position = Vector2(909, 835)
+shape = SubResource("RectangleShape2D_wmrq3")
+
+[node name="Label" type="Label" parent="LettersWorld/Letter_L"]
+offset_left = 890.0
+offset_top = 798.0
+offset_right = 930.0
+offset_bottom = 867.0
+theme_override_font_sizes/font_size = 50
+text = "Л"
+
+[node name="Letter_I" type="Area2D" parent="LettersWorld"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LettersWorld/Letter_I"]
+visible = false
+position = Vector2(247, 408)
+shape = SubResource("RectangleShape2D_oi51c")
+
+[node name="Label" type="Label" parent="LettersWorld/Letter_I"]
+offset_left = 226.0
+offset_top = 372.0
+offset_right = 266.0
+offset_bottom = 441.0
+theme_override_font_sizes/font_size = 50
+text = "И"
+
+[node name="Letter_V" type="Area2D" parent="LettersWorld"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LettersWorld/Letter_V"]
+visible = false
+position = Vector2(961.5, 404)
+shape = SubResource("RectangleShape2D_bmqun")
+
+[node name="Label" type="Label" parent="LettersWorld/Letter_V"]
+offset_left = 945.0
+offset_top = 367.0
+offset_right = 985.0
+offset_bottom = 436.0
+theme_override_font_sizes/font_size = 50
+text = "В"
+
+[node name="Letter_E" type="Area2D" parent="LettersWorld"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LettersWorld/Letter_E"]
+visible = false
+position = Vector2(798, 1751)
+shape = SubResource("RectangleShape2D_ce0fa")
+
+[node name="Label" type="Label" parent="LettersWorld/Letter_E"]
+offset_left = 782.0
+offset_top = 1716.0
+offset_right = 822.0
+offset_bottom = 1785.0
+theme_override_font_sizes/font_size = 50
+text = "Е"
+
+[node name="Letter_R" type="Area2D" parent="LettersWorld"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LettersWorld/Letter_R"]
+visible = false
+position = Vector2(1019, 1376)
+shape = SubResource("RectangleShape2D_5y7ne")
+
+[node name="Label" type="Label" parent="LettersWorld/Letter_R"]
+offset_left = 1003.0
+offset_top = 1341.0
+offset_right = 1043.0
+offset_bottom = 1410.0
+theme_override_font_sizes/font_size = 50
+text = "Р"
+
+[node name="Darkness" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_v265l")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.054902, 0.0313726, 0.133333, 1)
+
+[node name="CandleLight" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -110.0
+offset_top = -118.0
+offset_right = 110.0
+offset_bottom = 118.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_oi51c")
+stretch_mode = 3
+
+[node name="LightArea" type="Area2D" parent="CandleLight"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CandleLight/LightArea"]
+visible = false
+position = Vector2(108, 108)
+shape = SubResource("CircleShape2D_8pxwv")
+debug_color = Color(0, 0.6, 0.7, 0)
+
+[node name="TopWord" type="Control" parent="."]
+layout_mode = 1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -540.0
+offset_top = 72.0
+offset_right = 540.0
+offset_bottom = 72.0
+grow_horizontal = 2
+
+[node name="Slot_0" type="Control" parent="TopWord"]
+layout_mode = 2
+anchors_preset = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -649.0
+offset_top = -4.0
+offset_right = -649.0
+offset_bottom = -4.0
+
+[node name="Letter" type="Label" parent="TopWord/Slot_0"]
+layout_mode = 0
+offset_left = 332.0
+offset_top = 108.0
+offset_right = 379.0
+offset_bottom = 191.0
 theme_override_font_sizes/font_size = 60
+text = "О"
+
+[node name="Line" type="TextureRect" parent="TopWord/Slot_0"]
+layout_mode = 0
+offset_left = 319.0
+offset_top = 184.0
+offset_right = 391.0
+offset_bottom = 204.0
+texture = ExtResource("5_bmqun")
+
+[node name="Slot_1" type="Control" parent="TopWord"]
+layout_mode = 2
+anchors_preset = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -1044.0
+offset_top = -6.0
+offset_right = -1044.0
+offset_bottom = -6.0
+
+[node name="Letter" type="Label" parent="TopWord/Slot_1"]
+layout_mode = 0
+offset_left = 837.0
+offset_top = 111.0
+offset_right = 885.0
+offset_bottom = 194.0
+theme_override_font_sizes/font_size = 60
+text = "О"
+
+[node name="Line" type="TextureRect" parent="TopWord/Slot_1"]
+layout_mode = 0
+offset_left = 828.0
+offset_top = 186.0
+offset_right = 904.0
+offset_bottom = 206.0
+texture = ExtResource("5_bmqun")
+
+[node name="Slot_2" type="Control" parent="TopWord"]
+layout_mode = 2
+anchors_preset = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -289.0
+offset_top = -4.0
+offset_right = -289.0
+offset_bottom = -4.0
+
+[node name="Letter" type="Label" parent="TopWord/Slot_2"]
+layout_mode = 0
+offset_left = 195.0
+offset_top = 108.0
+offset_right = 243.0
+offset_bottom = 191.0
+theme_override_font_sizes/font_size = 60
+text = "О"
+
+[node name="Line" type="TextureRect" parent="TopWord/Slot_2"]
+layout_mode = 0
+offset_left = 184.0
+offset_top = 184.0
+offset_right = 256.0
+offset_bottom = 204.0
+texture = ExtResource("5_bmqun")
+
+[node name="Slot_3" type="Control" parent="TopWord"]
+layout_mode = 2
+anchors_preset = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -679.0
+offset_top = -6.0
+offset_right = -679.0
+offset_bottom = -6.0
+
+[node name="Letter" type="Label" parent="TopWord/Slot_3"]
+layout_mode = 0
+offset_left = 699.0
+offset_top = 107.0
+offset_right = 746.0
+offset_bottom = 190.0
+theme_override_font_sizes/font_size = 60
+text = "О"
+
+[node name="Line" type="TextureRect" parent="TopWord/Slot_3"]
+layout_mode = 0
+offset_left = 688.0
+offset_top = 184.0
+offset_right = 760.0
+offset_bottom = 204.0
+texture = ExtResource("5_bmqun")
+
+[node name="Slot_4" type="Control" parent="TopWord"]
+layout_mode = 2
+anchors_preset = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -425.0
+offset_top = -8.0
+offset_right = -425.0
+offset_bottom = -8.0
+
+[node name="Letter" type="Label" parent="TopWord/Slot_4"]
+layout_mode = 0
+offset_left = 570.0
+offset_top = 108.0
+offset_right = 617.0
+offset_bottom = 191.0
+theme_override_font_sizes/font_size = 60
+text = "О"
+
+[node name="Line" type="TextureRect" parent="TopWord/Slot_4"]
+layout_mode = 0
+offset_left = 561.0
+offset_top = 186.0
+offset_right = 633.0
+offset_bottom = 206.0
+texture = ExtResource("5_bmqun")
+
+[node name="Slot_5" type="Control" parent="TopWord"]
+layout_mode = 2
+anchors_preset = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -170.0
+offset_top = -6.0
+offset_right = -170.0
+offset_bottom = -6.0
+
+[node name="Letter" type="Label" parent="TopWord/Slot_5"]
+layout_mode = 0
+offset_left = 433.0
+offset_top = 108.0
+offset_right = 480.0
+offset_bottom = 191.0
+theme_override_font_sizes/font_size = 60
+text = "О"
+
+[node name="Line" type="TextureRect" parent="TopWord/Slot_5"]
+layout_mode = 0
+offset_left = 422.0
+offset_top = 186.0
+offset_right = 494.0
+offset_bottom = 206.0
+texture = ExtResource("5_bmqun")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="TimerCircle" type="TextureRect" parent="UI"]
+anchors_preset = -1
+anchor_top = -0.004
+anchor_bottom = -0.004
+offset_left = 50.0
+offset_top = 53.68
+offset_right = 223.0
+offset_bottom = 210.68
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.682895, 0.688013)
+size_flags_horizontal = 4
+size_flags_vertical = 3
+texture = ExtResource("6_wmrq3")
+
+[node name="TimerLabel" type="Label" parent="UI/TimerCircle"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.339
+anchor_top = -0.444
+anchor_right = -0.339
+anchor_bottom = -0.444
+offset_left = 93.7915
+offset_top = 87.1495
+offset_right = 197.791
+offset_bottom = 224.15
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 100
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="DoneButton" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -104.0
-offset_top = -402.0
-offset_right = 86.0
-offset_bottom = -257.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_font_sizes/font_size = 100
-text = "End"
-script = ExtResource("2_78uvp")
+[node name="PauseButton" type="TextureButton" parent="UI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -152.0
+offset_top = 56.0
+offset_right = -31.0
+offset_bottom = 168.0

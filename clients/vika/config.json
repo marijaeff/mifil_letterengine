@@ -226,6 +226,35 @@
 	}
 	},
 
+	"light": {
+
+	  "background": "assets/backgrounds/light_bg.png",
+
+	  "light": {
+		"texture": "assets/objects/light/light.png",
+		"scale": 0.75
+	  },
+
+	  "letters": {
+		"word": "OLIVER"
+	  },
+
+	  "word_ui": {
+		"line_texture": "assets/objects/light/line.png"
+	  },
+
+	  "timer": { "time": 20 },
+
+	  "ui": {
+		"timer_circle": "assets/objects/light/timeсircle.png",
+		"pause_icon": "assets/ui/pause.png"
+	  },
+
+	  "timer": {
+		"time": 20
+	  }
+	},
+
 	"result": {
 
 	  "common": {

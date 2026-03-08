@@ -48,6 +48,7 @@ offset_left = -152.0
 offset_top = 56.0
 offset_right = -31.0
 offset_bottom = 168.0
+metadata/_edit_use_anchors_ = true
 
 [node name="SafeArea" type="MarginContainer" parent="."]
 layout_mode = 1

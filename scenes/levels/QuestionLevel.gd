@@ -559,7 +559,6 @@ func show_result_overlay(type: String):
 	overlay.retry_pressed.connect(_on_retry_pressed)
 	overlay.next_pressed.connect(_on_next_pressed)
 
-
 func _on_retry_pressed():
 	queue_free()
 	SceneLoader.goto_scene("res://scenes/levels/QuestionLevel.tscn")
