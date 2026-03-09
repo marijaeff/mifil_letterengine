@@ -20,6 +20,7 @@ var _resume_delay: float = 1.0
 var _resume_timer: float = 0.0
 var _touch_down: bool = false
 var _button_shown: bool = false
+var _paper_height: float = 0.0
 
 func _ready() -> void:
 	AudioManager.set_music_volume(0.04)
@@ -29,7 +30,7 @@ func _ready() -> void:
 		DataLoader.load_client("vika")
 
 	_apply_ui_style()
-	_load_text()
+	await _load_text()
 	_configure_scroll()
 	_start_heart_pulse()
 	_start_letter()
@@ -55,9 +56,36 @@ func _apply_ui_style() -> void:
 	text_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	text_label.autowrap_mode = TextServer.AUTOWRAP_WORD
 
+	var letter_cfg: Dictionary = DataLoader.config.get("screens", {}).get("letter", {})
+	var close_btn_cfg: Dictionary = letter_cfg.get("close_button", {})
+
+	close_button.text = str(close_btn_cfg.get("text", "..."))
+	close_button.add_theme_font_size_override("font_size", int(ui.get("button_font_size", 50)))
+
+	if font_rel != "":
+		var close_font_path: String = DataLoader.resolve_client_path(font_rel)
+		var close_font: FontFile = load(close_font_path) as FontFile
+		if close_font:
+			close_button.add_theme_font_override("font", close_font)
+
+	var icon_rel: String = str(close_btn_cfg.get("icon", ""))
+	if icon_rel != "":
+		var icon_path: String = DataLoader.resolve_client_path(icon_rel)
+		var icon_tex: Texture2D = load(icon_path) as Texture2D
+		if icon_tex:
+			close_button.icon = icon_tex
+			close_button.expand_icon = true
+
 func _load_text() -> void:
 	var letter_data: Dictionary = DataLoader.texts.get("letter", {})
 	text_label.text = str(letter_data.get("content", ""))
+
+	text_label.visible_characters = -1
+	await get_tree().process_frame
+
+	_paper_height = text_label.get_content_height() + 250.0
+	paper.custom_minimum_size.y = _paper_height
+
 	text_label.visible_characters = 0
 
 func _configure_scroll() -> void:
@@ -79,21 +107,15 @@ func _on_scroll_gui_input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
 		var t := event as InputEventScreenTouch
 		_touch_down = t.pressed
-		if _touch_down:
-			_auto_scroll = false
-			_resume_timer = _resume_delay
 
-	elif event is InputEventScreenDrag or event is InputEventPanGesture:
+	elif event is InputEventScreenDrag:
 		_auto_scroll = false
 		_resume_timer = _resume_delay
 
 	elif event is InputEventMouseButton:
 		var mb := event as InputEventMouseButton
 		if mb.pressed:
-			if mb.button_index == MOUSE_BUTTON_LEFT:
-				_auto_scroll = false
-				_resume_timer = _resume_delay
-			elif mb.button_index == MOUSE_BUTTON_WHEEL_UP or mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			if mb.button_index == MOUSE_BUTTON_WHEEL_UP or mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 				_auto_scroll = false
 				_resume_timer = _resume_delay
 
@@ -132,15 +154,11 @@ func _process(delta: float) -> void:
 			_auto_scroll = true
 
 	if _is_animating:
-		var progress: float = float(text_label.visible_characters) / float(total)
-		progress = clamp(progress, 0.0, 1.0)
+		var progress: float = clamp(float(text_label.visible_characters) / float(total), 0.0, 1.0)
 
 		var current_speed: float = lerp(_typing_speed, _min_typing_speed, progress)
 		_visible_chars += current_speed * delta
-		text_label.visible_characters = int(_visible_chars)
-
-		var content_height: float = text_label.get_content_height()
-		paper.custom_minimum_size.y = content_height + 250.0
+		text_label.visible_characters = min(int(_visible_chars), total)
 
 		if text_label.visible_characters >= total:
 			text_label.visible_characters = total
@@ -148,10 +166,8 @@ func _process(delta: float) -> void:
 			_end_reached = true
 			AudioManager.stop_writing_loop()
 
-	var content_height_now: float = text_label.get_content_height()
-	paper.custom_minimum_size.y = content_height_now + 250.0
+	var total_scrollable: float = maxf(0.0, _paper_height - scroll.size.y)
 
-	var total_scrollable: float = maxf(0.0, paper.size.y - scroll.size.y)
 	var text_progress: float = 0.0
 	if total > 0:
 		text_progress = clamp(float(text_label.visible_characters) / float(total), 0.0, 1.0)
@@ -160,20 +176,29 @@ func _process(delta: float) -> void:
 	target_scroll = clamp(target_scroll, 0.0, total_scrollable)
 
 	if _auto_scroll and _auto_scroll_timer <= 0.0 and not _touch_down:
-		var follow_speed: float = maxf(220.0, total_scrollable * 1.2)
-		scroll.scroll_vertical = move_toward(
+		scroll.scroll_vertical = lerpf(
 			float(scroll.scroll_vertical),
 			target_scroll,
-			follow_speed * delta
+			clamp(delta * 4.0, 0.0, 1.0)
 		)
 
+	if _end_reached:
+		scroll.scroll_vertical = lerpf(
+			float(scroll.scroll_vertical),
+			total_scrollable,
+			clamp(delta * 5.0, 0.0, 1.0)
+		)
+
+		if absf(float(scroll.scroll_vertical) - total_scrollable) < 2.0:
+			scroll.scroll_vertical = total_scrollable
+
 	if _end_reached and not _button_shown:
-		var view_bottom: float = scroll.scroll_vertical + scroll.size.y
-		if view_bottom >= paper.size.y - 12.0:
+		var view_bottom: float = float(scroll.scroll_vertical) + scroll.size.y
+		if view_bottom >= _paper_height - 40.0 or absf(float(scroll.scroll_vertical) - total_scrollable) < 20.0:
 			_button_shown = true
 			_show_close_button()
 
-	if _end_reached and _button_shown and absf(float(scroll.scroll_vertical) - total_scrollable) < 2.0:
+	if _end_reached and _button_shown and absf(float(scroll.scroll_vertical) - total_scrollable) < 1.5:
 		set_process(false)
 
 func _show_close_button() -> void:

@@ -110,7 +110,6 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="SettingsPanel" type="TextureRect" parent="CenterContainer"]
-visible = false
 layout_mode = 2
 texture = ExtResource("1_1kibj")
 
@@ -161,10 +160,10 @@ text = "Хвук"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CheckButton" type="CheckButton" parent="CenterContainer/SettingsPanel/Content/SoundRow"]
+[node name="CheckButton" type="TextureButton" parent="CenterContainer/SettingsPanel/Content/SoundRow"]
 layout_mode = 2
 size_flags_horizontal = 6
-theme_override_font_sizes/font_size = 50
+toggle_mode = true
 
 [node name="MusicRow" type="HBoxContainer" parent="CenterContainer/SettingsPanel/Content"]
 layout_mode = 2
@@ -176,10 +175,10 @@ text = "Хвук"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CheckButton" type="CheckButton" parent="CenterContainer/SettingsPanel/Content/MusicRow"]
+[node name="CheckButton" type="TextureButton" parent="CenterContainer/SettingsPanel/Content/MusicRow"]
 layout_mode = 2
 size_flags_horizontal = 6
-theme_override_font_sizes/font_size = 50
+toggle_mode = true
 
 [node name="Btn_3" type="Button" parent="CenterContainer/SettingsPanel/Content"]
 visible = false

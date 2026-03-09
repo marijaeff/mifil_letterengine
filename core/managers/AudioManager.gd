@@ -13,7 +13,9 @@ var _fade_tween: Tween
 
 var music_enabled: bool = true
 var music_volume_linear: float = 1.0
+var sfx_enabled: bool = true
 var _web_audio_unlocked: bool = false
+
 
 func _ready() -> void:
 	_create_players()
@@ -161,11 +163,23 @@ func stop_music(fade_duration: float = 0.5) -> void:
 
 
 func play_sfx(stream: AudioStream, volume_db := -5.0) -> void:
+	if not sfx_enabled:
+		return
 	if stream == null:
 		return
-	sfx_player.stream = stream
-	sfx_player.volume_db = volume_db
-	sfx_player.play()
+
+	var player := AudioStreamPlayer.new()
+	player.stream = stream
+	player.bus = _get_existing_bus("SFX", "Master")
+	player.volume_db = volume_db
+	add_child(player)
+
+	player.finished.connect(func():
+		if is_instance_valid(player):
+			player.queue_free()
+	)
+
+	player.play()
 
 
 func play_sfx_by_key(key: String, volume_db := -5.0) -> void:
@@ -251,6 +265,7 @@ func _save_settings() -> void:
 	var cfg := ConfigFile.new()
 	cfg.set_value(SETTINGS_SECTION, "enabled", music_enabled)
 	cfg.set_value(SETTINGS_SECTION, "volume", music_volume_linear)
+	cfg.set_value(SETTINGS_SECTION, "sfx_enabled", sfx_enabled)
 	cfg.save(SETTINGS_PATH)
 
 
@@ -261,7 +276,22 @@ func _load_settings() -> void:
 
 	music_enabled = bool(cfg.get_value(SETTINGS_SECTION, "enabled", true))
 	music_volume_linear = float(cfg.get_value(SETTINGS_SECTION, "volume", 1.0))
+	sfx_enabled = bool(cfg.get_value(SETTINGS_SECTION, "sfx_enabled", true))
 
+func set_sfx_enabled(enabled: bool) -> void:
+	sfx_enabled = enabled
+
+	if not sfx_enabled:
+		if sfx_player != null:
+			sfx_player.stop()
+		if heartbeat_player != null:
+			heartbeat_player.stop()
+		if heartbeat_timer != null:
+			heartbeat_timer.stop()
+
+		stop_writing_loop()
+
+	_save_settings()
 
 func _linear_to_db(value: float) -> float:
 	if value <= 0.0:
@@ -311,13 +341,15 @@ func play_writing_loop(interval: float = 1.1, volume_db: float = -22.0) -> void:
 
 func stop_writing_loop() -> void:
 	if has_meta("writing_timer"):
-		var t: Timer = get_meta("writing_timer")
+		var t = get_meta("writing_timer")
 		if is_instance_valid(t):
 			t.stop()
 			t.queue_free()
+		remove_meta("writing_timer")
 
 	if has_meta("writing_player"):
-		var p: AudioStreamPlayer = get_meta("writing_player")
+		var p = get_meta("writing_player")
 		if is_instance_valid(p):
 			p.stop()
 			p.queue_free()
+		remove_meta("writing_player")

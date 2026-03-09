@@ -28,34 +28,77 @@ signal map_pressed
 @onready var sound_label: Label = $CenterContainer/SettingsPanel/Content/SoundRow/Label
 @onready var music_label: Label = $CenterContainer/SettingsPanel/Content/MusicRow/Label
 
-@onready var sound_toggle: CheckButton = $CenterContainer/SettingsPanel/Content/SoundRow/CheckButton
-@onready var music_toggle: CheckButton = $CenterContainer/SettingsPanel/Content/MusicRow/CheckButton
+@onready var sound_toggle: TextureButton = $CenterContainer/SettingsPanel/Content/SoundRow/CheckButton
+@onready var music_toggle: TextureButton = $CenterContainer/SettingsPanel/Content/MusicRow/CheckButton
 
 @onready var reset_btn_settings: Button = $CenterContainer/SettingsPanel/Content/Btn_3
 @onready var back_btn_settings: Button = $CenterContainer/SettingsPanel/Content/Btn_4
 
+
+var toggle_off_tex: Texture2D
+var toggle_on_tex: Texture2D
 
 # ---------------------------------------------------
 # READY
 # ---------------------------------------------------
 
 func _ready():
-
-	settings_panel.visible = false  
-	panel.visible = true       
+	settings_panel.visible = false
+	panel.visible = true
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	connect_buttons()
 
 	back_btn_settings.pressed.connect(_on_settings_back)
 	reset_btn_settings.pressed.connect(_on_reset_pressed)
 
-	style_toggle(sound_toggle)
-	style_toggle(music_toggle)
+	_load_toggle_textures()
+	_setup_toggle(sound_toggle)
+	_setup_toggle(music_toggle)
 
+	sound_toggle.pressed.connect(_on_sound_toggle_pressed)
+	music_toggle.pressed.connect(_on_music_toggle_pressed)
+	
+	sound_toggle.button_pressed = AudioManager.sfx_enabled
+	music_toggle.button_pressed = AudioManager.music_enabled
+
+	_update_toggle_visual(sound_toggle)
+	_update_toggle_visual(music_toggle)
 
 # ---------------------------------------------------
 # PAUSE CONFIG
 # ---------------------------------------------------
+
+func _load_toggle_textures() -> void:
+	toggle_off_tex = load("res://clients/vika/assets/ui/stick_off.png")
+	toggle_on_tex = load("res://clients/vika/assets/ui/stick_on.png")
+
+
+func _setup_toggle(btn: TextureButton) -> void:
+	btn.toggle_mode = true
+	btn.ignore_texture_size = true
+	btn.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
+	btn.custom_minimum_size = Vector2(90, 46)
+	btn.focus_mode = Control.FOCUS_NONE
+
+
+func _update_toggle_visual(btn: TextureButton) -> void:
+	if btn.button_pressed:
+		btn.texture_normal = toggle_on_tex
+	else:
+		btn.texture_normal = toggle_off_tex
+
+	btn.texture_pressed = btn.texture_normal
+	btn.texture_hover = btn.texture_normal
+	btn.texture_disabled = btn.texture_normal
+
+func _on_sound_toggle_pressed() -> void:
+	AudioManager.set_sfx_enabled(sound_toggle.button_pressed)
+	_update_toggle_visual(sound_toggle)
+
+
+func _on_music_toggle_pressed() -> void:
+	AudioManager.set_music_enabled(music_toggle.button_pressed)
+	_update_toggle_visual(music_toggle)
 
 func show_from_config() -> void:
 
@@ -249,13 +292,21 @@ func animate_in() -> void:
 # ---------------------------------------------------
 
 func style_toggle(btn: CheckButton) -> void:
-
 	btn.focus_mode = Control.FOCUS_NONE
 	btn.text = ""
 
-	btn.scale = Vector2(1.5, 1.5)
-	btn.custom_minimum_size = Vector2(90, 60)
+	btn.custom_minimum_size = Vector2(120, 70)
+	btn.size_flags_horizontal = Control.SIZE_SHRINK_END
+
+	btn.toggle_mode = true
+	btn.flat = true
+
+	btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	btn.expand_icon = true
 
 	btn.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
 	btn.add_theme_stylebox_override("hover", StyleBoxEmpty.new())
 	btn.add_theme_stylebox_override("pressed", StyleBoxEmpty.new())
+	btn.add_theme_stylebox_override("hover_pressed", StyleBoxEmpty.new())
+	btn.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
+	btn.add_theme_stylebox_override("disabled", StyleBoxEmpty.new())

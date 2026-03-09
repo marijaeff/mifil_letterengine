@@ -126,9 +126,22 @@
 	  "heart": "assets/objects/heart_letter.png",
 	  "paper": "assets/objects/paper_letter.png",
 	  "letter_font_size": 52,
-	  "letter_text_color": "#29241C"
+	  "letter_text_color": "#29241C",
+	  "close_button": {
+		"icon": "assets/ui/btn_map.png",
+		"text": "..."
+	  }
 	}
   },
+	"hug": {
+	  "buttons": {
+		"icon": "assets/ui/btn_map.png",
+		"save": { "text": "Сохранить" },
+		"map": { "text": "На карту" },
+		"finish": { "text": "Начать заново" }
+	  },
+		 "pdf": "assets/files/letter.pdf"
+	},
 
   "levels": {
 	  "shared": {
