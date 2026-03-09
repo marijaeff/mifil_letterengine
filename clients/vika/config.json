@@ -140,8 +140,8 @@
 		"map": { "text": "На карту" },
 		"finish": { "text": "Начать заново" }
 	  },
-		 "pdf": "assets/files/letter.pdf"
-	},
+	  "pdf": "assets/files/letter.pdf"
+	}, 
 
   "levels": {
 	  "shared": {

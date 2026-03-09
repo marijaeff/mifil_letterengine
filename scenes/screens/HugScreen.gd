@@ -121,7 +121,6 @@ func _on_download_pressed() -> void:
 			return
 		out.store_buffer(bytes)
 		out.close()
-		print("Saved to user://letter.pdf")
 
 
 func _on_map_pressed() -> void:
