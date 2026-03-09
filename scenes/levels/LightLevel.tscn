@@ -60,6 +60,7 @@ stretch_mode = 6
 
 [node name="LettersWorld" type="Control" parent="."]
 layout_mode = 1
+anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -519.0
@@ -197,6 +198,7 @@ debug_color = Color(0, 0.6, 0.7, 0)
 
 [node name="TopWord" type="Control" parent="."]
 layout_mode = 1
+anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -540.0
