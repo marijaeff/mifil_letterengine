@@ -15,7 +15,6 @@ var music_enabled: bool = true
 var music_volume_linear: float = 1.0
 var _web_audio_unlocked: bool = false
 
-
 func _ready() -> void:
 	_create_players()
 	_load_settings()
@@ -271,6 +270,8 @@ func _linear_to_db(value: float) -> float:
 
 
 func play_writing_loop(interval: float = 1.1, volume_db: float = -22.0) -> void:
+	stop_writing_loop()
+
 	if DataLoader.config.is_empty():
 		return
 
@@ -293,7 +294,7 @@ func play_writing_loop(interval: float = 1.1, volume_db: float = -22.0) -> void:
 
 	var timer := Timer.new()
 	timer.wait_time = interval
-	timer.autostart = true
+	timer.autostart = false
 	timer.one_shot = false
 	timer.timeout.connect(func():
 		if is_instance_valid(player):
@@ -303,6 +304,9 @@ func play_writing_loop(interval: float = 1.1, volume_db: float = -22.0) -> void:
 
 	set_meta("writing_player", player)
 	set_meta("writing_timer", timer)
+
+	player.play()
+	timer.start()
 
 
 func stop_writing_loop() -> void:

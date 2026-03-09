@@ -7,7 +7,6 @@ extends Control
 @onready var heart: TextureRect = $VBox/Control/Heart
 
 var _heart_tween: Tween
-
 var _is_animating: bool = false
 var _visible_chars: float = 0.0
 var _typing_speed: float = 15.0
@@ -15,34 +14,30 @@ var _min_typing_speed: float = 15.0
 var _end_reached: bool = false
 
 var _auto_scroll: bool = true
-var _auto_scroll_speed: float = 60.0
-
-var _auto_scroll_delay: float = 6.0
+var _auto_scroll_delay: float = 1.2
 var _auto_scroll_timer: float = 0.0
-
-var _resume_delay: float = 2.0
+var _resume_delay: float = 1.0
 var _resume_timer: float = 0.0
-
 var _touch_down: bool = false
 var _button_shown: bool = false
-
 
 func _ready() -> void:
 	AudioManager.set_music_volume(0.04)
 	AudioManager.play_music_by_key("final")
-	
+
 	if DataLoader.client_id.is_empty():
 		DataLoader.load_client("vika")
-		
+
 	_apply_ui_style()
 	_load_text()
 	_configure_scroll()
 	_start_heart_pulse()
 	_start_letter()
+
 	close_button.pressed.connect(_on_close_pressed)
+
 	text_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	paper.mouse_filter = Control.MOUSE_FILTER_IGNORE
-
 
 func _apply_ui_style() -> void:
 	var ui: Dictionary = DataLoader.config.get("ui", {})
@@ -60,12 +55,10 @@ func _apply_ui_style() -> void:
 	text_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	text_label.autowrap_mode = TextServer.AUTOWRAP_WORD
 
-
 func _load_text() -> void:
 	var letter_data: Dictionary = DataLoader.texts.get("letter", {})
 	text_label.text = str(letter_data.get("content", ""))
 	text_label.visible_characters = 0
-
 
 func _configure_scroll() -> void:
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -80,9 +73,7 @@ func _configure_scroll() -> void:
 	vbar.scale = Vector2.ZERO
 
 	scroll.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
-
 	scroll.gui_input.connect(_on_scroll_gui_input)
-
 
 func _on_scroll_gui_input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
@@ -98,13 +89,17 @@ func _on_scroll_gui_input(event: InputEvent) -> void:
 
 	elif event is InputEventMouseButton:
 		var mb := event as InputEventMouseButton
-		if mb.pressed and (mb.button_index == MOUSE_BUTTON_WHEEL_UP or mb.button_index == MOUSE_BUTTON_WHEEL_DOWN):
-			_auto_scroll = false
-			_resume_timer = _resume_delay
-
+		if mb.pressed:
+			if mb.button_index == MOUSE_BUTTON_LEFT:
+				_auto_scroll = false
+				_resume_timer = _resume_delay
+			elif mb.button_index == MOUSE_BUTTON_WHEEL_UP or mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+				_auto_scroll = false
+				_resume_timer = _resume_delay
 
 func _start_heart_pulse() -> void:
 	var base_scale: Vector2 = heart.scale
+
 	_heart_tween = create_tween()
 	_heart_tween.set_loops()
 	_heart_tween.set_trans(Tween.TRANS_SINE)
@@ -113,17 +108,15 @@ func _start_heart_pulse() -> void:
 	_heart_tween.tween_property(heart, "scale", base_scale, 1.2)
 	_heart_tween.tween_interval(1.4)
 
-
 func _start_letter() -> void:
 	close_button.visible = false
-	await get_tree().create_timer(0.6).timeout
-	
-	AudioManager.play_writing_loop(30, -10)
-	
+	await get_tree().create_timer(0.2).timeout
+
+	AudioManager.play_writing_loop(5, -10)
+
 	_auto_scroll_timer = _auto_scroll_delay
 	_is_animating = true
 	set_process(true)
-
 
 func _process(delta: float) -> void:
 	var total: int = text_label.get_total_character_count()
@@ -141,48 +134,59 @@ func _process(delta: float) -> void:
 	if _is_animating:
 		var progress: float = float(text_label.visible_characters) / float(total)
 		progress = clamp(progress, 0.0, 1.0)
+
 		var current_speed: float = lerp(_typing_speed, _min_typing_speed, progress)
 		_visible_chars += current_speed * delta
 		text_label.visible_characters = int(_visible_chars)
+
+		var content_height: float = text_label.get_content_height()
+		paper.custom_minimum_size.y = content_height + 250.0
+
 		if text_label.visible_characters >= total:
+			text_label.visible_characters = total
 			_is_animating = false
 			_end_reached = true
-		
 			AudioManager.stop_writing_loop()
 
-	var content_height: float = text_label.get_content_height()
-	paper.custom_minimum_size.y = content_height + 250.0
+	var content_height_now: float = text_label.get_content_height()
+	paper.custom_minimum_size.y = content_height_now + 250.0
 
-	var bar: VScrollBar = scroll.get_v_scroll_bar()
-	var target: float = bar.max_value
+	var total_scrollable: float = maxf(0.0, paper.size.y - scroll.size.y)
+	var text_progress: float = 0.0
+	if total > 0:
+		text_progress = clamp(float(text_label.visible_characters) / float(total), 0.0, 1.0)
+
+	var target_scroll: float = total_scrollable * text_progress
+	target_scroll = clamp(target_scroll, 0.0, total_scrollable)
 
 	if _auto_scroll and _auto_scroll_timer <= 0.0 and not _touch_down:
+		var follow_speed: float = maxf(220.0, total_scrollable * 1.2)
 		scroll.scroll_vertical = move_toward(
-			scroll.scroll_vertical,
-			target,
-			_auto_scroll_speed * delta
+			float(scroll.scroll_vertical),
+			target_scroll,
+			follow_speed * delta
 		)
 
 	if _end_reached and not _button_shown:
 		var view_bottom: float = scroll.scroll_vertical + scroll.size.y
-		if view_bottom >= content_height - 6.0:
+		if view_bottom >= paper.size.y - 12.0:
 			_button_shown = true
 			_show_close_button()
 
-	if _end_reached and _button_shown and absf(scroll.scroll_vertical - target) < 2.0:
+	if _end_reached and _button_shown and absf(float(scroll.scroll_vertical) - total_scrollable) < 2.0:
 		set_process(false)
-
 
 func _show_close_button() -> void:
 	close_button.visible = true
 	close_button.modulate.a = 0.0
+
 	var t := create_tween()
 	t.set_trans(Tween.TRANS_SINE)
 	t.set_ease(Tween.EASE_IN_OUT)
 	t.tween_property(close_button, "modulate:a", 1.0, 1.2)
 
 func _on_close_pressed() -> void:
+	AudioManager.stop_writing_loop()
 	AudioManager.play_sfx_by_key("whoosh", -12)
-
-	await get_tree().process_frame 
+	await get_tree().process_frame
 	SceneLoader.goto_scene("res://scenes/screens/HugScreen.tscn")
