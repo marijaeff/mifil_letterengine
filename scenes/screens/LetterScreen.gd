@@ -5,6 +5,7 @@ extends Control
 @onready var text_label: RichTextLabel = $VBox/Control/ScrollContainer/Paper/MarginContainer/TextLabel
 @onready var close_button: Button = $VBox/Control/CloseButton
 @onready var heart: TextureRect = $VBox/Control/Heart
+@onready var text_margin: MarginContainer = $VBox/Control/ScrollContainer/Paper/MarginContainer
 
 var _heart_tween: Tween
 var _is_animating: bool = false
@@ -21,6 +22,8 @@ var _resume_timer: float = 0.0
 var _touch_down: bool = false
 var _button_shown: bool = false
 var _paper_height: float = 0.0
+var _paper_top_padding: float = 260.0
+var _paper_bottom_padding: float = 250.0
 
 func _ready() -> void:
 	AudioManager.set_music_volume(0.04)
@@ -75,7 +78,9 @@ func _apply_ui_style() -> void:
 		if icon_tex:
 			close_button.icon = icon_tex
 			close_button.expand_icon = true
-
+		text_margin.add_theme_constant_override("margin_top", int(_paper_top_padding))
+		text_margin.add_theme_constant_override("margin_bottom", 0)
+		
 func _load_text() -> void:
 	var letter_data: Dictionary = DataLoader.texts.get("letter", {})
 	text_label.text = str(letter_data.get("content", ""))
@@ -83,7 +88,7 @@ func _load_text() -> void:
 	text_label.visible_characters = -1
 	await get_tree().process_frame
 
-	_paper_height = text_label.get_content_height() + 250.0
+	_paper_height = text_label.get_content_height() + _paper_top_padding + 250.0
 	paper.custom_minimum_size.y = _paper_height
 
 	text_label.visible_characters = 0
@@ -134,7 +139,8 @@ func _start_letter() -> void:
 	close_button.visible = false
 	await get_tree().create_timer(0.2).timeout
 
-	AudioManager.play_writing_loop(5, -10)
+	if not OS.has_feature("web"):
+		AudioManager.play_writing_loop(1, -10)
 
 	_auto_scroll_timer = _auto_scroll_delay
 	_is_animating = true
@@ -172,7 +178,8 @@ func _process(delta: float) -> void:
 	if total > 0:
 		text_progress = clamp(float(text_label.visible_characters) / float(total), 0.0, 1.0)
 
-	var target_scroll: float = total_scrollable * text_progress
+	var center_hold_offset: float = scroll.size.y * 0.22
+	var target_scroll: float = total_scrollable * text_progress - center_hold_offset
 	target_scroll = clamp(target_scroll, 0.0, total_scrollable)
 
 	if _auto_scroll and _auto_scroll_timer <= 0.0 and not _touch_down:
@@ -181,24 +188,22 @@ func _process(delta: float) -> void:
 			target_scroll,
 			clamp(delta * 4.0, 0.0, 1.0)
 		)
-
 	if _end_reached:
 		scroll.scroll_vertical = lerpf(
 			float(scroll.scroll_vertical),
 			total_scrollable,
-			clamp(delta * 5.0, 0.0, 1.0)
+			clamp(delta * 6.0, 0.0, 1.0)
 		)
 
-		if absf(float(scroll.scroll_vertical) - total_scrollable) < 2.0:
+		if absf(float(scroll.scroll_vertical) - total_scrollable) < 6.0:
 			scroll.scroll_vertical = total_scrollable
 
 	if _end_reached and not _button_shown:
-		var view_bottom: float = float(scroll.scroll_vertical) + scroll.size.y
-		if view_bottom >= _paper_height - 40.0 or absf(float(scroll.scroll_vertical) - total_scrollable) < 20.0:
+		if absf(float(scroll.scroll_vertical) - total_scrollable) < 12.0:
 			_button_shown = true
 			_show_close_button()
 
-	if _end_reached and _button_shown and absf(float(scroll.scroll_vertical) - total_scrollable) < 1.5:
+	if _end_reached and _button_shown and absf(float(scroll.scroll_vertical) - total_scrollable) < 1.0:
 		set_process(false)
 
 func _show_close_button() -> void:

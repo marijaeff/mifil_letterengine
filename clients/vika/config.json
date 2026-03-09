@@ -164,20 +164,23 @@
 		"items": {
 		  "good": [
 			"assets/objects/catch/items/sushi.png",
-			"assets/objects/catch/items/chocolate.png"
+			"assets/objects/catch/items/chocolate.png",
+			"assets/objects/catch/items/kixtochka.png",
+			"assets/objects/catch/items/totoro.png",
 		  ],
 		  "bad": [
-			"assets/objects/catch/items/drop.png"
+			"assets/objects/catch/items/kebab.png",
+			"assets/objects/catch/items/schw.png",
+			"assets/objects/catch/items/tortila.png"
 		  ]
 		}
 	},
 	"intuition": {
-	  "rounds_total": 6,
+	  "rounds_total": 5,
 
 	  "rounds": [
-		{ "question": 0, "correct": 0 },
-		{ "question": 0, "correct": 1 },
 		{ "question": 0, "correct": 2 },
+		{ "question": 0, "correct": 1 },
 		{ "question": 0, "correct": 0 },
 		{ "question": 0, "correct": 1 },
 		{ "question": 0, "correct": 2 }

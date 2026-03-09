@@ -82,7 +82,6 @@ func _setup_buttons() -> void:
 	finish_button.pressed.connect(_on_finish_pressed)
 
 func _on_download_pressed() -> void:
-	AudioManager.play_sfx_by_key("button", -5)
 
 	var hug_cfg: Dictionary = DataLoader.config.get("screens", {}).get("hug", {})
 	var pdf_rel: String = str(hug_cfg.get("pdf", ""))
