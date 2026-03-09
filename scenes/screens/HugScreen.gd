@@ -66,22 +66,12 @@ func _setup_buttons() -> void:
 		var font_path: String = DataLoader.resolve_client_path(font_rel)
 		font = load(font_path) as FontFile
 
-	var icon_rel: String = str(buttons_cfg.get("icon", ""))
-	var icon_tex: Texture2D = null
-	if icon_rel != "":
-		var icon_path: String = DataLoader.resolve_client_path(icon_rel)
-		icon_tex = load(icon_path) as Texture2D
-
 	var button_font_size: int = int(ui_cfg.get("button_font_size", 50))
 
 	for b in [download_button, map_button, finish_button]:
 		if font:
 			b.add_theme_font_override("font", font)
 		b.add_theme_font_size_override("font_size", button_font_size)
-
-		if icon_tex:
-			b.icon = icon_tex
-			b.expand_icon = true
 
 	download_button.text = str(buttons_cfg.get("save", {}).get("text", "Сохранить"))
 	map_button.text = str(buttons_cfg.get("map", {}).get("text", "На карту"))
@@ -90,7 +80,6 @@ func _setup_buttons() -> void:
 	download_button.pressed.connect(_on_download_pressed)
 	map_button.pressed.connect(_on_map_pressed)
 	finish_button.pressed.connect(_on_finish_pressed)
-
 
 func _on_download_pressed() -> void:
 	AudioManager.play_sfx_by_key("button", -5)

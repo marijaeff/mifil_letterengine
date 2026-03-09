@@ -131,17 +131,17 @@
 		"icon": "assets/ui/btn_map.png",
 		"text": "..."
 	  }
-	}
-  },
-	"hug": {
-	  "buttons": {
-		"icon": "assets/ui/btn_map.png",
-		"save": { "text": "Сохранить" },
-		"map": { "text": "На карту" },
-		"finish": { "text": "Начать заново" }
-	  },
-	  "pdf": "assets/files/letter.pdf"
 	}, 
+	"hug": {
+		"buttons": {
+		  "icon": "assets/ui/btn_map.png",
+		  "save": { "text": "Сохранить" },
+		  "map": { "text": "На карту" },
+		  "finish": { "text": "Начать заново" }
+		},
+		"pdf": "assets/files/letter.pdf"
+	  }
+  },
 
   "levels": {
 	  "shared": {
@@ -388,26 +388,26 @@
 	},
 	"settings": {
 
-  "title": "Настройки",
+	  "title": "Настройки",
 
-  "panel": "assets/ui/pause_panel.png",
-  "icon": "assets/ui/btn_pause.png",
+	  "panel": "assets/ui/pause_panel.png",
+	  "icon": "assets/ui/btn_pause.png",
 
-  "buttons": {
-	"reset": { "text": "Сбросить прогресс" },
-	"back": { "text": "Назад" }
-  },
+	  "buttons": {
+		"reset": { "text": "Сбросить прогресс" },
+		"back": { "text": "Назад" }
+	  },
 
-  "labels": {
-	"sound": "Звук",
-	"music": "Музыка"
-  },
+	  "labels": {
+		"sound": "Звук",
+		"music": "Музыка"
+	  },
 
-  "colors": {
-	"title": "#E8D7B4",
-	"buttons": "#E8D7B4",
-	"labels": "#E8D7B4"
-  }
-}
+	  "colors": {
+		"title": "#E8D7B4",
+		"buttons": "#E8D7B4",
+		"labels": "#E8D7B4"
+	  }
+	}
 	}
 }
