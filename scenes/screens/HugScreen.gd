@@ -1,7 +1,5 @@
 extends Control
 
-@onready var girl: Sprite2D = $Characters/Girl
-@onready var boy: Sprite2D = $Characters/Boy
 @onready var duo: Sprite2D = $Characters/Duo
 @onready var heart: Sprite2D = $Heart
 @onready var buttons: Control = $ButtonsContainer
@@ -10,9 +8,6 @@ extends Control
 @onready var finish_button: Button = $ButtonsContainer/FinishButton
 
 
-var tex_girl: Texture2D
-var tex_boy: Texture2D
-var tex_lean: Texture2D
 var tex_hug: Texture2D
 var tex_heart: Texture2D
 
@@ -30,20 +25,12 @@ func _ready() -> void:
 
 
 func _load_textures() -> void:
-	tex_girl = load("res://clients/vika/assets/characters/person1_hug.png")
-	tex_boy = load("res://clients/vika/assets/characters/person2_hug.png")
-	tex_lean = load("res://clients/vika/assets/characters/hug_before.png")
 	tex_hug = load("res://clients/vika/assets/characters/hug.png")
 	tex_heart = load("res://clients/vika/assets/objects/heart_hug.png")
 
 
 func _prepare_scene() -> void:
 	heart.texture = tex_heart
-
-	girl.visible = false
-	boy.visible = false
-	girl.modulate.a = 0.0
-	boy.modulate.a = 0.0
 
 	duo.texture = tex_hug
 	duo.global_position = center_position
@@ -137,56 +124,6 @@ func _start_heart_pulse() -> void:
 	
 func _pause(time: float) -> void:
 	await get_tree().create_timer(time).timeout
-
-func _frame_close() -> void:
-	var offset := 120.0
-	girl.global_position = center_position + Vector2(-offset, 0)
-	boy.global_position = center_position + Vector2(offset, 0)
-
-	girl.visible = true
-	boy.visible = true
-
-	var fade_in := create_tween()
-	fade_in.set_trans(Tween.TRANS_SINE)
-	fade_in.set_ease(Tween.EASE_IN_OUT)
-	fade_in.tween_property(girl, "modulate:a", 1.0, 2.0)
-	fade_in.parallel().tween_property(boy, "modulate:a", 1.0, 2.0)
-	await fade_in.finished
-
-	await _pause(0.5)
-
-	var fade_out := create_tween()
-	fade_out.set_trans(Tween.TRANS_SINE)
-	fade_out.set_ease(Tween.EASE_IN_OUT)
-	fade_out.tween_property(girl, "modulate:a", 0.0, 2.0)
-	fade_out.parallel().tween_property(boy, "modulate:a", 0.0, 2.0)
-	await fade_out.finished
-
-	girl.visible = false
-	boy.visible = false
-
-
-func _frame_lean() -> void:
-	duo.texture = tex_lean
-	duo.global_position = center_position
-	duo.visible = true
-
-	var fade_in := create_tween()
-	fade_in.set_trans(Tween.TRANS_SINE)
-	fade_in.set_ease(Tween.EASE_IN_OUT)
-	fade_in.tween_property(duo, "modulate:a", 1.0, 1.7)
-	await fade_in.finished
-
-	await _pause(0.4)
-
-	var fade_out := create_tween()
-	fade_out.set_trans(Tween.TRANS_SINE)
-	fade_out.set_ease(Tween.EASE_IN_OUT)
-	fade_out.tween_property(duo, "modulate:a", 0.0, 1.7)
-	await fade_out.finished
-
-	duo.visible = false
-
 
 func _frame_hug() -> void:
 	duo.texture = tex_hug

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://byqicb6cvx1at" path="res://scenes/levels/LightLevel.gd" id="1_0aj31"]
 [ext_resource type="PackedScene" uid="uid://bkl0f7opgqrlu" path="res://scenes/screens/ResultOverlay.tscn" id="2_oi51c"]
-[ext_resource type="Texture2D" uid="uid://cdmguejo0718b" path="res://clients/vika/assets/backgrounds/light_bg.png" id="2_v265l"]
+[ext_resource type="Texture2D" uid="uid://b6k50q1btnppm" path="res://clients/vika/assets/backgrounds/light_bg.jpg" id="2_v265l"]
 [ext_resource type="PackedScene" uid="uid://d2op6qcc3uo4e" path="res://scenes/screens/PausePopup.tscn" id="3_bmqun"]
 [ext_resource type="Shader" uid="uid://muh3bmeh2mbu" path="res://scenes/levels/LightLevel.gdshader" id="3_wmrq3"]
 [ext_resource type="Texture2D" uid="uid://c0c8po70bn87m" path="res://clients/vika/assets/objects/light/light.png" id="4_oi51c"]

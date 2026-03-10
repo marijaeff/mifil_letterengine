@@ -139,9 +139,6 @@ func _start_letter() -> void:
 	close_button.visible = false
 	await get_tree().create_timer(0.2).timeout
 
-	if not OS.has_feature("web"):
-		AudioManager.play_writing_loop(1, -10)
-
 	_auto_scroll_timer = _auto_scroll_delay
 	_is_animating = true
 	set_process(true)
@@ -166,11 +163,10 @@ func _process(delta: float) -> void:
 		_visible_chars += current_speed * delta
 		text_label.visible_characters = min(int(_visible_chars), total)
 
-		if text_label.visible_characters >= total:
-			text_label.visible_characters = total
-			_is_animating = false
-			_end_reached = true
-			AudioManager.stop_writing_loop()
+	if text_label.visible_characters >= total:
+		text_label.visible_characters = total
+		_is_animating = false
+		_end_reached = true
 
 	var visual_scrollable: float = maxf(0.0, _paper_height - scroll.size.y)
 
@@ -222,7 +218,6 @@ func _show_close_button() -> void:
 	t.tween_property(close_button, "modulate:a", 1.0, 1.2)
 
 func _on_close_pressed() -> void:
-	AudioManager.stop_writing_loop()
 	AudioManager.play_sfx_by_key("whoosh", -12)
 	await get_tree().process_frame
 	SceneLoader.goto_scene("res://scenes/screens/HugScreen.tscn")

@@ -289,67 +289,9 @@ func set_sfx_enabled(enabled: bool) -> void:
 		if heartbeat_timer != null:
 			heartbeat_timer.stop()
 
-		stop_writing_loop()
-
 	_save_settings()
 
 func _linear_to_db(value: float) -> float:
 	if value <= 0.0:
 		return -80.0
 	return 20.0 * log(value) / log(10.0)
-
-
-func play_writing_loop(interval: float = 1.1, volume_db: float = -22.0) -> void:
-	stop_writing_loop()
-
-	if DataLoader.config.is_empty():
-		return
-
-	var sfx_config: Dictionary = DataLoader.config.get("audio", {}).get("sfx", {})
-	if not sfx_config.has("paper"):
-		push_warning("Paper key not found")
-		return
-
-	var path: String = DataLoader.resolve_client_path(str(sfx_config["paper"]))
-	var stream: AudioStream = load(path) as AudioStream
-	if stream == null:
-		push_warning("Paper not loaded: %s" % path)
-		return
-
-	var player := AudioStreamPlayer.new()
-	player.stream = stream
-	player.bus = _get_existing_bus("SFX", "Master")
-	player.volume_db = volume_db
-	add_child(player)
-
-	var timer := Timer.new()
-	timer.wait_time = interval
-	timer.autostart = false
-	timer.one_shot = false
-	timer.timeout.connect(func():
-		if is_instance_valid(player):
-			player.play()
-	)
-	add_child(timer)
-
-	set_meta("writing_player", player)
-	set_meta("writing_timer", timer)
-
-	player.play()
-	timer.start()
-
-
-func stop_writing_loop() -> void:
-	if has_meta("writing_timer"):
-		var t = get_meta("writing_timer")
-		if is_instance_valid(t):
-			t.stop()
-			t.queue_free()
-		remove_meta("writing_timer")
-
-	if has_meta("writing_player"):
-		var p = get_meta("writing_player")
-		if is_instance_valid(p):
-			p.stop()
-			p.queue_free()
-		remove_meta("writing_player")
