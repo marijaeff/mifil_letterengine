@@ -24,8 +24,8 @@ var is_touching: bool = false
 var last_spawn_zone: int = -1
 
 var difficulty_time: float = 0.0
-var base_spawn_time: float = 0.9
-var min_spawn_time: float = 0.5
+var base_spawn_time: float = 1.1
+var min_spawn_time: float = 0.8
 
 var base_speed_min: float = 170.0
 var base_speed_max: float = 240.0
@@ -323,11 +323,11 @@ func spawn_random_item() -> void:
 	var base_speed: float
 
 	if speed_roll < 0.25:
-		base_speed = randf_range(420.0, 540.0) + difficulty_factor * 70.0
+		base_speed = randf_range(240.0, 320.0) + difficulty_factor * 35.0
 	elif speed_roll < 0.75:
-		base_speed = randf_range(580.0, 760.0) + difficulty_factor * 100.0
+		base_speed = randf_range(330.0, 430.0) + difficulty_factor * 50.0
 	else:
-		base_speed = randf_range(800.0, 1000.0) + difficulty_factor * 130.0
+		base_speed = randf_range(460.0, 580.0) + difficulty_factor * 65.0
 
 	item.fall_speed = base_speed * size_scale
 

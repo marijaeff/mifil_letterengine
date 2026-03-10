@@ -372,5 +372,5 @@ func update_darkness():
 
 	mat.set_shader_parameter("light_pos", uv_mouse)
 
-	mat.set_shader_parameter("radius", 0.08)
+	mat.set_shader_parameter("radius", 0.077)
 	
