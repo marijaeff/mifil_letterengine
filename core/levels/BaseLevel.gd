@@ -17,7 +17,6 @@ func complete() -> void:
 	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
 
 
-# show pause popup
 func show_pause() -> void:
 
 	if get_tree().paused:

@@ -178,7 +178,7 @@ func _process(delta: float) -> void:
 	if total > 0:
 		text_progress = clamp(float(text_label.visible_characters) / float(total), 0.0, 1.0)
 
-	var center_hold_offset: float = scroll.size.y * 0.22
+	var center_hold_offset: float = scroll.size.y * 0.32
 	var target_scroll: float = total_scrollable * text_progress - center_hold_offset
 	target_scroll = clamp(target_scroll, 0.0, total_scrollable)
 

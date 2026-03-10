@@ -16,7 +16,8 @@ extends Control
 
 var config
 var transitioning := false
-
+var _no_button_tween: Tween
+var _no_escape_margin: float = 40.0
 
 # --------------------------------------------------
 func _ready():
@@ -115,14 +116,61 @@ func _on_yes_pressed():
 	SceneLoader.goto_scene("res://scenes/screens/EnvelopeScreen.tscn")
 
 
-func _on_no_pressed():
-	if transitioning:
+func _on_no_pressed() -> void:
+	_move_no_button_somewhere_else()
+
+func _move_no_button_somewhere_else() -> void:
+	if _no_button_tween:
+		_no_button_tween.kill()
+
+	var parent_control := button_no.get_parent() as Control
+	if parent_control == null:
 		return
-	
-	transitioning = true
-	AudioManager.play_sfx_by_key("whoosh", -12)
-	await get_tree().process_frame
-	SceneLoader.goto_scene("res://scenes/screens/EnvelopeScreen.tscn")
+
+	var area_size: Vector2 = parent_control.size
+	var btn_size: Vector2 = button_no.size
+	var yes_size: Vector2 = button_yes.size
+
+	if btn_size == Vector2.ZERO:
+		btn_size = button_no.get_combined_minimum_size()
+
+	if yes_size == Vector2.ZERO:
+		yes_size = button_yes.get_combined_minimum_size()
+
+	var min_x: float = _no_escape_margin
+	var min_y: float = _no_escape_margin
+	var max_x: float = max(min_x, area_size.x - btn_size.x - _no_escape_margin)
+	var max_y: float = max(min_y, area_size.y - btn_size.y - _no_escape_margin)
+
+	var padding: float = 20.0
+	var yes_rect := Rect2(
+		button_yes.position - Vector2(padding, padding),
+		yes_size + Vector2(padding * 2.0, padding * 2.0)
+	)
+
+	var new_pos: Vector2 = button_no.position
+	var attempts: int = 0
+
+	while attempts < 30:
+		new_pos = Vector2(
+			randf_range(min_x, max_x),
+			randf_range(min_y, max_y)
+		)
+
+		var no_rect := Rect2(new_pos, btn_size)
+
+		var far_enough: bool = button_no.position.distance_to(new_pos) >= 140.0
+		var not_overlapping_yes: bool = not no_rect.intersects(yes_rect)
+
+		if far_enough and not_overlapping_yes:
+			break
+
+		attempts += 1
+
+	_no_button_tween = create_tween()
+	_no_button_tween.set_trans(Tween.TRANS_BACK)
+	_no_button_tween.set_ease(Tween.EASE_OUT)
+	_no_button_tween.tween_property(button_no, "position", new_pos, 0.35)
 
 
 func _color_from_config(value, fallback: Color) -> Color:

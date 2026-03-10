@@ -37,6 +37,7 @@ signal map_pressed
 
 var toggle_off_tex: Texture2D
 var toggle_on_tex: Texture2D
+var opened_directly_to_settings := false
 
 # ---------------------------------------------------
 # READY
@@ -101,7 +102,7 @@ func _on_music_toggle_pressed() -> void:
 	_update_toggle_visual(music_toggle)
 
 func show_from_config() -> void:
-
+	opened_directly_to_settings = false
 	if DataLoader.client_id.is_empty():
 		DataLoader.load_client("vika")
 
@@ -140,8 +141,8 @@ func show_from_config() -> void:
 # SETTINGS CONFIG
 # ---------------------------------------------------
 
-func show_settings_from_config() -> void:
-
+func show_settings_from_config(opened_directly: bool = false) -> void:
+	opened_directly_to_settings = opened_directly
 	var cfg: Dictionary = DataLoader.config.get("levels", {}).get("settings", {})
 	if cfg.is_empty():
 		push_error("Settings config not found")
@@ -254,20 +255,19 @@ func _on_settings_pressed() -> void:
 
 
 func _on_settings_back() -> void:
-	settings_panel.visible = false
-	panel.visible = true
+	if opened_directly_to_settings:
+		hide()
+		queue_free()
+	else:
+		settings_panel.visible = false
+		panel.visible = true
 
 
-func _on_reset_pressed():
-
+func _on_reset_pressed() -> void:
+	hide()
 	get_tree().paused = false
-
 	ProgressManager.reset_progress()
-
-	await get_tree().process_frame
-
-	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
-
+	SceneLoader.goto_scene("res://scenes/screens/HeartScreen.tscn")
 
 # ---------------------------------------------------
 # ANIMATION

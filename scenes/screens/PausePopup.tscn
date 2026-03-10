@@ -121,7 +121,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1, 0.992531)
-theme_override_constants/separation = 100
+theme_override_constants/separation = 50
 
 [node name="space1" type="Control" parent="CenterContainer/SettingsPanel/Content"]
 layout_mode = 2
@@ -181,7 +181,6 @@ size_flags_horizontal = 6
 toggle_mode = true
 
 [node name="Btn_3" type="Button" parent="CenterContainer/SettingsPanel/Content"]
-visible = false
 layout_mode = 2
 text = "Сбросить прогресс"
 icon = ExtResource("3_slauy")

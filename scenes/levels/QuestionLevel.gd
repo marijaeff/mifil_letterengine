@@ -45,7 +45,7 @@ var level_completed_once := false
 
 var time_left := 0
 var timer_active := false
-var time_per_question := 10
+var time_per_question := 7
 
 
 # ==================================================

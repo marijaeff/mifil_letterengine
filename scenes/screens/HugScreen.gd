@@ -25,8 +25,6 @@ func _ready() -> void:
 	_prepare_scene()
 	_setup_buttons()
 
-	await _frame_close()
-	await _frame_lean()
 	await _frame_hug()
 	await _finish_sequence()
 
@@ -40,15 +38,17 @@ func _load_textures() -> void:
 
 
 func _prepare_scene() -> void:
-	girl.texture = tex_girl
-	boy.texture = tex_boy
 	heart.texture = tex_heart
 
+	girl.visible = false
+	boy.visible = false
 	girl.modulate.a = 0.0
 	boy.modulate.a = 0.0
 
+	duo.texture = tex_hug
+	duo.global_position = center_position
+	duo.visible = true
 	duo.modulate.a = 0.0
-	duo.visible = false
 
 	heart.modulate.a = 0.0
 	buttons.modulate.a = 0.0
@@ -192,12 +192,15 @@ func _frame_hug() -> void:
 	duo.texture = tex_hug
 	duo.global_position = center_position
 	duo.visible = true
+	duo.modulate.a = 0.0
 
 	var fade_in := create_tween()
 	fade_in.set_trans(Tween.TRANS_SINE)
 	fade_in.set_ease(Tween.EASE_IN_OUT)
-	fade_in.tween_property(duo, "modulate:a", 1.0, 2.0)
+	fade_in.tween_property(duo, "modulate:a", 1.0, 2.4)
 	await fade_in.finished
+
+	await _pause(0.5)
 
 	_start_heart_pulse()
 
@@ -206,7 +209,7 @@ func _frame_hug() -> void:
 	heart_fade.set_ease(Tween.EASE_IN_OUT)
 	heart_fade.tween_property(heart, "modulate:a", 0.85, 2.0)
 
-	await _pause(1.0)
+	await _pause(1.2)
 
 
 func _finish_sequence() -> void:

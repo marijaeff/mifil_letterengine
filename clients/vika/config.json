@@ -81,6 +81,10 @@
 	  "button": {
 		"texture": "assets/ui/btn_map.png"
 	  },
+	
+	  "settings_button": {
+		"icon": "assets/ui/setting_icon.png"
+	  },
 
 	  "envelope": {
 		"bases": [
@@ -129,7 +133,7 @@
 	  "letter_text_color": "#29241C",
 	  "close_button": {
 		"icon": "assets/ui/btn_map.png",
-		"text": "..."
+		"text": "Дальше"
 	  }
 	}, 
 	"hug": {
@@ -207,7 +211,7 @@
 	  "final_box": "assets/objects/question/box_open_letter.png",
 	  "timer_circle": "assets/objects/question/timeCircle.png",
 		"timer": {
-		  "time_per_question": 10
+		  "time_per_question": 7
 		},
 	  "buttons": {
 		"outline": "assets/objects/question/btn_quest.png"
@@ -228,7 +232,7 @@
 		},
 		{
 		  "text": "Сколько примерно денег мы потратили на лечение нашей бомжихи Милки?",
-		  "answers": ["Примерно 500 евро", "Примерно 300", "Примерно 100"],
+		  "answers": ["≈500 €", "≈300 €", "≈400 €"],
 		  "correct": 0
 		},
 		{
@@ -263,7 +267,7 @@
 
 	"light": {
 
-	  "background": "assets/backgrounds/light_bg.png",
+	  "background": "assets/backgrounds/light_bg.jpg",
 
 	  "light": {
 		"texture": "assets/objects/light/light.png",
@@ -286,7 +290,7 @@
 	  },
 
 	  "timer": {
-		"time": 20
+		"time": 30
 	  }
 	},
 

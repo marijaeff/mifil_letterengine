@@ -16,7 +16,7 @@ extends BaseLevelUI
 
 @onready var hearts_container: HBoxContainer = $UI/HeartsContainer
 @onready var pause_btn: TextureButton = $UI/PauseButton
-
+@onready var round_label: Label = $GameLayer/Round
 
 var questions: Array = []
 var current_question: Dictionary
@@ -89,6 +89,10 @@ func load_shared_ui(def: Dictionary) -> void:
 	if pause_path != "":
 		pause_btn.texture_normal = load(base_path + pause_path)
 
+func update_round_label() -> void:
+	var shown_round: int = min(current_round + 1, rounds_total)
+	round_label.text = str(shown_round) + "/" + str(rounds_total)
+
 
 func load_visuals(def: Dictionary) -> void:
 
@@ -129,9 +133,13 @@ func apply_question_style():
 	if font_path != "":
 		var font: FontFile = load(base + font_path)
 		question_label.add_theme_font_override("font", font)
+		round_label.add_theme_font_override("font", font)
 
 	question_label.add_theme_color_override("font_color", Color(style.get("color", "#B9A98B")))
 	question_label.add_theme_font_size_override("font_size", style.get("size", 70))
+
+	round_label.add_theme_color_override("font_color", Color(style.get("color", "#B9A98B")))
+	round_label.add_theme_font_size_override("font_size", 52)
 
 func create_hearts():
 
@@ -165,8 +173,11 @@ func lose_heart():
 func start_round():
 
 	if current_round >= rounds_total:
+		round_label.text = str(rounds_total) + "/" + str(rounds_total)
 		win()
 		return
+
+	round_label.text = str(current_round + 1) + "/" + str(rounds_total)
 
 	waiting_next_tap = false
 	enable_boxes()

@@ -1,5 +1,7 @@
 extends Control
 
+@export var pause_popup_scene: PackedScene
+
 @onready var background = $Background
 @onready var title_label = $CenterWrap/Canvas/TitleLabel
 
@@ -9,6 +11,7 @@ extends Control
 @onready var lights_container = $CenterWrap/Canvas/PathLayer/LightsContainer
 
 @onready var start_button = $CenterWrap/Canvas/StartButton
+@onready var setting_button = $UI/SettingButton
 
 var config: Dictionary
 
@@ -33,7 +36,9 @@ func _ready():
 	update_start_button_state()
 	show_button()
 	start_button.pressed.connect(_on_start_pressed)
+	setting_button.pressed.connect(_on_settings_pressed)
 	envelope_icon.letter_requested.connect(_on_letter_requested)
+	
 	
 func load_content():
 	var base_path: String = "res://clients/%s/" % DataLoader.client_id
@@ -43,12 +48,21 @@ func load_content():
 	var map_texts: Dictionary = DataLoader.texts.get("map", {}) as Dictionary
 
 	title_label.text = map_texts.get("title", "")
+	title_label.add_theme_color_override("font_color", Color("FFE9AC"))
 	
 	start_button.text = map_texts.get("button", "")
 	start_button.icon = load(base_path + config["button"]["texture"])
 	
 	envelope_icon.setup_from_map_def(config)
 	envelope_icon.apply_progress(ProgressManager.completed_level)
+	var settings_btn_def: Dictionary = config.get("settings_button", {}) as Dictionary
+	var settings_icon_path: String = settings_btn_def.get("icon", "")
+	if settings_icon_path != "":
+		var icon_tex: Texture2D = load(base_path + settings_icon_path) as Texture2D
+		if icon_tex != null:
+			setting_button.texture_normal = icon_tex
+			setting_button.texture_pressed = icon_tex
+			setting_button.texture_hover = icon_tex
 	
 func show_button():
 	start_button.visible = true
@@ -270,7 +284,17 @@ func _on_level_pressed(level_index: int) -> void:
 	selected_level = ProgressManager.selected_level
 	
 	rebuild_levels_only()
-	
+
+func _on_settings_pressed() -> void:
+	AudioManager.play_sfx_by_key("button", -14)
+
+	var popup = pause_popup_scene.instantiate()
+	add_child(popup)
+
+	popup.process_mode = Node.PROCESS_MODE_ALWAYS
+	popup.show()
+	popup.show_settings_from_config(true)
+
 func _on_start_pressed() -> void:
 
 	var levels_data: Dictionary = config.get("levels", {}) as Dictionary

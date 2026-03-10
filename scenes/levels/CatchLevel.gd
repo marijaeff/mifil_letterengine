@@ -18,14 +18,14 @@ var heart_icon: Texture2D = null
 var good_items: Array[Texture2D] = []
 var bad_items: Array[Texture2D] = []
 var good_caught: int = 0
-var total_needed: int = 10
+var total_needed: int = 40
 
 var is_touching: bool = false
 var last_spawn_zone: int = -1
 
 var difficulty_time: float = 0.0
-var base_spawn_time: float = 1.2
-var min_spawn_time: float = 0.6
+var base_spawn_time: float = 0.9
+var min_spawn_time: float = 0.5
 
 var base_speed_min: float = 170.0
 var base_speed_max: float = 240.0
@@ -97,6 +97,8 @@ func load_visuals(def: Dictionary) -> void:
 
 	if plant_stages.size() > 0:
 		plant.texture = plant_stages[0]
+		plant.modulate.a = 0.25
+		plant.scale = Vector2(0.9, 0.9)
 
 	var hearts_def: Dictionary = def.get("hearts", {}) as Dictionary
 	hearts_max = int(hearts_def.get("max", 3))
@@ -320,12 +322,12 @@ func spawn_random_item() -> void:
 
 	var base_speed: float
 
-	if speed_roll < 0.3:
-		base_speed = randf_range(130.0, 180.0) + difficulty_factor * 20.0
+	if speed_roll < 0.25:
+		base_speed = randf_range(420.0, 540.0) + difficulty_factor * 70.0
 	elif speed_roll < 0.75:
-		base_speed = randf_range(200.0, 260.0) + difficulty_factor * 40.0
+		base_speed = randf_range(580.0, 760.0) + difficulty_factor * 100.0
 	else:
-		base_speed = randf_range(300.0, 380.0) + difficulty_factor * 60.0
+		base_speed = randf_range(800.0, 1000.0) + difficulty_factor * 130.0
 
 	item.fall_speed = base_speed * size_scale
 
