@@ -172,39 +172,45 @@ func _process(delta: float) -> void:
 			_end_reached = true
 			AudioManager.stop_writing_loop()
 
-	var total_scrollable: float = maxf(0.0, _paper_height - scroll.size.y)
+	var visual_scrollable: float = maxf(0.0, _paper_height - scroll.size.y)
+
+	var vbar: VScrollBar = scroll.get_v_scroll_bar()
+	var real_scrollable: float = maxf(0.0, vbar.max_value - vbar.page)
 
 	var text_progress: float = 0.0
 	if total > 0:
 		text_progress = clamp(float(text_label.visible_characters) / float(total), 0.0, 1.0)
 
 	var center_hold_offset: float = scroll.size.y * 0.32
-	var target_scroll: float = total_scrollable * text_progress - center_hold_offset
-	target_scroll = clamp(target_scroll, 0.0, total_scrollable)
+	var target_scroll: float = visual_scrollable * text_progress - center_hold_offset
+	target_scroll = clamp(target_scroll, 0.0, visual_scrollable)
 
-	if _auto_scroll and _auto_scroll_timer <= 0.0 and not _touch_down:
-		scroll.scroll_vertical = lerpf(
+	if _auto_scroll and _auto_scroll_timer <= 0.0 and not _touch_down and not _end_reached:
+		scroll.scroll_vertical = int(round(lerpf(
 			float(scroll.scroll_vertical),
 			target_scroll,
 			clamp(delta * 4.0, 0.0, 1.0)
-		)
+		)))
+
 	if _end_reached:
-		scroll.scroll_vertical = lerpf(
+		var next_end: float = lerpf(
 			float(scroll.scroll_vertical),
-			total_scrollable,
+			real_scrollable,
 			clamp(delta * 6.0, 0.0, 1.0)
 		)
+		scroll.scroll_vertical = int(round(next_end))
 
-		if absf(float(scroll.scroll_vertical) - total_scrollable) < 6.0:
-			scroll.scroll_vertical = total_scrollable
+		if real_scrollable - float(scroll.scroll_vertical) <= 12.0:
+			scroll.scroll_vertical = int(real_scrollable)
 
 	if _end_reached and not _button_shown:
-		if absf(float(scroll.scroll_vertical) - total_scrollable) < 12.0:
+		if real_scrollable - float(scroll.scroll_vertical) <= 1.0:
 			_button_shown = true
 			_show_close_button()
 
-	if _end_reached and _button_shown and absf(float(scroll.scroll_vertical) - total_scrollable) < 1.0:
-		set_process(false)
+	if _end_reached and _button_shown:
+		if real_scrollable - float(scroll.scroll_vertical) <= 1.0:
+			set_process(false)
 
 func _show_close_button() -> void:
 	close_button.visible = true
