@@ -33,6 +33,9 @@ var light_active := false
 var is_game_over := false
 var level_completed_once := false
 
+var pointer_pos: Vector2 = Vector2.ZERO
+var light_finger_offset: Vector2 = Vector2(0, -140)
+
 # ---------------------------------------------------
 # READY
 # ---------------------------------------------------
@@ -332,10 +335,20 @@ func _go_to_map():
 
 func _input(event):
 
-	if event is InputEventMouseButton:
+	if event is InputEventScreenTouch:
+		pointer_pos = event.position
+		light_active = event.pressed
 
+	elif event is InputEventScreenDrag:
+		pointer_pos = event.position
+
+	elif event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
+			pointer_pos = event.position
 			light_active = event.pressed
+
+	elif event is InputEventMouseMotion:
+		pointer_pos = event.position
 
 
 # ---------------------------------------------------
@@ -355,22 +368,18 @@ func _process(delta):
 # ---------------------------------------------------
 
 func move_light():
-
-	var pos = darkness.get_local_mouse_position()
-
-	candle.position = pos - candle.size * candle.scale / 2
+	var local_pos: Vector2 = pointer_pos - darkness.global_position + light_finger_offset
+	candle.position = local_pos - candle.size * candle.scale / 2
 
 
 func update_darkness():
-
 	var mat := darkness.material as ShaderMaterial
 	if mat == null:
 		return
 
-	var local_mouse = darkness.get_local_mouse_position()
-	var uv_mouse = local_mouse / darkness.size
+	var local_pos: Vector2 = pointer_pos - darkness.global_position + light_finger_offset
+	var uv_pos: Vector2 = local_pos / darkness.size
 
-	mat.set_shader_parameter("light_pos", uv_mouse)
-
+	mat.set_shader_parameter("light_pos", uv_pos)
 	mat.set_shader_parameter("radius", 0.085)
 	

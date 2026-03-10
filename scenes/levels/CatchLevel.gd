@@ -9,7 +9,7 @@ extends BaseLevel
 @onready var hearts_container: HBoxContainer = $UI/HeartsContainer
 @onready var pause_btn: TextureButton = $UI/PauseButton
 @onready var spawn_timer: Timer = $SpawnTimer
-
+@onready var hint_label: Label = $UI/Label
 
 var plant_stages: Array[Texture2D] = []
 var hearts_max: int = 3
@@ -70,12 +70,15 @@ func _ready() -> void:
 	load_shared_ui(shared_def) 
 	load_visuals(catch_def)
 	load_items(catch_def)
+	setup_hint(catch_def)
 	
-	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
-	spawn_timer.start()
-
 	$PlantRoot/CatchArea.area_entered.connect(_on_item_caught)
 	pause_btn.pressed.connect(show_pause)
+
+	await show_intro_hint(catch_def)
+
+	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
+	spawn_timer.start()
 
 func load_visuals(def: Dictionary) -> void:
 	var base_path: String = "res://clients/%s/" % DataLoader.client_id
@@ -112,6 +115,73 @@ func load_visuals(def: Dictionary) -> void:
 	var pause_path: String = def.get("pause_icon", "")
 	if pause_path != "":
 		pause_btn.texture_normal = load(base_path + pause_path) as Texture2D
+
+func show_intro_hint(def: Dictionary) -> void:
+	var hint_def: Dictionary = def.get("hint", {}) as Dictionary
+
+	var text: String = str(hint_def.get("text", ""))
+	if text == "":
+		hint_label.visible = false
+		return
+
+	hint_label.visible = true
+	hint_label.text = text
+	hint_label.modulate.a = 0.0
+
+	var ui_cfg: Dictionary = DataLoader.config.get("ui", {}) as Dictionary
+	var base_path: String = "res://clients/%s/" % DataLoader.client_id
+	var font_path: String = str(ui_cfg.get("font", ""))
+
+	if font_path != "":
+		var font: FontFile = load(base_path + font_path) as FontFile
+		if font:
+			hint_label.add_theme_font_override("font", font)
+
+	hint_label.add_theme_font_size_override("font_size", int(hint_def.get("size", 48)))
+	hint_label.add_theme_color_override("font_color", Color(str(hint_def.get("color", "#FFE9AC"))))
+
+	var show_time: float = float(hint_def.get("show_time", 1.8))
+
+	var t := create_tween()
+	t.set_trans(Tween.TRANS_SINE)
+	t.set_ease(Tween.EASE_IN_OUT)
+	t.tween_property(hint_label, "modulate:a", 1.0, 0.4)
+	t.tween_interval(show_time)
+	t.tween_property(hint_label, "modulate:a", 0.0, 0.5)
+
+	await t.finished
+	hint_label.visible = false
+
+func setup_hint(def: Dictionary) -> void:
+	var hint_def: Dictionary = def.get("hint", {}) as Dictionary
+
+	hint_label.text = str(hint_def.get("text", ""))
+	hint_label.visible = hint_label.text != ""
+	hint_label.modulate.a = 0.0
+
+	var ui_cfg: Dictionary = DataLoader.config.get("ui", {}) as Dictionary
+	var base_path: String = "res://clients/%s/" % DataLoader.client_id
+	var font_path: String = str(ui_cfg.get("font", ""))
+
+	if font_path != "":
+		var font: FontFile = load(base_path + font_path) as FontFile
+		if font:
+			hint_label.add_theme_font_override("font", font)
+
+	hint_label.add_theme_font_size_override("font_size", int(hint_def.get("size", 48)))
+	hint_label.add_theme_color_override("font_color", Color(str(hint_def.get("color", "#FFE9AC"))))
+
+	if hint_label.visible:
+		var t := create_tween()
+		t.set_trans(Tween.TRANS_SINE)
+		t.set_ease(Tween.EASE_IN_OUT)
+		t.tween_property(hint_label, "modulate:a", 1.0, 0.5)
+		t.tween_interval(1.8)
+		t.tween_property(hint_label, "modulate:a", 0.0, 0.7)
+		t.tween_callback(func():
+			if is_instance_valid(hint_label):
+				hint_label.visible = false
+		)
 
 func load_shared_ui(def: Dictionary) -> void:
 
@@ -323,11 +393,11 @@ func spawn_random_item() -> void:
 	var base_speed: float
 
 	if speed_roll < 0.25:
-		base_speed = randf_range(240.0, 320.0) + difficulty_factor * 35.0
+		base_speed = randf_range(240.0, 320.0) + difficulty_factor * 50.0
 	elif speed_roll < 0.75:
-		base_speed = randf_range(330.0, 430.0) + difficulty_factor * 50.0
+		base_speed = randf_range(330.0, 430.0) + difficulty_factor * 65.0
 	else:
-		base_speed = randf_range(460.0, 580.0) + difficulty_factor * 65.0
+		base_speed = randf_range(460.0, 580.0) + difficulty_factor * 75.0
 
 	item.fall_speed = base_speed * size_scale
 

@@ -159,6 +159,10 @@
 	"catch": {
 	  "background": "assets/backgrounds/catch_bg.png",
 	  "hands": "assets/objects/catch/hands.png",
+	  "hint": {
+		   "text": "Лови то, что мне по нраву",
+		   "color": "#FFE9AC",
+		   "size": 48},
 	  "plant_stages": [
 		"assets/objects/catch/plant_1.png",
 		"assets/objects/catch/plant_2.png",
@@ -290,7 +294,7 @@
 	  },
 
 	  "timer": {
-		"time": 40
+		"time": 50
 	  }
 	},
 
