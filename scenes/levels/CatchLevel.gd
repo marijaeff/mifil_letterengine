@@ -393,11 +393,11 @@ func spawn_random_item() -> void:
 	var base_speed: float
 
 	if speed_roll < 0.25:
-		base_speed = randf_range(240.0, 320.0) + difficulty_factor * 40.0
+		base_speed = randf_range(220.0, 290.0) + difficulty_factor * 30.0
 	elif speed_roll < 0.75:
-		base_speed = randf_range(330.0, 430.0) + difficulty_factor * 55.0
+		base_speed = randf_range(300.0, 390.0) + difficulty_factor * 40.0
 	else:
-		base_speed = randf_range(400.0, 500.0) + difficulty_factor * 45.0
+		base_speed = randf_range(400.0, 500.0) + difficulty_factor * 48.0
 
 	item.fall_speed = base_speed * size_scale
 
