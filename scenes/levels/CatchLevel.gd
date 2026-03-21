@@ -44,9 +44,6 @@ func _ready() -> void:
 	AudioManager.set_music_volume(0.06) 
 	AudioManager.play_music_by_key("level")
 	
-	if DataLoader.client_id.is_empty():
-		DataLoader.load_client("vika")
-
 	var current_id: int = ProgressManager.selected_level
 	var def: Dictionary = LevelRouter.get_level_def(current_id)
 

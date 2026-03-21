@@ -3,10 +3,12 @@ extends Node
 var completed_level: int = 0
 var selected_level: int = 1
 
-var save_path: String = "user://progress.save"
-
+func get_save_path() -> String:
+	return "user://progress_%s.save" % DataLoader.client_id
 
 func load_progress() -> void:
+
+	var save_path := get_save_path()
 
 	if not FileAccess.file_exists(save_path):
 		return
@@ -34,6 +36,7 @@ func save_progress() -> void:
 		"envelope_stage": envelope_stage
 	}
 
+	var save_path := get_save_path()
 	var file: FileAccess = FileAccess.open(save_path, FileAccess.WRITE)
 	file.store_string(JSON.stringify(data))
 	file.close()

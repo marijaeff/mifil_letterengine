@@ -54,9 +54,6 @@ var time_per_question := 7
 
 func _ready():
 
-	if DataLoader.client_id.is_empty():
-		DataLoader.load_client("vika")
-
 	await get_tree().process_frame
 
 	var config: Dictionary = DataLoader.config

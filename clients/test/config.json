@@ -1,0 +1,424 @@
+{
+  "ui": {
+	"font": "assets/fonts/Neucha-Regular.ttf",
+	"font_size": 80,
+	"button_font_size": 50,
+	"button_no_font_size": 30
+  },
+
+	"audio": {
+	  "music": {
+		"map": "assets/music/main_theme.mp3",
+		"level": "assets/music/main_theme.mp3",
+		"final": "assets/music/main_theme.mp3"
+	  },
+	  "sfx": {
+		"heartbeat": "assets/music/sfx/heartbeat.wav",
+		"button": "assets/music/sfx/button.wav",
+		"whoosh": "assets/music/sfx/whoosh.wav",
+		"correct": "assets/music/sfx/correct.wav",
+		"wrong": "assets/music/sfx/wrong.wav",
+		"heart_loss": "assets/music/sfx/heart_loss.wav",
+		"pickup": "assets/music/sfx/pickup.mp3",
+		"letter_found": "assets/music/sfx/letter_found.wav",
+		"paper": "assets/music/sfx/paper.wav"
+	  }
+	},
+
+  "screens": {
+	"heart": {
+	  "background": "assets/backgrounds/heart_bg.png",
+	  "heart_texture": "assets/ui/heart.png",
+	  "beats": 4,
+	  "music": "assets/music/ambient.mp3",
+	  "heartbeat_sfx": "assets/sfx/heartbeat.wav"
+	},
+
+	"intro": {
+	  "background": "assets/backgrounds/intro_bg.png",
+	  "button_no_rotation": -5,
+	  "colors": {
+		"text": "#E8D7B4",
+		"button_yes": "#E8D7B4",
+		"button_no": "#ABABAB"
+	  },
+	  "decor": {
+		"top_line": "assets/objects/rope_top.png",
+		"ground": "assets/objects/ground_line.png"
+	  },
+	  "buttons": {
+		"yes": {
+		  "outline": "assets/ui/button_yes.png"
+		},
+		"no": {
+		  "outline": "assets/ui/button_no.png"
+		}
+	  },
+	  "characters": {
+		"girl": "assets/characters/girl_letter.png",
+		"baby": "assets/objects/baby_idle.png",
+		"cat": "assets/objects/cat_idle.png"
+	  }
+	},
+
+	"envelope": {
+	  "background": "assets/backgrounds/envelope_bg.png",
+	  "envelope_texture": "assets/objects/envelope.png",
+	  "button_outline": "assets/ui/button_read.png"
+	},
+
+	"map": {
+	  "levels": {
+		"count": 4,
+		"textures": {
+		  "locked": "assets/ui/lvl_locked.png",
+		  "active": "assets/ui/lvl_active.png",
+		  "completed": "assets/ui/lvl_completed.png"
+		}
+	  },
+	  "background": "assets/backgrounds/map_bg_1.png",
+
+	  "button": {
+		"texture": "assets/ui/btn_map.png"
+	  },
+	
+	  "settings_button": {
+		"icon": "assets/ui/setting_icon.png"
+	  },
+
+	  "envelope": {
+		"bases": [
+		  "assets/objects/base1.png",
+		  "assets/objects/base2.png",
+		  "assets/objects/base3.png",
+		  "assets/objects/base4.png"
+		],
+		"pieces": [
+		  "assets/objects/piece1.png",
+		  "assets/objects/piece2.png",
+		  "assets/objects/piece3.png",
+		  "assets/objects/piece4.png"
+		],
+		"glow": "assets/objects/glow_envelope.png"
+	  },
+
+	  "path": {
+		"points": [
+		  [344, 1512],
+		  [728, 1184],
+		  [488, 815],
+		  [896, 559],
+		  [584, 463],
+		  [784, 351]
+		],
+		"dash_length": 40,
+		"gap_length": 30,
+		"width_start": 9,
+		"width_end": 3,
+		"style": {
+		  "color": "#FFB200",
+		  "glow_color": "#FFD98A",
+		  "glow_alpha": 0.06,
+		  "glow_width_multiplier": 1.8,
+		  "perspective_power": 1.2
+		}
+	  }
+	},
+
+	"letter": {
+	  "background": "assets/backgrounds/intro_bg.png",
+	  "heart": "assets/objects/heart_letter.png",
+	  "paper": "assets/objects/paper_letter.png",
+	  "letter_font_size": 52,
+	  "letter_text_color": "#29241C",
+	  "close_button": {
+		"icon": "assets/ui/btn_map.png",
+		"text": "Дальше"
+	  }
+	}, 
+	"hug": {
+		"buttons": {
+		  "icon": "assets/ui/btn_map.png",
+		  "save": { "text": "Сохранить" },
+		  "map": { "text": "На карту" },
+		  "finish": { "text": "Начать заново" }
+		},
+		"pdf": "assets/files/letter.pdf"
+	  }
+  },
+
+  "levels": {
+	  "shared": {
+		"pause_icon": "assets/ui/pause.png",
+
+		"hearts": {
+		  "max": 3,
+		  "icon": "assets/ui/heart_life.png"
+		}
+	  },
+	"catch": {
+	  "background": "assets/backgrounds/catch_bg.png",
+	  "hands": "assets/objects/catch/hands.png",
+	  "hint": {
+		   "text": "Лови то, что мне по нраву",
+		   "color": "#FFE9AC",
+		   "size": 48},
+	  "plant_stages": [
+		"assets/objects/catch/plant_1.png",
+		"assets/objects/catch/plant_2.png",
+		"assets/objects/catch/plant_3.png",
+		"assets/objects/catch/plant_4.png"
+	  ],
+		"items": {
+		  "good": [
+			"assets/objects/catch/items/sushi.png",
+			"assets/objects/catch/items/chocolate.png",
+			"assets/objects/catch/items/kixtochka.png",
+			"assets/objects/catch/items/totoro.png",
+		  ],
+		  "bad": [
+			"assets/objects/catch/items/kebab.png",
+			"assets/objects/catch/items/schw.png",
+			"assets/objects/catch/items/tortila.png"
+		  ]
+		}
+	},
+	"intuition": {
+	  "rounds_total": 5,
+
+	  "rounds": [
+		{ "question": 0, "correct": 2 },
+		{ "question": 0, "correct": 1 },
+		{ "question": 0, "correct": 0 },
+		{ "question": 0, "correct": 1 },
+		{ "question": 0, "correct": 2 }
+	  ],
+
+	  "box_closed": "assets/objects/intuition/box_intuition.png",
+	  "box_empty": "assets/objects/intuition/box_intuition_lose.png",
+	  "box_letter": "assets/objects/intuition/box_intuition_win.png",
+	  "table": "assets/objects/intuition/table.png",
+	  "questions": [
+		{ "text": "Как думаешь... в какую каробочку я решила спрятать кусочек письма?" }
+	  ],
+	  "question_style": {
+		"color": "#B9A98B",
+		"size": 70
+	  },
+	 "background": "assets/backgrounds/intuition_bg.png",
+	},
+
+	"question": {
+	  "background": "assets/backgrounds/question_bg.png",
+
+	  "box": "assets/objects/question/box.png",
+	  "final_box": "assets/objects/question/box_open_letter.png",
+	  "timer_circle": "assets/objects/question/timeCircle.png",
+		"timer": {
+		  "time_per_question": 7
+		},
+	  "buttons": {
+		"outline": "assets/objects/question/btn_quest.png"
+	  },
+
+	  "torches": {
+		"off": "assets/objects/question/torch_off.png",
+		"on": "assets/objects/question/torch_on.png"
+	  },
+	
+	  "ground":  "assets/objects/question/ground.png",
+
+	  "questions": [
+		{
+		  "text": "Что я больше всего люблю заказывать из еды?",
+		  "answers": ["Пиццу", "Сушиииии", "Бургер"],
+		  "correct": 1
+		},
+		{
+		  "text": "Сколько примерно денег мы потратили на лечение нашей бомжихи Милки?",
+		  "answers": ["прим. 500 €", "прим. 300 €", "прим. 400 €"],
+		  "correct": 0
+		},
+		{
+		  "text": "Какое бы мы назвали Оливера, если бы слушали мою маму",
+		  "answers": ["Никанор", "Павел", "Никита"],
+		  "correct": 0
+		},
+		{
+		  "text": "Сколько лет мы женаты?",
+		  "answers": ["5", "6", "7"],
+		  "correct": 0
+		}
+	  ],
+	"text_styles": {
+
+	  "question": {
+		"color": "#B9A98B",
+		"size": 70
+	  },
+
+	  "answers": {
+		"color": "#D2FFCA",
+		"size": 70
+	  },
+
+	  "timer": {
+		"color": "#FFEDA5",
+		"size": 100
+	  }
+	}
+	},
+
+	"light": {
+
+	  "background": "assets/backgrounds/light_bg.jpg",
+
+	  "light": {
+		"texture": "assets/objects/light/light.png",
+		"scale": 0.75
+	  },
+
+	  "letters": {
+		"word": "OLIVER"
+	  },
+
+	  "word_ui": {
+		"line_texture": "assets/objects/light/line.png"
+	  },
+
+	  "timer": { "time": 20 },
+
+	  "ui": {
+		"timer_circle": "assets/objects/light/timeсircle.png",
+		"pause_icon": "assets/ui/pause.png"
+	  },
+
+	  "timer": {
+		"time": 50
+	  }
+	},
+
+	"result": {
+
+	  "common": {
+		"icon_size": [220, 160],
+		"panel_scale": 0.92,
+
+		"fonts": {
+		  "title_size": 100,
+		  "subtitle_size": 50,
+		  "button_size": 50
+		},
+		"envelopes": [
+		  "assets/ui/envelope_1.png",
+		  "assets/ui/envelope_2.png",
+		  "assets/ui/envelope_3.png",
+		  "assets/ui/envelope_4.png"
+		]
+	  },
+
+	  "win": {
+
+		"title": "Получилось!",
+		"subtitle": "Ты стал на шаг ближе",
+
+		"panel": "assets/ui/result_win.png",
+		"icon": "assets/ui/envelope_1.png",
+
+		"colors": {
+		  "title": "#203520",
+		  "subtitle": "#143F1D",
+		  "buttons": "#2F230B"
+		},
+
+		"buttons": {
+		  "retry": {
+			"text": "Хочу снова!",
+			"icon": "assets/ui/btn_win.png"
+		  },
+		  "next": {
+			"text": "Дальше в путь",
+			"icon": "assets/ui/btn_win.png"
+		  }
+		}
+	  },
+
+	  "lose": {
+
+		"title": "Увы!",
+		"subtitle": "Не получилось",
+
+		"panel": "assets/ui/result_lose.png",
+		"icon": "assets/ui/sad_envelope.png",
+
+		"colors": {
+		  "title": "#CFCFCF",
+		  "subtitle": "#CFCFCF",
+		  "buttons": "#BDA06A"
+		},
+
+		"buttons": {
+		  "retry": {
+			"text": "Попробовать снова!",
+			"icon": "assets/ui/btn_lose.png"
+		  },
+		  "next": {
+			"text": "К карте",
+			"icon": "assets/ui/btn_lose.png"
+		  }
+		}
+	  }
+	},
+	"pause": {
+
+	  "title": "Пауза",
+
+	  "panel": "assets/ui/pause_panel.png",
+
+	  "icon": "assets/ui/btn_pause.png",
+
+	  "buttons": {
+		"resume": {
+		  "text": "Продолжить"
+		},
+		"restart": {
+		  "text": "Начать заново"
+		},
+		"settings": {
+		  "text": "Настройки"
+		},
+		"map": {
+		  "text": "К карте"
+		}
+	  },
+
+	  "colors": {
+		"title": "#E8D7B4",
+		"buttons": "#E8D7B4"
+	  }
+	},
+	"settings": {
+
+	  "title": "Настройки",
+
+	  "panel": "assets/ui/pause_panel.png",
+	  "icon": "assets/ui/btn_pause.png",
+
+	  "buttons": {
+		"reset": { "text": "Сбросить прогресс" },
+		"back": { "text": "Назад" }
+	  },
+
+	  "labels": {
+		"sound": "Звук",
+		"music": "Музыка"
+	  },
+
+	  "colors": {
+		"title": "#E8D7B4",
+		"buttons": "#E8D7B4",
+		"labels": "#E8D7B4"
+	  }
+	}
+	}
+}

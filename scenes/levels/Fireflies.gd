@@ -14,7 +14,7 @@ func _ready():
 		var l := Sprite2D.new()
 		l.texture = preload("res://clients/vika/assets/objects/question/firefly.png")
 
-		reset_firefly(l, false)   # ← ВОТ ГЛАВНОЕ
+		reset_firefly(l, false) 
 
 		add_child(l)
 		lights.append(l)

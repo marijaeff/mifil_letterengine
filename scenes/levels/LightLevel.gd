@@ -42,9 +42,6 @@ var light_finger_offset: Vector2 = Vector2(0, -140)
 
 func _ready():
 
-	if DataLoader.client_id.is_empty():
-		DataLoader.load_client("vika")
-
 	await get_tree().process_frame
 
 	var config: Dictionary = DataLoader.config

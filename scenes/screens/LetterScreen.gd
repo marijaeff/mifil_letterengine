@@ -29,9 +29,6 @@ func _ready() -> void:
 	AudioManager.set_music_volume(0.04)
 	AudioManager.play_music_by_key("final")
 
-	if DataLoader.client_id.is_empty():
-		DataLoader.load_client("vika")
-
 	_apply_ui_style()
 	await _load_text()
 	_configure_scroll()
