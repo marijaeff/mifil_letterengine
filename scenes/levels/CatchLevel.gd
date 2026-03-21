@@ -46,7 +46,11 @@ func _ready() -> void:
 	
 	var current_id: int = ProgressManager.selected_level
 	var def: Dictionary = LevelRouter.get_level_def(current_id)
-
+	
+	ProgressManager.last_screen = "level"
+	ProgressManager.last_level_id = current_id
+	ProgressManager.save_progress()
+	
 	if def.is_empty():
 		push_error("Level def not found")
 		return
@@ -57,6 +61,8 @@ func _ready() -> void:
 	var levels_block: Dictionary = config.get("levels", {}) as Dictionary
 	var shared_def: Dictionary = levels_block.get("shared", {}) as Dictionary
 	var catch_def: Dictionary = levels_block.get("catch", {}) as Dictionary
+	
+
 	
 	randomize()
 

@@ -36,6 +36,8 @@ var current_index := 0
 var correct_answers := 0
 var needed_correct := 3
 
+var current_id: int = 0
+
 var lamps = []
 var torch_off: Texture2D
 var torch_on: Texture2D
@@ -46,6 +48,7 @@ var level_completed_once := false
 var time_left := 0
 var timer_active := false
 var time_per_question := 7
+
 
 
 # ==================================================
@@ -60,6 +63,17 @@ func _ready():
 	var levels_block: Dictionary = config.get("levels", {})
 	var shared_def: Dictionary = levels_block.get("shared", {})
 	var question_def: Dictionary = levels_block.get("question", {})
+	
+	current_id = ProgressManager.selected_level
+	var def: Dictionary = LevelRouter.get_level_def(current_id)
+
+	if def.is_empty():
+		push_error("Level def not found")
+		return
+
+	ProgressManager.last_screen = "level"
+	ProgressManager.last_level_id = current_id
+	ProgressManager.save_progress()
 
 	load_shared_ui(shared_def)
 	load_visuals(question_def)
@@ -493,7 +507,7 @@ func finish_level():
 		if not level_completed_once:
 			level_completed_once = true
 			ProgressManager.advance_envelope()
-			ProgressManager.complete_level(3)
+			ProgressManager.complete_level(current_id)
 
 		show_result_overlay("win")
 

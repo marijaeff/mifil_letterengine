@@ -30,7 +30,9 @@ func _ready():
 	
 	ProgressManager.load_progress()
 	selected_level = ProgressManager.selected_level
-	
+	ProgressManager.last_screen = "heart"
+	ProgressManager.last_level_id = 0
+	ProgressManager.save_progress()
 	load_content()
 	build_path()
 	update_start_button_state()

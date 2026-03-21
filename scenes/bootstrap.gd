@@ -6,4 +6,11 @@ func _ready():
 	DataLoader.load_client(client_id)
 	ProgressManager.load_progress()
 	UIManager.apply_theme()
-	SceneLoader.goto_scene("res://scenes/screens/HeartScreen.tscn")
+	if ProgressManager.last_screen == "map":
+		SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
+	elif ProgressManager.last_screen == "letter":
+		SceneLoader.goto_scene("res://scenes/screens/LetterScreen.tscn")
+	elif ProgressManager.last_screen == "level" and ProgressManager.last_level_id > 0:
+		LevelRouter.start_level(ProgressManager.last_level_id)
+	else:
+		SceneLoader.goto_scene("res://scenes/screens/HeartScreen.tscn")

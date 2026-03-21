@@ -23,6 +23,7 @@ AudioManager="*res://core/managers/AudioManager.gd"
 UIManager="*res://core/managers/UIManager.gd"
 ProgressManager="*res://core/managers/ProgressManager.gd"
 LevelRouter="*res://core/managers/LevelRouter.gd"
+PlatformManager="*res://core/managers/PlatformManager.gd"
 
 [display]
 

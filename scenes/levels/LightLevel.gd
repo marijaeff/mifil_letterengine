@@ -22,6 +22,8 @@ extends BaseLevelUI
 # STATE
 # ---------------------------------------------------
 
+var current_id: int = 0
+
 var word := ""
 var slots := []
 var found_letters := []
@@ -41,8 +43,19 @@ var light_finger_offset: Vector2 = Vector2(0, -140)
 # ---------------------------------------------------
 
 func _ready():
-
+	
 	await get_tree().process_frame
+
+	current_id = ProgressManager.selected_level
+	var route_def: Dictionary = LevelRouter.get_level_def(current_id)
+
+	if route_def.is_empty():
+		push_error("Level def not found")
+		return
+
+	ProgressManager.last_screen = "level"
+	ProgressManager.last_level_id = current_id
+	ProgressManager.save_progress()
 
 	var config: Dictionary = DataLoader.config
 	var level_def: Dictionary = config.get("levels", {}).get("light", {})
@@ -273,7 +286,7 @@ func finish_level():
 	if not level_completed_once:
 		level_completed_once = true
 		ProgressManager.advance_envelope()
-		ProgressManager.complete_level(4)
+		ProgressManager.complete_level(current_id)
 	
 	AudioManager.play_sfx_by_key("correct", -14)
 	

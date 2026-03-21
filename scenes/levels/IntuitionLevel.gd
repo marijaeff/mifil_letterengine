@@ -21,6 +21,8 @@ extends BaseLevelUI
 var questions: Array = []
 var current_question: Dictionary
 
+var current_id: int = 0
+
 var correct_index: int = 0
 var waiting_next_tap: bool = false
 
@@ -45,8 +47,12 @@ func _ready():
 	AudioManager.play_music_by_key("level")
 	
 
-	var current_id: int = ProgressManager.selected_level
+	current_id = ProgressManager.selected_level
 	var def: Dictionary = LevelRouter.get_level_def(current_id)
+	
+	ProgressManager.last_screen = "level"
+	ProgressManager.last_level_id = current_id
+	ProgressManager.save_progress()
 
 	if def.is_empty():
 		push_error("Level def not found")
@@ -295,7 +301,7 @@ func win():
 		level_completed_once = true
 
 		ProgressManager.advance_envelope()
-		ProgressManager.complete_level(level_id)
+		ProgressManager.complete_level(current_id)
 
 	show_result_overlay("win")
 

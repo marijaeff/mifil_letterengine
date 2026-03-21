@@ -81,5 +81,4 @@ func _on_read_pressed():
 
 	await tween.finished
 	await get_tree().process_frame
-	ProgressManager.reset_progress()
 	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")

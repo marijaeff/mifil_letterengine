@@ -34,7 +34,9 @@ func _ready() -> void:
 	_configure_scroll()
 	_start_heart_pulse()
 	_start_letter()
-
+	ProgressManager.last_screen = "letter"
+	ProgressManager.last_level_id = 0
+	ProgressManager.save_progress()
 	close_button.pressed.connect(_on_close_pressed)
 
 	text_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
