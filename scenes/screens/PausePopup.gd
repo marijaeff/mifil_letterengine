@@ -70,8 +70,8 @@ func _ready():
 # ---------------------------------------------------
 
 func _load_toggle_textures() -> void:
-	toggle_off_tex = load("res://clients/vika/assets/ui/stick_off.png")
-	toggle_on_tex = load("res://clients/vika/assets/ui/stick_on.png")
+	toggle_off_tex = load(DataLoader.resolve_client_path("assets/ui/stick_off.png"))
+	toggle_on_tex = load(DataLoader.resolve_client_path("assets/ui/stick_on.png"))
 
 
 func _setup_toggle(btn: TextureButton) -> void:
@@ -274,17 +274,23 @@ func _on_reset_pressed() -> void:
 # ---------------------------------------------------
 
 func animate_in() -> void:
+	modulate.a = 1.0
+	fade.modulate.a = 0.0
 
-	modulate.a = 0
-	fade.modulate.a = 0
+	await get_tree().process_frame
 
-	$CenterContainer.scale = Vector2(0.92, 0.92)
+	var center := $CenterContainer
+	center.pivot_offset = center.size / 2.0
+	center.scale = Vector2(0.92, 0.92)
+	center.modulate.a = 0.0
 
 	var t := create_tween()
+	t.set_trans(Tween.TRANS_SINE)
+	t.set_ease(Tween.EASE_OUT)
 
 	t.tween_property(fade, "modulate:a", 0.55, 0.25)
-	t.parallel().tween_property(self, "modulate:a", 1.0, 0.25)
-	t.parallel().tween_property($CenterContainer, "scale", Vector2.ONE, 0.28)
+	t.parallel().tween_property(center, "modulate:a", 1.0, 0.22)
+	t.parallel().tween_property(center, "scale", Vector2.ONE, 0.22)
 
 
 # ---------------------------------------------------
