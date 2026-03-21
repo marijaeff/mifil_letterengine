@@ -27,8 +27,7 @@ func _ready():
 	
 	if DEBUG_RESET_PROGRESS:
 		ProgressManager.reset_progress()
-	
-	ProgressManager.load_progress()
+
 	selected_level = ProgressManager.selected_level
 	ProgressManager.last_screen = "map"
 	ProgressManager.last_level_id = 0
@@ -308,6 +307,8 @@ func _on_start_pressed() -> void:
 	await get_tree().process_frame 
 
 	if completed >= count:
+		ProgressManager.completed_level = max(ProgressManager.completed_level, count)
+		ProgressManager.selected_level = ProgressManager.completed_level + 1
 		ProgressManager.last_screen = "letter"
 		ProgressManager.last_level_id = 0
 		ProgressManager.save_progress()
@@ -334,6 +335,11 @@ func _start_letter_pulse() -> void:
 func _on_letter_requested() -> void:
 	AudioManager.play_sfx_by_key("button", -16)
 
+	var levels_data: Dictionary = config.get("levels", {}) as Dictionary
+	var count: int = int(levels_data.get("count", 0))
+
+	ProgressManager.completed_level = max(ProgressManager.completed_level, count)
+	ProgressManager.selected_level = ProgressManager.completed_level + 1
 	ProgressManager.last_screen = "letter"
 	ProgressManager.last_level_id = 0
 	ProgressManager.save_progress()
