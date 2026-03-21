@@ -54,7 +54,7 @@ func _transition(path: String) -> void:
 	_ensure_fade_layer()
 	_bring_fade_to_front()
 
-	var fade_out_time := 0.15
+	var fade_out_time := 0.25
 	var black_hold_time := 0.003
 	var fade_in_time := 0.15
 

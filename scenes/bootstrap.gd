@@ -14,6 +14,8 @@ func _ready():
 		SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
 	elif ProgressManager.last_screen == "letter":
 		SceneLoader.goto_scene("res://scenes/screens/LetterScreen.tscn")
+	elif ProgressManager.last_screen == "hug":
+		SceneLoader.goto_scene("res://scenes/screens/HugScreen.tscn")
 	elif ProgressManager.last_screen == "level" and ProgressManager.last_level_id > 0:
 		LevelRouter.start_level(ProgressManager.last_level_id)
 	else:

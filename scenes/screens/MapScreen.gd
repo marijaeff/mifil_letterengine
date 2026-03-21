@@ -308,6 +308,10 @@ func _on_start_pressed() -> void:
 	await get_tree().process_frame 
 
 	if completed >= count:
+		ProgressManager.last_screen = "letter"
+		ProgressManager.last_level_id = 0
+		ProgressManager.save_progress()
+
 		SceneLoader.goto_scene("res://scenes/screens/LetterScreen.tscn")
 		return
 
@@ -328,7 +332,10 @@ func _start_letter_pulse() -> void:
 	tween.tween_property(envelope_icon, "scale", base_scale, 1.6)
 	
 func _on_letter_requested() -> void:
-
 	AudioManager.play_sfx_by_key("button", -16)
+
+	ProgressManager.last_screen = "letter"
+	ProgressManager.last_level_id = 0
+	ProgressManager.save_progress()
 
 	SceneLoader.goto_scene("res://scenes/screens/LetterScreen.tscn")

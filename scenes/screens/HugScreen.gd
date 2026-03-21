@@ -19,7 +19,11 @@ func _ready() -> void:
 	center_position = get_viewport_rect().size / 2.0
 	_prepare_scene()
 	_setup_buttons()
-
+	
+	ProgressManager.last_screen = "hug"
+	ProgressManager.last_level_id = 0
+	ProgressManager.save_progress()
+	
 	await _frame_hug()
 	await _finish_sequence()
 

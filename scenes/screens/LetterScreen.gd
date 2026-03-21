@@ -24,7 +24,6 @@ var _paper_height: float = 0.0
 var _paper_top_padding: float = 260.0
 var _paper_bottom_padding: float = 250.0
 
-var _ios_scroll_speed: float = 50.0
 
 func _ready() -> void:
 	AudioManager.set_music_volume(0.04)
@@ -112,14 +111,22 @@ func _on_scroll_gui_input(event: InputEvent) -> void:
 		var t := event as InputEventScreenTouch
 		_touch_down = t.pressed
 
+		if PlatformManager.is_ios_web() and not t.pressed:
+			call_deferred("_check_ios_bottom_reached")
+
 	elif event is InputEventScreenDrag:
-		_auto_scroll = false
-		_resume_timer = _resume_delay
+		if PlatformManager.is_ios_web():
+			call_deferred("_check_ios_bottom_reached")
+		else:
+			_auto_scroll = false
+			_resume_timer = _resume_delay
 
 	elif event is InputEventMouseButton:
 		var mb := event as InputEventMouseButton
 		if mb.pressed:
-			if mb.button_index == MOUSE_BUTTON_WHEEL_UP or mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			if PlatformManager.is_ios_web():
+				call_deferred("_check_ios_bottom_reached")
+			elif mb.button_index == MOUSE_BUTTON_WHEEL_UP or mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 				_auto_scroll = false
 				_resume_timer = _resume_delay
 
@@ -137,12 +144,12 @@ func _start_letter() -> void:
 		_visible_chars = float(text_label.get_total_character_count())
 		_is_animating = false
 		_end_reached = true
+		set_process(false)
 	else:
 		text_label.visible_characters = 0
 		_visible_chars = 0.0
 		_is_animating = true
-
-	set_process(true)
+		set_process(true)
 
 func _process(delta: float) -> void:
 	var total: int = text_label.get_total_character_count()
@@ -157,25 +164,6 @@ func _process(delta: float) -> void:
 		if _resume_timer <= 0.0 and not _touch_down:
 			_auto_scroll = true
 
-	var vbar: VScrollBar = scroll.get_v_scroll_bar()
-	var real_scrollable: float = maxf(0.0, vbar.max_value - vbar.page)
-
-	if PlatformManager.is_ios_web():
-		if _auto_scroll and _auto_scroll_timer <= 0.0 and not _touch_down:
-			var next_scroll: float = float(scroll.scroll_vertical) + _ios_scroll_speed * delta
-			next_scroll = min(next_scroll, real_scrollable)
-			scroll.scroll_vertical = int(round(next_scroll))
-
-		if real_scrollable - float(scroll.scroll_vertical) <= 2.0:
-			scroll.scroll_vertical = int(real_scrollable)
-
-		if not _button_shown and real_scrollable - float(scroll.scroll_vertical) <= 1.0:
-			_button_shown = true
-			_show_close_button()
-			set_process(false)
-
-		return
-
 	if _is_animating:
 		var progress: float = clamp(float(text_label.visible_characters) / float(total), 0.0, 1.0)
 
@@ -188,6 +176,8 @@ func _process(delta: float) -> void:
 		_is_animating = false
 		_end_reached = true
 
+	var vbar: VScrollBar = scroll.get_v_scroll_bar()
+	var real_scrollable: float = maxf(0.0, vbar.max_value - vbar.page)
 	var visual_scrollable: float = maxf(0.0, _paper_height - scroll.size.y)
 
 	var text_progress: float = 0.0
@@ -225,6 +215,17 @@ func _process(delta: float) -> void:
 		if real_scrollable - float(scroll.scroll_vertical) <= 1.0:
 			set_process(false)
 
+func _check_ios_bottom_reached() -> void:
+	if not PlatformManager.is_ios_web():
+		return
+
+	var vbar: VScrollBar = scroll.get_v_scroll_bar()
+	var real_scrollable: float = maxf(0.0, vbar.max_value - vbar.page)
+
+	if real_scrollable - float(scroll.scroll_vertical) <= 1.0 and not _button_shown:
+		_button_shown = true
+		_show_close_button()
+
 func _show_close_button() -> void:
 	close_button.visible = true
 	close_button.modulate.a = 0.0
@@ -236,5 +237,10 @@ func _show_close_button() -> void:
 
 func _on_close_pressed() -> void:
 	AudioManager.play_sfx_by_key("whoosh", -12)
+
+	ProgressManager.last_screen = "hug"
+	ProgressManager.last_level_id = 0
+	ProgressManager.save_progress()
+
 	await get_tree().process_frame
 	SceneLoader.goto_scene("res://scenes/screens/HugScreen.tscn")
