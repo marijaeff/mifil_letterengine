@@ -1,8 +1,14 @@
 extends Node
 
 var profile: String = "desktop_web"
+var debug_force_profile: String = ""
 
 func detect() -> void:
+	if debug_force_profile != "":
+		profile = debug_force_profile
+		print("Platform profile (forced):", profile)
+		return
+
 	if OS.has_feature("web_ios"):
 		profile = "ios_web"
 	elif OS.has_feature("web_android"):

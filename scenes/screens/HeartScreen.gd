@@ -15,8 +15,8 @@ func _ready() -> void:
 	setup_animation()
 	beats = int(config.get("beats", 4))
 
-	if not OS.has_feature("web"):
-		AudioManager.play_heartbeat_loop(2.0, -10.0)
+	#if not OS.has_feature("web"):
+		#AudioManager.play_heartbeat_loop(2.0, -10.0)
 
 	wait_for_beats()
 

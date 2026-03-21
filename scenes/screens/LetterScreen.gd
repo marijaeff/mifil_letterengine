@@ -7,7 +7,6 @@ extends Control
 @onready var heart: TextureRect = $VBox/Control/Heart
 @onready var text_margin: MarginContainer = $VBox/Control/ScrollContainer/Paper/MarginContainer
 
-var _heart_tween: Tween
 var _is_animating: bool = false
 var _visible_chars: float = 0.0
 var _typing_speed: float = 15.0
@@ -25,6 +24,8 @@ var _paper_height: float = 0.0
 var _paper_top_padding: float = 260.0
 var _paper_bottom_padding: float = 250.0
 
+var _ios_scroll_speed: float = 50.0
+
 func _ready() -> void:
 	AudioManager.set_music_volume(0.04)
 	AudioManager.play_music_by_key("final")
@@ -32,7 +33,6 @@ func _ready() -> void:
 	_apply_ui_style()
 	await _load_text()
 	_configure_scroll()
-	_start_heart_pulse()
 	_start_letter()
 	ProgressManager.last_screen = "letter"
 	ProgressManager.last_level_id = 0
@@ -123,23 +123,25 @@ func _on_scroll_gui_input(event: InputEvent) -> void:
 				_auto_scroll = false
 				_resume_timer = _resume_delay
 
-func _start_heart_pulse() -> void:
-	var base_scale: Vector2 = heart.scale
-
-	_heart_tween = create_tween()
-	_heart_tween.set_loops()
-	_heart_tween.set_trans(Tween.TRANS_SINE)
-	_heart_tween.set_ease(Tween.EASE_IN_OUT)
-	_heart_tween.tween_property(heart, "scale", base_scale * 1.004, 1.2)
-	_heart_tween.tween_property(heart, "scale", base_scale, 1.2)
-	_heart_tween.tween_interval(1.4)
 
 func _start_letter() -> void:
 	close_button.visible = false
-	await get_tree().create_timer(0.2).timeout
-
+	_button_shown = false
+	_end_reached = false
+	_auto_scroll = true
+	_resume_timer = 0.0
 	_auto_scroll_timer = _auto_scroll_delay
-	_is_animating = true
+
+	if PlatformManager.is_ios_web():
+		text_label.visible_characters = -1
+		_visible_chars = float(text_label.get_total_character_count())
+		_is_animating = false
+		_end_reached = true
+	else:
+		text_label.visible_characters = 0
+		_visible_chars = 0.0
+		_is_animating = true
+
 	set_process(true)
 
 func _process(delta: float) -> void:
@@ -155,6 +157,25 @@ func _process(delta: float) -> void:
 		if _resume_timer <= 0.0 and not _touch_down:
 			_auto_scroll = true
 
+	var vbar: VScrollBar = scroll.get_v_scroll_bar()
+	var real_scrollable: float = maxf(0.0, vbar.max_value - vbar.page)
+
+	if PlatformManager.is_ios_web():
+		if _auto_scroll and _auto_scroll_timer <= 0.0 and not _touch_down:
+			var next_scroll: float = float(scroll.scroll_vertical) + _ios_scroll_speed * delta
+			next_scroll = min(next_scroll, real_scrollable)
+			scroll.scroll_vertical = int(round(next_scroll))
+
+		if real_scrollable - float(scroll.scroll_vertical) <= 2.0:
+			scroll.scroll_vertical = int(real_scrollable)
+
+		if not _button_shown and real_scrollable - float(scroll.scroll_vertical) <= 1.0:
+			_button_shown = true
+			_show_close_button()
+			set_process(false)
+
+		return
+
 	if _is_animating:
 		var progress: float = clamp(float(text_label.visible_characters) / float(total), 0.0, 1.0)
 
@@ -168,9 +189,6 @@ func _process(delta: float) -> void:
 		_end_reached = true
 
 	var visual_scrollable: float = maxf(0.0, _paper_height - scroll.size.y)
-
-	var vbar: VScrollBar = scroll.get_v_scroll_bar()
-	var real_scrollable: float = maxf(0.0, vbar.max_value - vbar.page)
 
 	var text_progress: float = 0.0
 	if total > 0:

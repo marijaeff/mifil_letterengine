@@ -220,7 +220,7 @@ func create_level_point(position: Vector2, state: String, t: float, tex_paths: D
 	else:
 		button.connect("pressed", Callable(self, "_on_level_pressed").bind(level_index))
 
-	if level_index == selected_level:
+	if level_index == selected_level and not PlatformManager.is_ios_web():
 		var base_scale: Vector2 = level_node.scale
 
 		var tween: Tween = level_node.create_tween()
@@ -269,7 +269,7 @@ func build_levels(raw_points: Array) -> void:
 			
 		create_level_point(raw_points[i] as Vector2, state, t, tex_paths, i + 1)
 		
-	if completed >= count:
+	if completed >= count and not PlatformManager.is_ios_web():
 		_start_letter_pulse()
 
 func rebuild_levels_only() -> void:

@@ -38,6 +38,9 @@ var level_completed_once := false
 var pointer_pos: Vector2 = Vector2.ZERO
 var light_finger_offset: Vector2 = Vector2(0, -140)
 
+var _light_dirty: bool = true
+var _last_pointer_pos: Vector2 = Vector2(-99999, -99999)
+
 # ---------------------------------------------------
 # READY
 # ---------------------------------------------------
@@ -67,6 +70,10 @@ func _ready():
 
 	move_light()
 	update_darkness()
+	
+	_light_dirty = false
+	_last_pointer_pos = pointer_pos
+	
 	light_area.area_entered.connect(_on_letter_entered)
 	pause_btn.pressed.connect(show_pause)
 
@@ -348,18 +355,21 @@ func _input(event):
 	if event is InputEventScreenTouch:
 		pointer_pos = event.position
 		light_active = event.pressed
+		_light_dirty = true
 
 	elif event is InputEventScreenDrag:
 		pointer_pos = event.position
+		_light_dirty = true
 
 	elif event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			pointer_pos = event.position
 			light_active = event.pressed
+			_light_dirty = true
 
 	elif event is InputEventMouseMotion:
 		pointer_pos = event.position
-
+		_light_dirty = true
 
 # ---------------------------------------------------
 # PROCESS LOOP
@@ -369,27 +379,42 @@ func _process(delta):
 
 	update_timer(delta)
 
-	if light_active:
-		move_light()
-		update_darkness()
+	if light_active and _light_dirty:
+		if pointer_pos != _last_pointer_pos:
+			move_light()
+			update_darkness()
+			_last_pointer_pos = pointer_pos
+
+		_light_dirty = false
 
 # ---------------------------------------------------
 # LIGHT MOVEMENT
 # ---------------------------------------------------
 
 func move_light():
-	var local_pos: Vector2 = pointer_pos - darkness.global_position + light_finger_offset
-	candle.position = local_pos - candle.size * candle.scale / 2
+	var offset := light_finger_offset
 
+	if PlatformManager.is_low_memory_mode():
+		offset = Vector2(0, -120)
+
+	var local_pos: Vector2 = pointer_pos - darkness.global_position + offset
+	candle.position = local_pos - (candle.size * candle.scale) / Vector2(2, 2)
 
 func update_darkness():
 	var mat := darkness.material as ShaderMaterial
 	if mat == null:
 		return
 
-	var local_pos: Vector2 = pointer_pos - darkness.global_position + light_finger_offset
+	var offset := light_finger_offset
+	if PlatformManager.is_low_memory_mode():
+		offset = Vector2(0, -120)
+
+	var local_pos: Vector2 = pointer_pos - darkness.global_position + offset
 	var uv_pos: Vector2 = local_pos / darkness.size
 
 	mat.set_shader_parameter("light_pos", uv_pos)
-	mat.set_shader_parameter("radius", 0.085)
-	
+
+	if PlatformManager.is_low_memory_mode():
+		mat.set_shader_parameter("radius", 0.11)
+	else:
+		mat.set_shader_parameter("radius", 0.085)

@@ -25,8 +25,8 @@ func _ready() -> void:
 
 
 func _load_textures() -> void:
-	tex_hug = load("res://clients/vika/assets/characters/hug.png")
-	tex_heart = load("res://clients/vika/assets/objects/heart_hug.png")
+	tex_hug = load(DataLoader.resolve_client_path("assets/characters/hug.png"))
+	tex_heart = load(DataLoader.resolve_client_path("assets/objects/heart_hug.png"))
 
 
 func _prepare_scene() -> void:
@@ -69,7 +69,6 @@ func _setup_buttons() -> void:
 	finish_button.pressed.connect(_on_finish_pressed)
 
 func _on_download_pressed() -> void:
-
 	var hug_cfg: Dictionary = DataLoader.config.get("screens", {}).get("hug", {})
 	var pdf_rel: String = str(hug_cfg.get("pdf", ""))
 
@@ -78,14 +77,15 @@ func _on_download_pressed() -> void:
 		return
 
 	var pdf_path: String = DataLoader.resolve_client_path(pdf_rel)
-	var file := FileAccess.open(pdf_path, FileAccess.READ)
 
-	if file == null:
-		push_error("HugScreen: failed to open pdf: " + pdf_path)
+	if not FileAccess.file_exists(pdf_path):
+		pdf_path = "res://clients/vika/assets/files/letter.pdf"
+
+	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(pdf_path)
+
+	if bytes.is_empty():
+		push_error("HugScreen: failed to read pdf bytes: " + pdf_path)
 		return
-
-	var bytes: PackedByteArray = file.get_buffer(file.get_length())
-	file.close()
 
 	if OS.has_feature("web"):
 		JavaScriptBridge.download_buffer(bytes, "letter.pdf", "application/pdf")
@@ -96,7 +96,6 @@ func _on_download_pressed() -> void:
 			return
 		out.store_buffer(bytes)
 		out.close()
-
 
 func _on_map_pressed() -> void:
 	AudioManager.play_sfx_by_key("whoosh", -12)

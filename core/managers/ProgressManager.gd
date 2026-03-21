@@ -4,16 +4,15 @@ var completed_level: int = 0
 var selected_level: int = 1
 var last_screen: String = "heart"
 var last_level_id: int = 0
+var envelope_stage: int = 0
 
 func get_save_path() -> String:
 	return "user://progress_%s.save" % DataLoader.client_id
 
 func load_progress() -> void:
 	var save_path := get_save_path()
-	print("LOADING FROM:", save_path)
 
 	if not FileAccess.file_exists(save_path):
-		print("SAVE FILE NOT FOUND")
 		return
 
 	var file: FileAccess = FileAccess.open(save_path, FileAccess.READ)
@@ -24,11 +23,8 @@ func load_progress() -> void:
 	var text: String = file.get_as_text()
 	file.close()
 
-	print("RAW SAVE TEXT:", text)
-
 	var parsed: Variant = JSON.parse_string(text)
 	if typeof(parsed) != TYPE_DICTIONARY:
-		print("SAVE PARSE FAILED")
 		return
 
 	var data: Dictionary = parsed as Dictionary
@@ -39,7 +35,6 @@ func load_progress() -> void:
 	last_screen = str(data.get("last_screen", "heart"))
 	last_level_id = int(data.get("last_level_id", 0))
 
-	print("LOADED:", data)
 
 
 func save_progress() -> void:
@@ -79,10 +74,10 @@ func reset_progress() -> void:
 	completed_level = 0
 	selected_level = 1
 	envelope_stage = 0
-
-	save_progress()
+	last_screen = "heart"
+	last_level_id = 0
 	
-var envelope_stage: int = 0
+	save_progress()
 
 func advance_envelope():
 	envelope_stage += 1
