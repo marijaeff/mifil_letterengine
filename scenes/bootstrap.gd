@@ -4,6 +4,7 @@ extends Node
 
 func _ready():
 	DataLoader.load_client(client_id)
+	PlatformManager.detect()
 	ProgressManager.load_progress()
 	UIManager.apply_theme()
 	if ProgressManager.last_screen == "map":
