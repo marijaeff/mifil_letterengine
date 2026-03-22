@@ -317,16 +317,21 @@ func show_result_overlay(type: String):
 
 func _on_retry_pressed():
 	AudioManager.play_sfx_by_key("whoosh", -12)
-	await get_tree().process_frame
-	queue_free()
+
+	ProgressManager.last_screen = "level"
+	ProgressManager.last_level_id = current_id
+	ProgressManager.save_progress()
+
 	SceneLoader.goto_scene("res://scenes/levels/IntuitionLevel.tscn")
 
 
-func _on_next_pressed(type: String):
-	AudioManager.play_sfx_by_key("whoosh", -12)  
+func _on_next_pressed(_type: String):
+	AudioManager.play_sfx_by_key("whoosh", -12)
 
-	await get_tree().process_frame
-	queue_free()  
+	ProgressManager.last_screen = "map"
+	ProgressManager.last_level_id = 0
+	ProgressManager.save_progress()
+
 	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
 
 func disable_boxes():

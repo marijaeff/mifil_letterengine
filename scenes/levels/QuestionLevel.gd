@@ -580,10 +580,16 @@ func show_result_overlay(type: String):
 	overlay.next_pressed.connect(_on_next_pressed)
 
 func _on_retry_pressed():
-	queue_free()
+	ProgressManager.last_screen = "level"
+	ProgressManager.last_level_id = current_id
+	ProgressManager.save_progress()
+
 	SceneLoader.goto_scene("res://scenes/levels/QuestionLevel.tscn")
 
 
 func _on_next_pressed():
-	queue_free()
+	ProgressManager.last_screen = "map"
+	ProgressManager.last_level_id = 0
+	ProgressManager.save_progress()
+
 	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")

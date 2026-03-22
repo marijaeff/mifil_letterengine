@@ -329,10 +329,15 @@ func _on_retry_pressed():
 
 
 func _restart_level():
-	
 	AudioManager.play_sfx_by_key("whoosh", -12)
-	
-	queue_free()
+
+	ProgressManager.last_screen = "level"
+	ProgressManager.last_level_id = current_id
+	ProgressManager.save_progress()
+
+	_release_heavy_resources()
+	await get_tree().process_frame
+
 	SceneLoader.goto_scene("res://scenes/levels/LightLevel.tscn")
 
 func _on_next_pressed():
@@ -340,10 +345,15 @@ func _on_next_pressed():
 	call_deferred("_go_to_map")
 
 func _go_to_map():
-	
 	AudioManager.play_sfx_by_key("whoosh", -12)
-	
-	queue_free()
+
+	ProgressManager.last_screen = "map"
+	ProgressManager.last_level_id = 0
+	ProgressManager.save_progress()
+
+	_release_heavy_resources()
+	await get_tree().process_frame
+
 	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
 
 # ---------------------------------------------------
@@ -418,3 +428,19 @@ func update_darkness():
 		mat.set_shader_parameter("radius", 0.11)
 	else:
 		mat.set_shader_parameter("radius", 0.085)
+
+func _release_heavy_resources() -> void:
+	timer_active = false
+	light_active = false
+
+	if darkness:
+		darkness.material = null
+
+	if bg:
+		bg.texture = null
+
+	if candle:
+		candle.texture = null
+
+	if timer_circle:
+		timer_circle.texture = null
