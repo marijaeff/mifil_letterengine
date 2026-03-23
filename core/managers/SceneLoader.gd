@@ -52,7 +52,6 @@ func _transition(path: String) -> void:
 		is_transitioning = false
 		return
 
-	# По документации новая сцена появляется к концу кадра
 	await get_tree().process_frame
 
 	current_scene = get_tree().current_scene
