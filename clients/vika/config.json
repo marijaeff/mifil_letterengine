@@ -271,8 +271,8 @@
 
 	"light": {
 
-	  "background": "assets/backgrounds/light_bg.jpg",
-
+	  "background": "assets/backgrounds/intro_bg.jpg",
+	
 	  "light": {
 		"texture": "assets/objects/light/light.png",
 		"scale": 0.75
