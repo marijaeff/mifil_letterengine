@@ -49,7 +49,7 @@ var time_left := 0
 var timer_active := false
 var time_per_question := 7
 
-
+const DISABLE_TORCH_GLOW_FOR_TEST := true
 
 # ==================================================
 #                    READY
@@ -205,20 +205,23 @@ func setup_lamps():
 
 
 func light_torch_for_current():
-
 	if current_index >= lamps.size():
 		return
 
 	var torch: TextureRect = lamps[current_index]
-
 	torch.texture = torch_on
+
+	if DISABLE_TORCH_GLOW_FOR_TEST:
+		torch.modulate = Color(1, 1, 1, 1)
+		torch.scale = Vector2.ONE
+		return
+
 	torch.modulate = Color(1,1,1,0)
 	torch.scale = Vector2(0.85, 0.85)
 
 	var t := create_tween()
 	t.parallel().tween_property(torch, "modulate:a", 1.0, 0.35)
 	t.parallel().tween_property(torch, "scale", Vector2(1.05,1.05), 0.25)
-
 	await t.finished
 
 	var t2 := create_tween()
@@ -228,10 +231,12 @@ func light_torch_for_current():
 
 
 func breathe_torch(torch: TextureRect):
+	if DISABLE_TORCH_GLOW_FOR_TEST:
+		torch.modulate = Color(1, 1, 1, 1)
+		return
 
 	var t := create_tween()
 	t.set_loops()
-
 	t.tween_property(torch, "modulate:a", 0.82, 1.4)
 	t.tween_property(torch, "modulate:a", 1.0, 1.4)
 

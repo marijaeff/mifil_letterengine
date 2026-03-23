@@ -5,16 +5,20 @@ extends Node2D
 
 var lights := []
 
+const DISABLE_FIREFLIES := true
+
 func _ready():
+	if DISABLE_FIREFLIES:
+		visible = false
+		return
 
 	randomize()
 
 	for i in count:
-
 		var l := Sprite2D.new()
 		l.texture = preload("res://clients/vika/assets/objects/question/firefly.png")
 
-		reset_firefly(l, false) 
+		reset_firefly(l, false)
 
 		add_child(l)
 		lights.append(l)
