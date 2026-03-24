@@ -107,13 +107,9 @@ func build_path() -> void:
 
 	build_dashed_line(baked, path_data)
 	build_levels(cached_raw_points)
-	
-#func build_dashed_line(points, path_data):
+
 
 func build_dashed_line(points, path_data):
-	for child in path_line.get_children():
-		child.queue_free()
-	return
 
 	for child in path_line.get_children():
 		child.queue_free()

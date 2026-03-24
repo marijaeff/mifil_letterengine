@@ -4,106 +4,113 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>$GODOT_PROJECT_NAME</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: $GODOT_SPLASH_COLOR;
-      font-family: Arial, sans-serif;
-    }
+<style>
+  @font-face {
+    font-family: 'Neucha';
+    src: url('./fonts/Neucha-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
 
-    #app {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      background: $GODOT_SPLASH_COLOR;
-    }
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #112618;
+    font-family: 'Neucha', Georgia, "Times New Roman", serif;
+  }
 
-    #canvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
+  #app {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background:
+      radial-gradient(circle at center, rgba(255,255,255,0.04), transparent 55%),
+      linear-gradient(180deg, #1a3422 0%, #112618 100%);
+  }
 
-    #overlay {
-      position: absolute;
-      inset: 0;
-      z-index: 20;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: $GODOT_SPLASH_COLOR;
-    }
+  #canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
 
-    #panel {
-      width: min(440px, 86vw);
-      text-align: center;
-      color: white;
-    }
+  #overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+      radial-gradient(circle at center, rgba(255,255,255,0.05), transparent 60%),
+      linear-gradient(180deg, rgba(17,38,24,0.96) 0%, rgba(17,38,24,0.98) 100%);
+  }
 
-    #logo {
-      width: 120px;
-      max-width: 28vw;
-      margin: 0 auto 22px auto;
-      display: block;
-    }
+  #panel {
+    width: min(520px, 88vw);
+    text-align: center;
+    color: #f4efe6;
+    padding: 28px 24px;
+  }
 
-    #title {
-      font-size: 26px;
-      line-height: 1.3;
-      margin-bottom: 12px;
-      font-weight: 500;
-    }
+  #splash {
+    width: 110px;
+    max-width: 26vw;
+    margin: 0 auto 24px auto;
+    display: block;
+    opacity: 0.95;
+    filter: drop-shadow(0 6px 18px rgba(0,0,0,0.22));
+  }
 
-    #subtitle {
-      font-size: 14px;
-      line-height: 1.5;
-      opacity: 0.82;
-      margin-bottom: 22px;
-    }
+  #title {
+    font-size: 29px;
+    line-height: 1.45;
+    font-weight: 400;
+    margin-bottom: 22px;
+    letter-spacing: 0.2px;
+    white-space: pre-line;
+  }
 
-    #start-btn {
-      border: none;
-      border-radius: 999px;
-      padding: 14px 22px;
-      font-size: 16px;
-      cursor: pointer;
-      background: rgba(255,255,255,0.94);
-      color: #222;
-    }
+  #continue-btn {
+    appearance: none;
+    border: 1px solid rgba(244,239,230,0.26);
+    background: rgba(255,255,255,0.07);
+    color: #f4efe6;
+    border-radius: 999px;
+    padding: 13px 24px;
+    font-size: 16px;
+    font-family: inherit;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    transition: transform 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+  }
 
-    #start-btn:active {
-      transform: scale(0.98);
-    }
+  #continue-btn:active {
+    transform: scale(0.985);
+  }
 
-    #progress-wrap {
-      width: 100%;
-      height: 8px;
-      margin-top: 20px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.15);
-      overflow: hidden;
-      display: none;
-    }
+  #continue-btn:hover {
+    background: rgba(255,255,255,0.11);
+  }
 
-    #progress-bar {
-      width: 0%;
-      height: 100%;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.95);
-      transition: width 0.12s linear;
-    }
+  #hint {
+    margin-top: 14px;
+    font-size: 13px;
+    color: rgba(244,239,230,0.62);
+    min-height: 18px;
+  }
 
-    #error {
-      margin-top: 14px;
-      font-size: 13px;
-      opacity: 0.8;
-      display: none;
-    }
-  </style>
+  #error {
+    display: none;
+    margin-top: 14px;
+    font-size: 13px;
+    color: rgba(255,220,220,0.9);
+  }
+</style>
   $GODOT_HEAD_INCLUDE
 </head>
 <body>
@@ -112,15 +119,10 @@
 
     <div id="overlay">
       <div id="panel">
-        <img id="logo" src="$GODOT_SPLASH" alt="Loading" />
-        <div id="title">Дальше... ко второй части пути</div>
-        <div id="subtitle">Нажми, чтобы продолжить</div>
-        <button id="start-btn">Продолжить</button>
-
-        <div id="progress-wrap">
-          <div id="progress-bar"></div>
-        </div>
-
+        <img id="splash" src="$GODOT_SPLASH" alt="Heart" />
+        <div id="title">Это тебе и для тебя.</div>
+        <button id="continue-btn">В путь</button>
+        <div id="hint"></div>
         <div id="error">Не удалось загрузить игру. Попробуй обновить страницу.</div>
       </div>
     </div>
@@ -130,10 +132,20 @@
   <script>
     const canvas = document.getElementById("canvas");
     const overlay = document.getElementById("overlay");
-    const startBtn = document.getElementById("start-btn");
-    const progressWrap = document.getElementById("progress-wrap");
-    const progressBar = document.getElementById("progress-bar");
+    const button = document.getElementById("continue-btn");
+    const title = document.getElementById("title");
+    const hint = document.getElementById("hint");
     const errorEl = document.getElementById("error");
+
+    const resumed = window.sessionStorage.getItem("mifil_reload_after_level2") === "1";
+
+    if (resumed) {
+      title.textContent = "Половина пути пройдена, это замечательно, осталось немного.";
+      button.textContent = "В путь";
+    } else {
+      title.textContent = "Это тебе и для тебя.";
+      button.textContent = "В путь";
+    }
 
     let started = false;
 
@@ -141,33 +153,34 @@
       if (started) return;
       started = true;
 
-      startBtn.disabled = true;
-      progressWrap.style.display = "block";
+      button.disabled = true;
+      button.style.opacity = "0.7";
+      hint.textContent = resumed ? "Открываем продолжение..." : "Открываем путь...";
 
       try {
         const engine = new Engine($GODOT_CONFIG);
 
         await engine.startGame({
-          canvas: canvas,
-          onProgress: function(current, total) {
-            if (total > 0) {
-              const percent = Math.min(100, Math.round((current / total) * 100));
-              progressBar.style.width = percent + "%";
-            }
-          }
+          canvas: canvas
         });
 
         overlay.style.display = "none";
+
+        if (resumed) {
+          window.sessionStorage.removeItem("mifil_reload_after_level2");
+        }
       } catch (err) {
         console.error(err);
         errorEl.style.display = "block";
-        startBtn.disabled = false;
+        hint.textContent = "";
+        button.disabled = false;
+        button.style.opacity = "1";
         started = false;
       }
     }
 
-    startBtn.addEventListener("click", startGodot);
-    startBtn.addEventListener("touchend", function(e) {
+    button.addEventListener("click", startGodot);
+    button.addEventListener("touchend", function(e) {
       e.preventDefault();
       startGodot();
     }, { passive: false });

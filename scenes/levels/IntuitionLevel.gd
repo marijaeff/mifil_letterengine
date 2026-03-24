@@ -333,9 +333,11 @@ func _on_next_pressed(_type: String):
 	ProgressManager.save_progress()
 
 	if PlatformManager.is_ios_web() and current_id == 2 and _type == "win" and OS.has_feature("web"):
-		_store_level2_reload_checkpoint()
 		JavaScriptBridge.force_fs_sync()
-		JavaScriptBridge.eval("window.location.reload();", true)
+		JavaScriptBridge.eval("""
+window.sessionStorage.setItem('mifil_reload_after_level2', '1');
+window.location.reload();
+""", true)
 		return
 
 	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
