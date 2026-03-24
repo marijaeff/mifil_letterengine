@@ -332,7 +332,30 @@ func _on_next_pressed(_type: String):
 	ProgressManager.last_level_id = 0
 	ProgressManager.save_progress()
 
+	if PlatformManager.is_ios_web() and current_id == 2 and _type == "win" and OS.has_feature("web"):
+		_store_level2_reload_checkpoint()
+		JavaScriptBridge.force_fs_sync()
+		JavaScriptBridge.eval("window.location.reload();", true)
+		return
+
 	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
+
+func _store_level2_reload_checkpoint() -> void:
+	if not OS.has_feature("web"):
+		return
+
+	var js := """
+window.sessionStorage.setItem('mifil_resume_after_level2', '1');
+window.sessionStorage.setItem('mifil_completed_level', '%d');
+window.sessionStorage.setItem('mifil_selected_level', '%d');
+window.sessionStorage.setItem('mifil_envelope_stage', '%d');
+""" % [
+		ProgressManager.completed_level,
+		ProgressManager.selected_level,
+		ProgressManager.envelope_stage
+	]
+
+	JavaScriptBridge.eval(js, true)
 
 func disable_boxes():
 	box1.disabled = true
