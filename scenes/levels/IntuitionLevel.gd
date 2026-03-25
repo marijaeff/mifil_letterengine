@@ -286,23 +286,21 @@ func next_round():
 
 	current_round += 1
 	start_round()
-
+	
 func lose():
-
 	is_game_over = true
+	AudioManager.stop_music(0.45)
 	show_result_overlay("lose")
 
-
 func win():
-
 	is_game_over = true
 
 	if not level_completed_once:
 		level_completed_once = true
-
 		ProgressManager.advance_envelope()
 		ProgressManager.complete_level(current_id)
 
+	AudioManager.stop_music(0.45)
 	show_result_overlay("win")
 
 func show_result_overlay(type: String):
@@ -324,7 +322,6 @@ func _on_retry_pressed():
 
 	SceneLoader.goto_scene("res://scenes/levels/IntuitionLevel.tscn")
 
-
 func _on_next_pressed(_type: String):
 	AudioManager.play_sfx_by_key("whoosh", -12)
 
@@ -333,25 +330,36 @@ func _on_next_pressed(_type: String):
 	ProgressManager.save_progress()
 
 	if PlatformManager.is_ios_web() and current_id == 2 and _type == "win" and OS.has_feature("web"):
+		_store_level2_reload_checkpoint()
+		_mark_map_music_resume_flag()
 		JavaScriptBridge.force_fs_sync()
+
 		JavaScriptBridge.eval("""
-window.sessionStorage.setItem('mifil_reload_after_level2', '1');
-window.location.reload();
-""", true)
+			window.sessionStorage.setItem('mifil_reload_after_level2', '1');
+			window.location.reload();
+		""", true)
 		return
 
 	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
 
+func _mark_map_music_resume_flag() -> void:
+	if not OS.has_feature("web"):
+		return
+
+	JavaScriptBridge.eval("""
+		window.sessionStorage.setItem('mifil_resume_map_music_on_tap', '1');
+	""", true)
+	
 func _store_level2_reload_checkpoint() -> void:
 	if not OS.has_feature("web"):
 		return
 
 	var js := """
-window.sessionStorage.setItem('mifil_resume_after_level2', '1');
-window.sessionStorage.setItem('mifil_completed_level', '%d');
-window.sessionStorage.setItem('mifil_selected_level', '%d');
-window.sessionStorage.setItem('mifil_envelope_stage', '%d');
-""" % [
+		window.sessionStorage.setItem('mifil_resume_after_level2', '1');
+		window.sessionStorage.setItem('mifil_completed_level', '%d');
+		window.sessionStorage.setItem('mifil_selected_level', '%d');
+		window.sessionStorage.setItem('mifil_envelope_stage', '%d');
+	""" % [
 		ProgressManager.completed_level,
 		ProgressManager.selected_level,
 		ProgressManager.envelope_stage

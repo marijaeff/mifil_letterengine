@@ -49,7 +49,7 @@ var time_left := 0
 var timer_active := false
 var time_per_question := 7
 
-const DISABLE_TORCH_GLOW_FOR_TEST := true
+const DISABLE_TORCH_GLOW_FOR_TEST := false
 
 # ==================================================
 #                    READY

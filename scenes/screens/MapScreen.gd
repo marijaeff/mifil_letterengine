@@ -21,10 +21,13 @@ var DEBUG_RESET_PROGRESS: bool = false
 
 var cached_raw_points: Array = []
 
-func _ready():
+var _resume_music_on_first_tap := false
+var _map_music_started := false
+var _letter_pulse_tween: Tween = null
 
+func _ready():
 	config = DataLoader.config["screens"]["map"] as Dictionary
-	
+
 	if DEBUG_RESET_PROGRESS:
 		ProgressManager.reset_progress()
 
@@ -32,10 +35,17 @@ func _ready():
 	ProgressManager.last_screen = "map"
 	ProgressManager.last_level_id = 0
 	ProgressManager.save_progress()
+
+	_detect_resume_music_flag()
+
 	load_content()
 	build_path()
 	update_start_button_state()
 	show_button()
+
+	if not _resume_music_on_first_tap:
+		_start_map_music()
+
 	start_button.pressed.connect(_on_start_pressed)
 	setting_button.pressed.connect(_on_settings_pressed)
 	envelope_icon.letter_requested.connect(_on_letter_requested)
@@ -186,6 +196,49 @@ func build_dashed_line(points, path_data):
 				distance_accumulated = 0.0
 				drawing = not drawing
 
+func _detect_resume_music_flag() -> void:
+	if not OS.has_feature("web"):
+		return
+
+	var flag := str(JavaScriptBridge.eval(
+		"window.sessionStorage.getItem('mifil_resume_map_music_on_tap') || ''",
+		true
+	))
+
+	_resume_music_on_first_tap = (flag == "1")
+
+func _start_map_music(fade_duration: float = 0.5) -> void:
+	if _map_music_started:
+		return
+
+	AudioManager.play_music_by_key("map", fade_duration)
+	_map_music_started = true
+	
+func _resume_map_music_from_tap() -> void:
+	if _map_music_started:
+		return
+
+	AudioManager.unlock_web_audio()
+	_start_map_music(0.5)
+
+	_resume_music_on_first_tap = false
+
+	if OS.has_feature("web"):
+		JavaScriptBridge.eval("""
+			window.sessionStorage.removeItem('mifil_resume_map_music_on_tap');
+		""", true)
+		
+func _input(event):
+	if not _resume_music_on_first_tap:
+		return
+
+	if event is InputEventScreenTouch and event.pressed:
+		_resume_map_music_from_tap()
+		return
+
+	if event is InputEventMouseButton and event.pressed:
+		_resume_map_music_from_tap()
+
 func create_level_point(position: Vector2, state: String, t: float, tex_paths: Dictionary, level_index: int) -> void:
 	var level_node: Node2D = Node2D.new()
 	level_node.position = position
@@ -220,7 +273,7 @@ func create_level_point(position: Vector2, state: String, t: float, tex_paths: D
 	else:
 		button.connect("pressed", Callable(self, "_on_level_pressed").bind(level_index))
 
-	if level_index == selected_level and not PlatformManager.is_ios_web():
+	if level_index == selected_level:
 		var base_scale: Vector2 = level_node.scale
 
 		var tween: Tween = level_node.create_tween()

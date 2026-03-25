@@ -5,7 +5,7 @@ extends Node
 func _ready():
 	DataLoader.load_client(client_id)
 
-	#PlatformManager.debug_force_profile = ""
+	#PlatformManager.debug_force_profile = "ios_web"
 
 	PlatformManager.detect()
 	print("BOOT PROFILE:", PlatformManager.profile)
