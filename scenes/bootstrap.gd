@@ -5,8 +5,7 @@ extends Node
 func _ready():
 	DataLoader.load_client(client_id)
 
-	# Для реального теста/релиза это должно быть выключено.
-	PlatformManager.debug_force_profile = " "
+	#PlatformManager.debug_force_profile = ""
 
 	PlatformManager.detect()
 	print("BOOT PROFILE:", PlatformManager.profile)
