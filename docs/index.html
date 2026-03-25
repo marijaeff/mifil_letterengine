@@ -1,120 +1,353 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>MiFiL_LetterEngine</title>
-<style>
-  @font-face {
-    font-family: 'Neucha';
-    src: url('./fonts/Neucha-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
 
-  html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: #112618;
-    font-family: 'Neucha', Georgia, "Times New Roman", serif;
-  }
+  <style>
+    @font-face {
+      font-family: 'Neucha';
+      src: url('./fonts/Neucha-Regular.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
 
-  #app {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background:
-      radial-gradient(circle at center, rgba(255,255,255,0.04), transparent 55%),
-      linear-gradient(180deg, #1a3422 0%, #112618 100%);
-  }
+    :root {
+      --bg-top: #1a3422;
+      --bg-bottom: #112618;
+      --text-main: #f4efe6;
+      --text-soft: rgba(244, 239, 230, 0.72);
+      --text-soft-2: rgba(244, 239, 230, 0.56);
+      --line-base: rgba(255, 196, 88, 0.14);
+      --line-stroke: rgba(255, 226, 154, 0.22);
+      --line-fill-1: #d6c196;
+      --line-fill-2: #ffe19c;
+      --line-fill-3: #ffbe4d;
+      --danger: rgba(255, 220, 220, 0.92);
+    }
 
-  #canvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #112618;
+      font-family: 'Neucha', Georgia, "Times New Roman", serif;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
 
-  #overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 20;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background:
-      radial-gradient(circle at center, rgba(255,255,255,0.05), transparent 60%),
-      linear-gradient(180deg, rgba(17,38,24,0.96) 0%, rgba(17,38,24,0.98) 100%);
-  }
+    body {
+      overscroll-behavior: none;
+    }
 
-  #panel {
-    width: min(520px, 88vw);
-    text-align: center;
-    color: #f4efe6;
-    padding: 28px 24px;
-  }
+    #app {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.04), transparent 55%),
+        linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+    }
 
-  #splash {
-    width: 110px;
-    max-width: 26vw;
-    margin: 0 auto 24px auto;
-    display: block;
-    opacity: 0.95;
-    filter: drop-shadow(0 6px 18px rgba(0,0,0,0.22));
-  }
+    @keyframes overlayFadeIn {
+      from {
+        opacity: 0;
+      }
 
-  #title {
-    font-size: 29px;
-    line-height: 1.45;
-    font-weight: 400;
-    margin-bottom: 22px;
-    letter-spacing: 0.2px;
-    white-space: pre-line;
-  }
+      to {
+        opacity: 1;
+      }
+    }
 
-  #continue-btn {
-    appearance: none;
-    border: 1px solid rgba(244,239,230,0.26);
-    background: rgba(255,255,255,0.07);
-    color: #f4efe6;
-    border-radius: 999px;
-    padding: 13px 24px;
-    font-size: 16px;
-    font-family: inherit;
-    cursor: pointer;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    transition: transform 0.15s ease, background 0.15s ease, opacity 0.15s ease;
-  }
+    @keyframes panelFadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.985);
+      }
 
-  #continue-btn:active {
-    transform: scale(0.985);
-  }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
 
-  #continue-btn:hover {
-    background: rgba(255,255,255,0.11);
-  }
+    @keyframes softFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
 
-  #hint {
-    margin-top: 14px;
-    font-size: 13px;
-    color: rgba(244,239,230,0.62);
-    min-height: 18px;
-  }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-  #error {
-    display: none;
-    margin-top: 14px;
-    font-size: 13px;
-    color: rgba(255,220,220,0.9);
-  }
-</style>
+
+    #canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    #overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding:
+        max(18px, env(safe-area-inset-top)) 18px max(18px, env(safe-area-inset-bottom)) 18px;
+      box-sizing: border-box;
+      background:
+        radial-gradient(circle at center, rgba(255, 255, 255, 0.05), transparent 60%),
+        linear-gradient(180deg, rgba(17, 38, 24, 0.96) 0%, rgba(17, 38, 24, 0.985) 100%);
+      opacity: 0;
+      animation: overlayFadeIn 0.8s ease forwards;
+    }
+
+    #panel {
+      width: min(560px, 94vw);
+      text-align: center;
+      color: var(--text-main);
+      padding: clamp(24px, 4vw, 34px) clamp(18px, 4vw, 28px);
+      box-sizing: border-box;
+      opacity: 0;
+      transform: translateY(18px) scale(0.985);
+      animation: panelFadeUp 0.9s ease 0.18s forwards;
+    }
+
+    #splash {
+      width: clamp(132px, 28vw, 176px);
+      margin: 0 auto 24px auto;
+      display: block;
+      opacity: 0;
+      filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.28));
+      animation:
+        softFadeIn 0.8s ease 0.35s forwards,
+        floatGlow 2.8s ease-in-out 1.2s infinite;
+    }
+
+    @keyframes floatGlow {
+      0% {
+        transform: translateY(0px) scale(1);
+        opacity: 0.95;
+      }
+
+      50% {
+        transform: translateY(-4px) scale(1.02);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(0px) scale(1);
+        opacity: 0.95;
+      }
+    }
+
+    #title {
+      font-size: clamp(30px, 5.2vw, 42px);
+      line-height: 1.35;
+      font-weight: 400;
+      margin-bottom: 14px;
+      letter-spacing: 0.2px;
+      white-space: pre-line;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
+      opacity: 0;
+      animation: softFadeIn 0.7s ease 0.5s forwards;
+    }
+
+    #subtitle {
+      font-size: clamp(16px, 3.8vw, 21px);
+      line-height: 1.45;
+      color: var(--text-soft);
+      margin: 0 auto 26px auto;
+      max-width: 28em;
+      min-height: 1.45em;
+      opacity: 0;
+      animation: softFadeIn 0.7s ease 0.68s forwards;
+    }
+
+    #continue-btn {
+      appearance: none;
+      border: 1px solid rgba(244, 239, 230, 0.24);
+      background: rgba(255, 255, 255, 0.09);
+      color: var(--text-main);
+      border-radius: 999px;
+      padding: 16px 30px;
+      min-height: 58px;
+      min-width: min(260px, 76vw);
+      font-size: clamp(19px, 4.3vw, 24px);
+      line-height: 1;
+      font-family: inherit;
+      cursor: pointer;
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      transition: transform 0.15s ease, background 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
+      opacity: 0;
+      animation: softFadeIn 0.7s ease 0.9s forwards;
+    }
+
+    #continue-btn:active {
+      transform: scale(0.985);
+    }
+
+    #continue-btn:hover {
+      background: rgba(255, 255, 255, 0.13);
+      box-shadow:
+        0 10px 26px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.10);
+    }
+
+    #progress-wrap {
+      position: relative;
+      width: min(380px, 82vw);
+      height: 18px;
+      margin: 24px auto 0;
+      display: none;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    #progress-track {
+      position: absolute;
+      inset: 5px 0;
+      border-radius: 999px;
+      background: var(--line-base);
+      box-shadow:
+        inset 0 0 0 1px var(--line-stroke),
+        0 0 18px rgba(255, 211, 114, 0.05);
+    }
+
+    #progress-fill {
+      position: absolute;
+      left: 0;
+      top: 5px;
+      bottom: 5px;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg,
+          var(--line-fill-1) 0%,
+          var(--line-fill-2) 45%,
+          var(--line-fill-3) 100%);
+      box-shadow:
+        0 0 14px rgba(255, 213, 120, 0.18),
+        0 0 24px rgba(255, 190, 77, 0.12);
+      transition: width 0.12s linear;
+    }
+
+    #progress-glow {
+      position: absolute;
+      top: -2px;
+      left: 0%;
+      width: 30px;
+      height: 22px;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      background:
+        radial-gradient(circle, rgba(255, 226, 154, 0.86) 0%, rgba(255, 190, 77, 0.18) 48%, rgba(255, 190, 77, 0) 74%);
+      opacity: 0;
+      transition: left 0.12s linear, opacity 0.18s ease;
+      pointer-events: none;
+    }
+
+    #progress-dots {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .progress-dot {
+      position: absolute;
+      top: 50%;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255, 231, 177, 0.42);
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 8px rgba(255, 226, 154, 0.18);
+    }
+
+    #hint {
+      margin-top: 14px;
+      font-size: clamp(14px, 3.5vw, 17px);
+      color: var(--text-soft);
+      min-height: 22px;
+    }
+
+    #error {
+      display: none;
+      margin-top: 14px;
+      font-size: clamp(14px, 3.5vw, 17px);
+      color: var(--danger);
+    }
+
+    @media (max-width: 768px) {
+      #panel {
+        width: min(560px, 96vw);
+        padding: 26px 18px;
+      }
+
+      #splash {
+        width: clamp(150px, 36vw, 190px);
+        margin-bottom: 22px;
+      }
+
+      #title {
+        font-size: clamp(34px, 7vw, 44px);
+        line-height: 1.28;
+        margin-bottom: 12px;
+      }
+
+      #subtitle {
+        font-size: clamp(17px, 4.4vw, 22px);
+        margin-bottom: 24px;
+      }
+
+      #continue-btn {
+        min-width: min(290px, 84vw);
+        min-height: 62px;
+        padding: 17px 30px;
+        font-size: clamp(20px, 5vw, 25px);
+      }
+
+      #progress-wrap {
+        width: min(400px, 86vw);
+        height: 22px;
+        margin-top: 26px;
+      }
+
+      #progress-track {
+        inset: 6px 0;
+      }
+
+      #progress-fill {
+        top: 6px;
+        bottom: 6px;
+      }
+
+      #hint,
+      #error {
+        margin-top: 16px;
+      }
+    }
+  </style>
+
   <link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png" />
 <link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
 
 </head>
+
 <body>
   <div id="app">
     <canvas id="canvas"></canvas>
@@ -123,7 +356,22 @@
       <div id="panel">
         <img id="splash" src="index.png" alt="Heart" />
         <div id="title">Это тебе и для тебя.</div>
+        <div id="subtitle"></div>
+
         <button id="continue-btn">В путь</button>
+
+        <div id="progress-wrap">
+          <div id="progress-track"></div>
+          <div id="progress-fill"></div>
+          <div id="progress-glow"></div>
+          <div id="progress-dots">
+            <div class="progress-dot" style="left: 16%;"></div>
+            <div class="progress-dot" style="left: 38%;"></div>
+            <div class="progress-dot" style="left: 62%;"></div>
+            <div class="progress-dot" style="left: 84%;"></div>
+          </div>
+        </div>
+
         <div id="hint"></div>
         <div id="error">Не удалось загрузить игру. Попробуй обновить страницу.</div>
       </div>
@@ -136,34 +384,70 @@
     const overlay = document.getElementById("overlay");
     const button = document.getElementById("continue-btn");
     const title = document.getElementById("title");
+    const subtitle = document.getElementById("subtitle");
     const hint = document.getElementById("hint");
     const errorEl = document.getElementById("error");
+
+    const progressWrap = document.getElementById("progress-wrap");
+    const progressFill = document.getElementById("progress-fill");
+    const progressGlow = document.getElementById("progress-glow");
 
     const resumed = window.sessionStorage.getItem("mifil_reload_after_level2") === "1";
 
     if (resumed) {
-      title.textContent = "Половина пути пройдена, это замечательно, осталось немного.";
-      button.textContent = "В путь";
+      title.textContent = "Половина пути пройдена!";
+      subtitle.textContent = "Это замечательно. Осталось совсем немного.";
+      button.style.display = "none";
+      hint.textContent = "Открываем продолжение...";
     } else {
       title.textContent = "Это тебе и для тебя.";
+      subtitle.textContent = "Небольшое путешествие, которое постепенно приведёт тебя.. к улыбке:)";
       button.textContent = "В путь";
+      button.style.display = "";
     }
 
     let started = false;
+
+    function setProgress(current, total) {
+      if (total > 0) {
+        const pct = Math.max(0, Math.min(100, (current / total) * 100));
+        progressFill.style.width = pct + "%";
+        progressGlow.style.left = pct + "%";
+        progressGlow.style.opacity = "1";
+        hint.textContent = (resumed ? "Открываем продолжение..." : "Открываем путь...") + " " + Math.round(pct) + "%";
+      } else {
+        progressGlow.style.opacity = "0.55";
+        hint.textContent = resumed ? "Открываем продолжение..." : "Открываем путь...";
+      }
+    }
 
     async function startGodot() {
       if (started) return;
       started = true;
 
-      button.disabled = true;
-      button.style.opacity = "0.7";
-      hint.textContent = resumed ? "Открываем продолжение..." : "Открываем путь...";
+      if (button.style.display !== "none") {
+        button.disabled = true;
+        button.style.opacity = "0.7";
+      }
+
+      errorEl.style.display = "none";
+      progressWrap.style.display = "block";
+
+      requestAnimationFrame(() => {
+        progressWrap.style.opacity = "1";
+        progressWrap.style.transform = "translateY(0)";
+      });
+
+      setProgress(0, 100);
 
       try {
-        const engine = new Engine({"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":70493184,"index.wasm":43699190},"focusCanvas":true,"gdextensionLibs":[]});
+        const engine = new Engine({"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":70494784,"index.wasm":43699190},"focusCanvas":true,"gdextensionLibs":[]});
 
         await engine.startGame({
-          canvas: canvas
+          canvas: canvas,
+          onProgress(current, total) {
+            setProgress(current, total);
+          }
         });
 
         overlay.style.display = "none";
@@ -175,17 +459,29 @@
         console.error(err);
         errorEl.style.display = "block";
         hint.textContent = "";
-        button.disabled = false;
-        button.style.opacity = "1";
+        progressWrap.style.display = "none";
+
+        if (!resumed) {
+          button.disabled = false;
+          button.style.opacity = "1";
+        }
+
         started = false;
       }
     }
 
     button.addEventListener("click", startGodot);
-    button.addEventListener("touchend", function(e) {
+    button.addEventListener("touchend", function (e) {
       e.preventDefault();
       startGodot();
     }, { passive: false });
+
+    if (resumed) {
+      setTimeout(() => {
+        startGodot();
+      }, 500);
+    }
   </script>
 </body>
+
 </html>
