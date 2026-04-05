@@ -35,7 +35,7 @@ metadata/_edit_use_anchors_ = true
 position = Vector2(556, 1319)
 
 [node name="Plant" type="Sprite2D" parent="PlantRoot"]
-position = Vector2(-10, 204)
+position = Vector2(-20, 199)
 scale = Vector2(1, 1.0901)
 
 [node name="Hands" type="Sprite2D" parent="PlantRoot"]

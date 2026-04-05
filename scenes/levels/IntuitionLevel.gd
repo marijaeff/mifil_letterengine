@@ -42,14 +42,17 @@ var rounds_total := 0
 
 var level_completed_once := false
 
+var level_was_already_completed := false
+
 func _ready():
-	AudioManager.set_music_volume(0.09) 
+	AudioManager.set_music_volume(0.09)
 	AudioManager.play_music_by_key("level")
-	
 
 	current_id = ProgressManager.selected_level
+	level_was_already_completed = ProgressManager.completed_level >= current_id
+
 	var def: Dictionary = LevelRouter.get_level_def(current_id)
-	
+
 	ProgressManager.last_screen = "level"
 	ProgressManager.last_level_id = current_id
 	ProgressManager.save_progress()
@@ -58,23 +61,19 @@ func _ready():
 		push_error("Level def not found")
 		return
 
-	setup(def)  
+	setup(def)
 
 	var config: Dictionary = DataLoader.config
 	var levels_block: Dictionary = config.get("levels", {})
-
 	var shared_def: Dictionary = levels_block.get("shared", {})
 	var intuition_def: Dictionary = levels_block.get("intuition", {})
 
 	load_shared_ui(shared_def)
 	load_visuals(intuition_def)
-
 	connect_buttons()
 	apply_question_style()
-
 	start_round()
-
-	pause_btn.pressed.connect(show_pause) 
+	pause_btn.pressed.connect(show_pause)
 
 func load_shared_ui(def: Dictionary) -> void:
 
@@ -297,12 +296,12 @@ func win():
 
 	if not level_completed_once:
 		level_completed_once = true
-		ProgressManager.advance_envelope()
-		ProgressManager.complete_level(current_id)
 
-	AudioManager.stop_music(0.45)
+		if not level_was_already_completed:
+			ProgressManager.advance_envelope()
+			ProgressManager.complete_level(current_id)
+
 	show_result_overlay("win")
-
 func show_result_overlay(type: String):
 
 	var overlay := result_overlay_scene.instantiate()
@@ -316,11 +315,16 @@ func show_result_overlay(type: String):
 func _on_retry_pressed():
 	AudioManager.play_sfx_by_key("whoosh", -12)
 
+	ProgressManager.selected_level = current_id
 	ProgressManager.last_screen = "level"
 	ProgressManager.last_level_id = current_id
 	ProgressManager.save_progress()
 
 	SceneLoader.goto_scene("res://scenes/levels/IntuitionLevel.tscn")
+	
+func _normalize_selected_level_after_finish() -> void:
+	ProgressManager.selected_level = max(ProgressManager.selected_level, ProgressManager.completed_level + 1)
+	ProgressManager.save_progress()
 
 func _on_next_pressed(_type: String):
 	AudioManager.play_sfx_by_key("whoosh", -12)
@@ -331,6 +335,7 @@ func _on_next_pressed(_type: String):
 
 	if PlatformManager.is_ios_web() and current_id == 2 and _type == "win" and OS.has_feature("web"):
 		_store_level2_reload_checkpoint()
+		_normalize_selected_level_after_finish()
 		_mark_map_music_resume_flag()
 		JavaScriptBridge.force_fs_sync()
 

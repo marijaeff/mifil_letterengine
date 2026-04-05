@@ -107,94 +107,141 @@ func build_path() -> void:
 		curve.set_point_in(i, -dir * distance)
 		curve.set_point_out(i, dir * distance)
 
-	curve.bake_interval = 2.0
-	var baked: Array = curve.get_baked_points()
+		curve.bake_interval = 2.0
 
-	var width_curve: Curve = Curve.new()
-	width_curve.add_point(Vector2(0.0, path_data["width_start"]))
-	width_curve.add_point(Vector2(1.0, path_data["width_end"]))
-	path_line.width_curve = width_curve
+		var width_curve: Curve = Curve.new()
+		width_curve.add_point(Vector2(0.0, path_data["width_start"]))
+		width_curve.add_point(Vector2(1.0, path_data["width_end"]))
+		path_line.width_curve = width_curve
 
-	build_dashed_line(baked, path_data)
-	build_levels(cached_raw_points)
+		build_levels_on_arc(cached_raw_points)
 
 
-func build_dashed_line(points, path_data):
-
-	for child in path_line.get_children():
+func build_levels_on_arc(raw_points: Array) -> void:
+	for child in lights_container.get_children():
 		child.queue_free()
 
-	var style = path_data["style"]
+	var levels_data: Dictionary = config.get("levels", {}) as Dictionary
+	var count: int = int(levels_data.get("count", 0))
+	var completed: int = ProgressManager.completed_level
+	var active: int = completed + 1
+	var tex_paths: Dictionary = levels_data.get("textures", {}) as Dictionary
 
-	var line_color = Color(style["color"])
-	var glow_color = Color(style["glow_color"])
-	var glow_alpha = float(style["glow_alpha"])
-	var glow_multiplier = float(style["glow_width_multiplier"])
-	var perspective_power = float(style["perspective_power"])
+	if count <= 0 or raw_points.size() < 3:
+		return
 
-	var width_start = float(path_data["width_start"])
-	var width_end = float(path_data["width_end"])
+	var a: Vector2 = raw_points[0] as Vector2
+	var c: Vector2 = raw_points[raw_points.size() - 1] as Vector2
 
-	var total_length = 0.0
-	for i in range(points.size() - 1):
-		total_length += points[i].distance_to(points[i + 1])
+	var mid: Vector2 = (a + c) * 0.5
+	var dir: Vector2 = (c - a).normalized()
 
-	var traveled_global = 0.0
-	var distance_accumulated = 0.0
-	var drawing = true
+	var normal: Vector2 = Vector2(dir.y, -dir.x)
 
-	for i in range(points.size() - 1):
+	var arc_strength: float = 250.0
 
-		var a = points[i]
-		var b = points[i + 1]
+	var b: Vector2 = mid - normal * arc_strength
 
-		var segment_length = a.distance_to(b)
-		var dir = (b - a).normalized()
-		var segment_traveled = 0.0
 
-		while segment_traveled < segment_length:
+	var start_t: float = 0.12
+	var end_t: float = 0.82
 
-			var progress = traveled_global / total_length
-			progress = pow(progress, perspective_power)
+	for i in range(count):
+		var state: String = "locked"
+		if i + 1 == active:
+			state = "active"
+		elif i + 1 <= completed:
+			state = "completed"
 
-			var current_width = lerp(width_start, width_end, progress)
+		var t: float = 0.0
+		if count > 1:
+			t = float(i) / float(count - 1)
 
-			var dash_length = lerp(float(path_data["dash_length"]), float(path_data["dash_length"]) * 0.5, progress)
-			var gap_length = lerp(float(path_data["gap_length"]), float(path_data["gap_length"]) * 0.6, progress)
-			var total_local = dash_length + gap_length
+		var mapped_t: float = lerp(start_t, end_t, t)
+		var pos: Vector2 = quadratic_bezier(a, b, c, mapped_t)
 
-			var step = min(total_local - distance_accumulated, segment_length - segment_traveled)
+		create_level_point(pos, state, mapped_t, tex_paths, i + 1)
 
-			if drawing:
+func quadratic_bezier(a: Vector2, b: Vector2, c: Vector2, t: float) -> Vector2:
+	var u: float = 1.0 - t
+	return u * u * a + 2.0 * u * t * b + t * t * c
 
-				var start = a + dir * segment_traveled
-				var end = a + dir * (segment_traveled + step)
-
-				var glow_line = Line2D.new()
-				glow_line.width = current_width * glow_multiplier
-				glow_line.default_color = Color(glow_color.r, glow_color.g, glow_color.b, glow_alpha)
-				glow_line.begin_cap_mode = Line2D.LINE_CAP_ROUND
-				glow_line.end_cap_mode = Line2D.LINE_CAP_ROUND
-				glow_line.add_point(start)
-				glow_line.add_point(end)
-				path_line.add_child(glow_line)
-
-				var dash_line = Line2D.new()
-				dash_line.width = current_width
-				dash_line.default_color = line_color
-				dash_line.begin_cap_mode = Line2D.LINE_CAP_ROUND
-				dash_line.end_cap_mode = Line2D.LINE_CAP_ROUND
-				dash_line.add_point(start)
-				dash_line.add_point(end)
-				path_line.add_child(dash_line)
-
-			segment_traveled += step
-			traveled_global += step
-			distance_accumulated += step
-
-			if distance_accumulated >= total_local:
-				distance_accumulated = 0.0
-				drawing = not drawing
+#func build_dashed_line(points, path_data):
+#
+	#for child in path_line.get_children():
+		#child.queue_free()
+#
+	#var style = path_data["style"]
+#
+	#var line_color = Color(style["color"])
+	#var glow_color = Color(style["glow_color"])
+	#var glow_alpha = float(style["glow_alpha"])
+	#var glow_multiplier = float(style["glow_width_multiplier"])
+	#var perspective_power = float(style["perspective_power"])
+#
+	#var width_start = float(path_data["width_start"])
+	#var width_end = float(path_data["width_end"])
+#
+	#var total_length = 0.0
+	#for i in range(points.size() - 1):
+		#total_length += points[i].distance_to(points[i + 1])
+#
+	#var traveled_global = 0.0
+	#var distance_accumulated = 0.0
+	#var drawing = true
+#
+	#for i in range(points.size() - 1):
+#
+		#var a = points[i]
+		#var b = points[i + 1]
+#
+		#var segment_length = a.distance_to(b)
+		#var dir = (b - a).normalized()
+		#var segment_traveled = 0.0
+#
+		#while segment_traveled < segment_length:
+#
+			#var progress = traveled_global / total_length
+			#progress = pow(progress, perspective_power)
+#
+			#var current_width = lerp(width_start, width_end, progress)
+#
+			#var dash_length = lerp(float(path_data["dash_length"]), float(path_data["dash_length"]) * 0.5, progress)
+			#var gap_length = lerp(float(path_data["gap_length"]), float(path_data["gap_length"]) * 0.6, progress)
+			#var total_local = dash_length + gap_length
+#
+			#var step = min(total_local - distance_accumulated, segment_length - segment_traveled)
+#
+			#if drawing:
+#
+				#var start = a + dir * segment_traveled
+				#var end = a + dir * (segment_traveled + step)
+#
+				#var glow_line = Line2D.new()
+				#glow_line.width = current_width * glow_multiplier
+				#glow_line.default_color = Color(glow_color.r, glow_color.g, glow_color.b, glow_alpha)
+				#glow_line.begin_cap_mode = Line2D.LINE_CAP_ROUND
+				#glow_line.end_cap_mode = Line2D.LINE_CAP_ROUND
+				#glow_line.add_point(start)
+				#glow_line.add_point(end)
+				#path_line.add_child(glow_line)
+#
+				#var dash_line = Line2D.new()
+				#dash_line.width = current_width
+				#dash_line.default_color = line_color
+				#dash_line.begin_cap_mode = Line2D.LINE_CAP_ROUND
+				#dash_line.end_cap_mode = Line2D.LINE_CAP_ROUND
+				#dash_line.add_point(start)
+				#dash_line.add_point(end)
+				#path_line.add_child(dash_line)
+#
+			#segment_traveled += step
+			#traveled_global += step
+			#distance_accumulated += step
+#
+			#if distance_accumulated >= total_local:
+				#distance_accumulated = 0.0
+				#drawing = not drawing
 
 func _detect_resume_music_flag() -> void:
 	if not OS.has_feature("web"):
@@ -326,7 +373,7 @@ func build_levels(raw_points: Array) -> void:
 		_start_letter_pulse()
 
 func rebuild_levels_only() -> void:
-	build_levels(cached_raw_points)
+	build_path()
 	envelope_icon.apply_progress(ProgressManager.completed_level)
 
 func _on_level_pressed(level_index: int) -> void:

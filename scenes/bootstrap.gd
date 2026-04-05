@@ -1,11 +1,11 @@
 extends Node
 
-@export var client_id: String = "test"
+@export var client_id: String = "test_2style"
 
 func _ready():
 	DataLoader.load_client(client_id)
 
-	#PlatformManager.debug_force_profile = "ios_web"
+	PlatformManager.debug_force_profile = "ios_web"
 
 	PlatformManager.detect()
 	print("BOOT PROFILE:", PlatformManager.profile)

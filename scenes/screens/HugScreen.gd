@@ -44,7 +44,7 @@ func _prepare_scene() -> void:
 	heart.modulate.a = 0.0
 	buttons.modulate.a = 0.0
 	heart.global_position = center_position + Vector2(0, -400)
-	heart.scale = Vector2(1.6, 1.6)
+	heart.scale = Vector2(1, 1)
 	
 func _setup_buttons() -> void:
 	var ui_cfg: Dictionary = DataLoader.config.get("ui", {})
