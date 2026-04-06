@@ -1,6 +1,6 @@
 extends Node
 
-@export var client_id: String = "test_2style"
+@export var client_id: String = "test_1style"
 
 func _ready():
 	DataLoader.load_client(client_id)

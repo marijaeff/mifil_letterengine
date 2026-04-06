@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://d2op6qcc3uo4e"]
 
 [ext_resource type="Script" uid="uid://br517cx1soucv" path="res://scenes/screens/PausePopup.gd" id="1_1sabg"]
-[ext_resource type="Texture2D" uid="uid://d1vic1c4ljpsd" path="res://clients/vika/assets/ui/envelope_1.png" id="2_1sabg"]
+[ext_resource type="Texture2D" uid="uid://d1vic1c4ljpsd" path="res://clients/test_3style/assets/ui/envelope_1.png" id="2_1sabg"]
 [ext_resource type="Script" uid="uid://bn5yfaitfruy1" path="res://scenes/ui/AnimatedButton.gd" id="4_0c8al"]
 
 [node name="PausePopup" type="Control"]
