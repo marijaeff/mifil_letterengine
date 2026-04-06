@@ -37,7 +37,6 @@ func _on_next_pressed():
 	next_pressed.emit()
 
 func show_from_config(type: String) -> void:
-
 	var root_cfg: Dictionary = DataLoader.config.get("levels", {}).get("result", {})
 	var cfg: Dictionary = root_cfg.get(type, {})
 	var common: Dictionary = root_cfg.get("common", {})
@@ -49,15 +48,18 @@ func show_from_config(type: String) -> void:
 	title.text = cfg.get("title", "")
 	subtitle.text = cfg.get("subtitle", "")
 
-	var envelopes: Array = common.get("envelopes", [])
+	if type == "lose":
+		var lose_icon_path: String = str(cfg.get("icon", ""))
+		if lose_icon_path != "":
+			icon.texture = load(DataLoader.resolve_client_path(lose_icon_path))
+	else:
+		var envelopes: Array = common.get("envelopes", [])
+		if not envelopes.is_empty():
+			var stage: int = ProgressManager.get_envelope_stage() - 1
+			stage = clamp(stage, 0, envelopes.size() - 1)
+			icon.texture = load(DataLoader.resolve_client_path(str(envelopes[stage])))
 
-	var stage: int = ProgressManager.get_envelope_stage()
-
-	stage = clamp(stage, 0, envelopes.size() - 1)
-
-	icon.texture = load(DataLoader.resolve_client_path(envelopes[stage]))
-
-	var icon_size: Array = common.get("icon_size", [220,160])
+	var icon_size: Array = common.get("icon_size", [220, 160])
 	icon.custom_minimum_size = Vector2(icon_size[0], icon_size[1])
 
 	panel.texture = load(DataLoader.resolve_client_path(cfg.get("panel", "")))

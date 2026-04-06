@@ -375,7 +375,7 @@
 
 	  "panel": "assets/ui/pause_panel.png",
 
-	  "icon": "assets/ui/btn_pause.png",
+	  "icon": "",
 
 	  "buttons": {
 		"resume": {
@@ -402,7 +402,7 @@
 	  "title": "Настройки",
 
 	  "panel": "assets/ui/pause_panel.png",
-	  "icon": "assets/ui/btn_pause.png",
+	  "icon": "",
 
 	  "buttons": {
 		"reset": { "text": "Сбросить прогресс" },
