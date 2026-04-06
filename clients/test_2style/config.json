@@ -1,10 +1,11 @@
 {
-  "ui": {
-	"font": "assets/fonts/Neucha-Regular.ttf",
-	"font_size": 80,
-	"button_font_size": 50,
-	"button_no_font_size": 30
-  },
+	"ui": {
+	  "font": "assets/fonts/Neucha-Regular.ttf",
+	  "font_size": 80,
+	  "button_font_size": 100,
+	  "button_no_font_size": 40,
+	  "button_text_color": "#E8D7B4"
+	},
 
 	"audio": {
 	  "music": {
@@ -48,10 +49,10 @@
 	  },
 	  "buttons": {
 		"yes": {
-		  "outline": "assets/ui/button_yes.png"
+		  "outline": ""
 		},
 		"no": {
-		  "outline": "assets/ui/button_no.png"
+		  "outline": ""
 		}
 	  },
 	  "characters": {
@@ -64,7 +65,7 @@
 	"envelope": {
 	  "background": "assets/backgrounds/envelope_bg.png",
 	  "envelope_texture": "assets/objects/envelope.png",
-	  "button_outline": "assets/ui/button_read.png"
+	  "button_outline": ""
 	},
 
 	"map": {
@@ -79,7 +80,7 @@
 	  "background": "assets/backgrounds/map_bg_1.png",
 
 	  "button": {
-		"texture": "assets/ui/btn_map.png"
+		"texture": ""
 	  },
 	
 	  "settings_button": {
@@ -128,15 +129,18 @@
 	"letter": {
 	  "background": "assets/backgrounds/intro_bg.png",
 	  "heart": "assets/objects/heart_letter.png",
-	  "paper": "assets/objects/paper_letter.png",
-	  "letter_font_size": 52,
-	  "letter_text_color": "#29241C",
+	  "paper": "",
+	  "letter_font_size": 70,
+	  "letter_text_color": "#CAC28E",
 	  "close_button": {
-		"icon": "assets/ui/btn_map.png",
+		"icon": "",
 		"text": "Дальше"
 	  }
 	}, 
 	"hug": {
+		"background": "assets/backgrounds/hug_bg.png",
+		"duo": "assets/characters/hug.png",
+ 		"heart": "assets/objects/heart_hug.png",
 		"buttons": {
 		  "icon": "assets/ui/btn_map.png",
 		  "save": { "text": "Сохранить" },
@@ -207,9 +211,9 @@
 	"question": {
 	  "background": "assets/backgrounds/question_bg.png",
 
-	  "box": "assets/objects/question/box.png",
+	  "box": "",
 	  "final_box": "assets/objects/question/box_open_letter.png",
-	  "timer_circle": "assets/objects/question/timeCircle.png",
+	  "timer_circle": "",
 		"timer": {
 		  "time_per_question": 7
 		},
@@ -254,12 +258,12 @@
 	  },
 
 	  "answers": {
-		"color": "#D2FFCA",
+		"color": "#B9A98B",
 		"size": 70
 	  },
 
 	  "timer": {
-		"color": "#FFEDA5",
+		"color": "#FFDA96",
 		"size": 100
 	  }
 	}
@@ -285,7 +289,7 @@
 	  "timer": { "time": 20 },
 
 	  "ui": {
-		"timer_circle": "assets/objects/light/timeсircle.png",
+		"timer_circle": "",
 		"pause_icon": "assets/ui/pause.png"
 	  },
 

@@ -173,16 +173,16 @@ func show_settings_from_config(opened_directly: bool = false) -> void:
 # ---------------------------------------------------
 
 func apply_pause_styles(cfg: Dictionary) -> void:
-
 	var ui_cfg: Dictionary = DataLoader.config.get("ui", {})
 	var font: FontFile = load(DataLoader.resolve_client_path(ui_cfg.get("font", "")))
 
 	title.add_theme_font_override("font", font)
 	title.add_theme_font_size_override("font_size", ui_cfg.get("font_size", 80))
 
+	var pause_button_font_size: int = 60
 	for b in [resume_btn, restart_btn, settings_btn, map_btn]:
 		b.add_theme_font_override("font", font)
-		b.add_theme_font_size_override("font_size", ui_cfg.get("button_font_size", 50))
+		b.add_theme_font_size_override("font_size", pause_button_font_size)
 
 	var colors: Dictionary = cfg.get("colors", {})
 
@@ -194,16 +194,16 @@ func apply_pause_styles(cfg: Dictionary) -> void:
 
 
 func apply_settings_styles(cfg: Dictionary) -> void:
-
 	var ui_cfg: Dictionary = DataLoader.config.get("ui", {})
 	var font: FontFile = load(DataLoader.resolve_client_path(ui_cfg.get("font", "")))
 
 	settings_title.add_theme_font_override("font", font)
 	settings_title.add_theme_font_size_override("font_size", ui_cfg.get("font_size", 80))
 
+	var settings_button_font_size: int = 60
 	for b in [reset_btn_settings, back_btn_settings]:
 		b.add_theme_font_override("font", font)
-		b.add_theme_font_size_override("font_size", ui_cfg.get("button_font_size", 50))
+		b.add_theme_font_size_override("font_size", settings_button_font_size)
 
 	for l in [sound_label, music_label]:
 		l.add_theme_font_override("font", font)

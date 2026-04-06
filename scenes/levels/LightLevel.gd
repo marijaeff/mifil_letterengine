@@ -249,7 +249,7 @@ func start_timer():
 	var config: Dictionary = DataLoader.config
 	var level_def: Dictionary = config.get("levels", {}).get("light", {})
 	
-	timer_label.add_theme_font_size_override("font_size", 70)
+	timer_label.add_theme_font_size_override("font_size", 100)
 	
 	time_left = level_def.get("timer", {}).get("time", 20)
 	timer_active = true

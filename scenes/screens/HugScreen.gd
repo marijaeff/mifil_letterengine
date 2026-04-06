@@ -1,5 +1,6 @@
 extends Control
 
+@onready var background: TextureRect = $Background
 @onready var duo: Sprite2D = $Characters/Duo
 @onready var heart: Sprite2D = $Heart
 @onready var buttons: Control = $ButtonsContainer
@@ -12,9 +13,12 @@ var tex_hug: Texture2D
 var tex_heart: Texture2D
 
 var center_position: Vector2
+var heart_base_scale: Vector2 = Vector2(0.6, 0.6)
+var heart_pulse_scale: Vector2 = Vector2(0.65, 0.65)
 
 
 func _ready() -> void:
+	_apply_visuals()
 	_load_textures()
 	center_position = get_viewport_rect().size / 2.0
 	_prepare_scene()
@@ -29,8 +33,13 @@ func _ready() -> void:
 
 
 func _load_textures() -> void:
-	tex_hug = load(DataLoader.resolve_client_path("assets/characters/hug.png"))
-	tex_heart = load(DataLoader.resolve_client_path("assets/objects/heart_hug.png"))
+	var hug_cfg: Dictionary = DataLoader.config.get("screens", {}).get("hug", {}) as Dictionary
+
+	var duo_rel: String = str(hug_cfg.get("duo", "assets/characters/hug.png"))
+	var heart_rel: String = str(hug_cfg.get("heart", "assets/objects/heart_hug.png"))
+
+	tex_hug = load(DataLoader.resolve_client_path(duo_rel)) as Texture2D
+	tex_heart = load(DataLoader.resolve_client_path(heart_rel)) as Texture2D
 
 
 func _prepare_scene() -> void:
@@ -43,9 +52,19 @@ func _prepare_scene() -> void:
 
 	heart.modulate.a = 0.0
 	buttons.modulate.a = 0.0
-	heart.global_position = center_position + Vector2(0, -400)
-	heart.scale = Vector2(1, 1)
-	
+	heart.global_position = center_position + Vector2(0, -500)
+	heart.scale = heart_base_scale
+
+func _apply_visuals() -> void:
+	var hug_cfg: Dictionary = DataLoader.config.get("screens", {}).get("hug", {}) as Dictionary
+
+	var bg_rel: String = str(hug_cfg.get("background", ""))
+	if bg_rel != "":
+		var bg_path: String = DataLoader.resolve_client_path(bg_rel)
+		var bg_tex: Texture2D = load(bg_path) as Texture2D
+		if bg_tex:
+			background.texture = bg_tex
+
 func _setup_buttons() -> void:
 	var ui_cfg: Dictionary = DataLoader.config.get("ui", {})
 	var hug_cfg: Dictionary = DataLoader.config.get("screens", {}).get("hug", {})
@@ -59,10 +78,13 @@ func _setup_buttons() -> void:
 
 	var button_font_size: int = int(ui_cfg.get("button_font_size", 50))
 
+	var button_text_color: Color = Color(str(ui_cfg.get("button_text_color", "#E8D7B4")))
+
 	for b in [download_button, map_button, finish_button]:
 		if font:
 			b.add_theme_font_override("font", font)
 		b.add_theme_font_size_override("font_size", button_font_size)
+		b.add_theme_color_override("font_color", button_text_color)
 
 	download_button.text = str(buttons_cfg.get("save", {}).get("text", "Сохранить"))
 	map_button.text = str(buttons_cfg.get("map", {}).get("text", "На карту"))
@@ -116,21 +138,22 @@ func _on_finish_pressed() -> void:
 	SceneLoader.goto_scene("res://scenes/screens/HeartScreen.tscn")
 
 func _start_heart_pulse() -> void:
-	heart.scale = Vector2(1.4, 1.4)
+	heart.scale = heart_base_scale
 
 	var t := create_tween()
 	t.set_loops()
 	t.set_trans(Tween.TRANS_SINE)
 	t.set_ease(Tween.EASE_IN_OUT)
-	t.tween_property(heart, "scale", Vector2(1.45, 1.45), 3.0)
-	t.tween_property(heart, "scale", Vector2(1.4, 1.4), 3.0)
+	t.tween_property(heart, "scale", heart_pulse_scale, 3.0)
+	t.tween_property(heart, "scale", heart_base_scale, 3.0)
 	
 func _pause(time: float) -> void:
 	await get_tree().create_timer(time).timeout
 
 func _frame_hug() -> void:
 	duo.texture = tex_hug
-	duo.global_position = center_position
+	duo.global_position = center_position + Vector2(0, -25)
+	duo.scale = Vector2(1, 1)
 	duo.visible = true
 	duo.modulate.a = 0.0
 

@@ -55,8 +55,6 @@ func load_content():
 	button_yes.text = DataLoader.texts["intro"]["buttons"]["yes"]
 	button_no.text = DataLoader.texts["intro"]["buttons"]["no"]
 	
-	button_yes.icon = load(base_path + config["buttons"]["yes"]["outline"])
-	button_no.icon = load(base_path + config["buttons"]["no"]["outline"])
 	
 	apply_colors_from_config()
 

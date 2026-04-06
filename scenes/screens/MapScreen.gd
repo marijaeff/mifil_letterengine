@@ -62,7 +62,12 @@ func load_content():
 	title_label.add_theme_color_override("font_color", Color("FFE9AC"))
 	
 	start_button.text = map_texts.get("button", "")
-	start_button.icon = load(base_path + config["button"]["texture"])
+	var ui_cfg: Dictionary = DataLoader.config.get("ui", {}) as Dictionary
+	var button_font_size: int = int(ui_cfg.get("button_font_size", 50))
+	var button_text_color: Color = Color(str(ui_cfg.get("button_text_color", "#E8D7B4")))
+
+	start_button.add_theme_font_size_override("font_size", button_font_size)
+	start_button.add_theme_color_override("font_color", button_text_color)
 	
 	envelope_icon.setup_from_map_def(config)
 	envelope_icon.apply_progress(ProgressManager.completed_level)
