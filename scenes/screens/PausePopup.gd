@@ -93,11 +93,13 @@ func _update_toggle_visual(btn: TextureButton) -> void:
 	btn.texture_disabled = btn.texture_normal
 
 func _on_sound_toggle_pressed() -> void:
+	AudioManager.play_sfx_by_key("button", -14)
 	AudioManager.set_sfx_enabled(sound_toggle.button_pressed)
 	_update_toggle_visual(sound_toggle)
 
 
 func _on_music_toggle_pressed() -> void:
+	AudioManager.play_sfx_by_key("button", -14)
 	AudioManager.set_music_enabled(music_toggle.button_pressed)
 	_update_toggle_visual(music_toggle)
 
@@ -207,7 +209,7 @@ func apply_settings_styles(cfg: Dictionary) -> void:
 
 	for l in [sound_label, music_label]:
 		l.add_theme_font_override("font", font)
-		l.add_theme_font_size_override("font_size", 42)
+		l.add_theme_font_size_override("font_size", 60)
 
 	var colors: Dictionary = cfg.get("colors", {})
 

@@ -2,7 +2,7 @@
 	"ui": {
 	  "font": "assets/fonts/Neucha-Regular.ttf",
 	  "font_size": 80,
-	  "button_font_size": 100,
+	  "button_font_size": 80,
 	  "button_no_font_size": 40,
 	  "button_text_color": "#E8D7B4"
 	},
@@ -44,7 +44,7 @@
 		"button_no": "#ABABAB"
 	  },
 	  "decor": {
-		"top_line": "assets/objects/rope_top.png",
+		"top_line": "",
 		"ground": "assets/objects/ground_line.png"
 	  },
 	  "buttons": {
@@ -57,8 +57,8 @@
 	  },
 	  "characters": {
 		"girl": "assets/characters/girl_letter.png",
-		"baby": "assets/objects/baby_idle.png",
-		"cat": "assets/objects/cat_idle.png"
+		"baby": "",
+		"cat": ""
 	  }
 	},
 
@@ -92,7 +92,8 @@
 		  "assets/objects/base1.png",
 		  "assets/objects/base2.png",
 		  "assets/objects/base3.png",
-		  "assets/objects/base4.png"
+		  "assets/objects/base4.png",
+		  "assets/objects/base5.png",
 		],
 		"pieces": [
 		  "assets/objects/piece1.png",
@@ -100,7 +101,7 @@
 		  "assets/objects/piece3.png",
 		  "assets/objects/piece4.png"
 		],
-		"glow": "assets/objects/glow_envelope.png"
+		"glow": ""
 	  },
 
 	  "path": {
@@ -319,26 +320,26 @@
 
 	  "win": {
 
-		"title": "Получилось!",
-		"subtitle": "Ты стал на шаг ближе",
+		"title": "Ура!",
+		"subtitle": " ",
 
 		"panel": "assets/ui/result_win.png",
 		"icon": "assets/ui/envelope_1.png",
 
 		"colors": {
-		  "title": "#203520",
+		  "title": "#443C10",
 		  "subtitle": "#143F1D",
-		  "buttons": "#2F230B"
+		  "buttons": "#443C10"
 		},
 
 		"buttons": {
 		  "retry": {
 			"text": "Хочу снова!",
-			"icon": "assets/ui/btn_win.png"
+			"icon": ""
 		  },
 		  "next": {
 			"text": "Дальше в путь",
-			"icon": "assets/ui/btn_win.png"
+			"icon": ""
 		  }
 		}
 	  },
@@ -346,25 +347,25 @@
 	  "lose": {
 
 		"title": "Увы!",
-		"subtitle": "Не получилось",
+		"subtitle": "",
 
 		"panel": "assets/ui/result_lose.png",
 		"icon": "assets/ui/sad_envelope.png",
 
 		"colors": {
-		  "title": "#CFCFCF",
+		  "title": "#131420",
 		  "subtitle": "#CFCFCF",
-		  "buttons": "#BDA06A"
+		  "buttons": "#131420"
 		},
 
 		"buttons": {
 		  "retry": {
 			"text": "Попробовать снова!",
-			"icon": "assets/ui/btn_lose.png"
+			"icon": ""
 		  },
 		  "next": {
 			"text": "К карте",
-			"icon": "assets/ui/btn_lose.png"
+			"icon": ""
 		  }
 		}
 	  }
@@ -415,8 +416,8 @@
 	  },
 
 	  "colors": {
-		"title": "#E8D7B4",
-		"buttons": "#E8D7B4",
+		"title": "#F8F0C4",
+		"buttons": "#E8D6B4",
 		"labels": "#E8D7B4"
 	  }
 	}

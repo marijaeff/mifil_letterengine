@@ -1,7 +1,7 @@
 extends Control
 class_name EnvelopeIcon
 
-@export var total: int = 4
+@export var total: int = 5
 
 @onready var glow: TextureRect = $glow
 
@@ -21,10 +21,12 @@ func setup_from_map_def(map_def: Dictionary) -> void:
 		var base_node: TextureRect = get_node("base%d" % i) as TextureRect
 		var base_path: String = DataLoader.resolve_client_path(str(bases_any[i - 1]))
 		base_node.texture = load(base_path) as Texture2D
-
+		
 	for i: int in range(1, total + 1):
-		var piece_node: CanvasItem = get_node("piece%d" % i) as CanvasItem
-		piece_node.visible = false
+		var piece_path := "piece%d" % i
+		if has_node(piece_path):
+			var piece_node: CanvasItem = get_node(piece_path) as CanvasItem
+			piece_node.visible = false
 
 	var glow_rel: String = str(env.get("glow", ""))
 	if glow_rel != "":
@@ -45,9 +47,11 @@ func apply_progress(completed_level: int) -> void:
 		base_item.self_modulate = Color(1, 1, 1, 1)
 
 	for i: int in range(1, total + 1):
-		var piece: CanvasItem = get_node("piece%d" % i) as CanvasItem
-		piece.visible = false
-		piece.self_modulate = Color(1, 1, 1, 1)
+		var piece_path := "piece%d" % i
+		if has_node(piece_path):
+			var piece: CanvasItem = get_node(piece_path) as CanvasItem
+			piece.visible = false
+			piece.self_modulate = Color(1, 1, 1, 1)
 
 	_stop_pulse()
 
@@ -81,5 +85,5 @@ func _stop_pulse() -> void:
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			if ProgressManager.completed_level >= total:
+			if ProgressManager.completed_level >= total - 1:
 				emit_signal("letter_requested")

@@ -66,6 +66,7 @@ size_flags_vertical = 4
 script = ExtResource("2_7sm12")
 
 [node name="glow" type="TextureRect" parent="CenterWrap/Canvas/EnvelopeIcon"]
+visible = false
 layout_mode = 0
 offset_left = -139.0
 offset_top = -100.0
@@ -108,6 +109,15 @@ offset_left = -3.0
 offset_top = 2.0
 offset_right = 327.0
 offset_bottom = 234.0
+scale = Vector2(0.709077, 0.679865)
+texture = ExtResource("7_wr5ju")
+
+[node name="base5" type="TextureRect" parent="CenterWrap/Canvas/EnvelopeIcon"]
+visible = false
+offset_left = -5.12726
+offset_top = 3.35973
+offset_right = 324.873
+offset_bottom = 235.36
 scale = Vector2(0.709077, 0.679865)
 texture = ExtResource("7_wr5ju")
 

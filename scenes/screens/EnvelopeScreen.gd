@@ -30,8 +30,10 @@ func load_content():
 
 
 func setup_initial_state():
+	read_button.visible = true
 	read_button.modulate.a = 0.0
-	read_button.visible = false
+	read_button.disabled = true
+	read_button.position.y += 12
 
 	var ui_cfg: Dictionary = DataLoader.config.get("ui", {}) as Dictionary
 	var button_font_size: int = int(ui_cfg.get("button_font_size", 50))
@@ -43,12 +45,15 @@ func setup_initial_state():
 func show_button():
 	await get_tree().create_timer(0.4).timeout
 
-	read_button.visible = true
-
 	var tween = create_tween()
-	tween.tween_property(read_button, "modulate:a", 1.0, 0.6)
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(read_button, "modulate:a", 1.0, 0.8)
+	tween.parallel().tween_property(read_button, "position:y", read_button.position.y - 12, 0.8)
+
 	await tween.finished
 
+	read_button.disabled = false
 	read_button.pressed.connect(_on_read_pressed)
 
 

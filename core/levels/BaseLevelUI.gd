@@ -10,7 +10,11 @@ func complete() -> void:
 	ProgressManager.complete_level(level_id)
 	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
 
+var _pause_popup: Control = null
+
 func show_pause() -> void:
+	if _pause_popup != null and is_instance_valid(_pause_popup):
+		return
 
 	if get_tree().paused:
 		return
@@ -19,20 +23,24 @@ func show_pause() -> void:
 		push_error("Pause popup scene is not assigned")
 		return
 
+	get_tree().paused = true
+
 	var popup := pause_popup_scene.instantiate()
+	_pause_popup = popup
 	popup.process_mode = Node.PROCESS_MODE_ALWAYS
 
 	get_tree().root.add_child(popup)
-
 	popup.show_from_config()
 
 	popup.resume_pressed.connect(func():
 		get_tree().paused = false
+		_pause_popup = null
 		popup.queue_free()
 	)
 
 	popup.restart_pressed.connect(func():
 		get_tree().paused = false
+		_pause_popup = null
 		popup.queue_free()
 		await get_tree().process_frame
 		SceneLoader.goto_scene(scene_file_path)
@@ -40,12 +48,16 @@ func show_pause() -> void:
 
 	popup.map_pressed.connect(func():
 		get_tree().paused = false
+		_pause_popup = null
 		popup.queue_free()
 		await get_tree().process_frame
 		SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
 	)
 
-	get_tree().paused = true
+	popup.tree_exited.connect(func():
+		if _pause_popup == popup:
+			_pause_popup = null
+	)
 	
 func _on_pause_resume() -> void:
 

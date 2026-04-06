@@ -47,6 +47,10 @@ grow_vertical = 2
 scale = Vector2(1, 0.992531)
 theme_override_constants/separation = 25
 
+[node name="space7" type="Control" parent="CenterContainer/Panel/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+
 [node name="space1" type="Control" parent="CenterContainer/Panel/Content"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -60,14 +64,15 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Subtitle" type="Label" parent="CenterContainer/Panel/Content"]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
-text = "павпвап"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="space4" type="Control" parent="CenterContainer/Panel/Content"]
+[node name="space5" type="Control" parent="CenterContainer/Panel/Content"]
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="Icon" type="TextureRect" parent="CenterContainer/Panel/Content"]
 layout_mode = 2
@@ -75,8 +80,9 @@ size_flags_vertical = 3
 texture = ExtResource("3_7wg85")
 stretch_mode = 3
 
-[node name="space2" type="Control" parent="CenterContainer/Panel/Content"]
+[node name="space4" type="Control" parent="CenterContainer/Panel/Content"]
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="RetryBtn" type="Button" parent="CenterContainer/Panel/Content"]
 layout_mode = 2
@@ -85,12 +91,19 @@ flat = true
 icon_alignment = 1
 script = ExtResource("5_k7vfr")
 
+[node name="space2" type="Control" parent="CenterContainer/Panel/Content"]
+layout_mode = 2
+
 [node name="NextBtn" type="Button" parent="CenterContainer/Panel/Content"]
 layout_mode = 2
 text = "вмывмывмывм"
 flat = true
 icon_alignment = 1
 script = ExtResource("5_k7vfr")
+
+[node name="space6" type="Control" parent="CenterContainer/Panel/Content"]
+layout_mode = 2
+size_flags_vertical = 3
 
 [node name="space3" type="Control" parent="CenterContainer/Panel/Content"]
 layout_mode = 2

@@ -51,6 +51,8 @@ var time_per_question := 7
 
 const DISABLE_TORCH_GLOW_FOR_TEST := false
 
+var level_was_already_completed := false
+
 # ==================================================
 #                    READY
 # ==================================================
@@ -65,6 +67,8 @@ func _ready():
 	var question_def: Dictionary = levels_block.get("question", {})
 	
 	current_id = ProgressManager.selected_level
+	level_was_already_completed = ProgressManager.completed_level >= current_id
+	
 	var def: Dictionary = LevelRouter.get_level_def(current_id)
 
 	if def.is_empty():
@@ -511,8 +515,10 @@ func finish_level():
 
 		if not level_completed_once:
 			level_completed_once = true
-			ProgressManager.advance_envelope()
-			ProgressManager.complete_level(current_id)
+
+			if not level_was_already_completed:
+				ProgressManager.advance_envelope()
+				ProgressManager.complete_level(current_id)
 
 		show_result_overlay("win")
 
@@ -574,6 +580,12 @@ func game_over():
 #                    RESULT
 # ==================================================
 
+func _normalize_selected_level_after_finish() -> void:
+	ProgressManager.selected_level = max(
+		ProgressManager.selected_level,
+		ProgressManager.completed_level + 1
+	)
+
 func show_result_overlay(type: String):
 
 	var overlay := result_overlay_scene.instantiate()
@@ -582,9 +594,10 @@ func show_result_overlay(type: String):
 	overlay.show_from_config(type)
 
 	overlay.retry_pressed.connect(_on_retry_pressed)
-	overlay.next_pressed.connect(_on_next_pressed)
+	overlay.next_pressed.connect(_on_next_pressed.bind(type))
 
 func _on_retry_pressed():
+	ProgressManager.selected_level = current_id
 	ProgressManager.last_screen = "level"
 	ProgressManager.last_level_id = current_id
 	ProgressManager.save_progress()
@@ -592,7 +605,10 @@ func _on_retry_pressed():
 	SceneLoader.goto_scene("res://scenes/levels/QuestionLevel.tscn")
 
 
-func _on_next_pressed():
+func _on_next_pressed(type: String):
+	if type == "win":
+		_normalize_selected_level_after_finish()
+
 	ProgressManager.last_screen = "map"
 	ProgressManager.last_level_id = 0
 	ProgressManager.save_progress()

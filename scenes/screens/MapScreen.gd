@@ -41,6 +41,7 @@ func _ready():
 	load_content()
 	build_path()
 	update_start_button_state()
+	_update_envelope_pulse_state()
 	show_button()
 
 	if not _resume_music_on_first_tap:
@@ -380,6 +381,7 @@ func build_levels(raw_points: Array) -> void:
 func rebuild_levels_only() -> void:
 	build_path()
 	envelope_icon.apply_progress(ProgressManager.completed_level)
+	_update_envelope_pulse_state()
 
 func _on_level_pressed(level_index: int) -> void:
 	if not LevelRouter.can_open(level_index):
@@ -428,16 +430,39 @@ func _on_start_pressed() -> void:
 	LevelRouter.start_level(selected_level)
 
 func _start_letter_pulse() -> void:
-	var base_scale: Vector2 = envelope_icon.scale
-	
-	var tween: Tween = envelope_icon.create_tween()
-	tween.set_loops()
-	tween.set_trans(Tween.TRANS_SINE)
-	tween.set_ease(Tween.EASE_IN_OUT)
+	if _letter_pulse_tween != null and _letter_pulse_tween.is_valid():
+		_letter_pulse_tween.kill()
 
-	tween.tween_property(envelope_icon, "scale", base_scale * 1.06, 1.6)
-	tween.tween_property(envelope_icon, "scale", base_scale, 1.6)
-	
+	envelope_icon.pivot_offset = envelope_icon.size * 0.5
+	envelope_icon.scale = Vector2.ONE
+
+	var base_scale: Vector2 = Vector2.ONE
+
+	_letter_pulse_tween = envelope_icon.create_tween()
+	_letter_pulse_tween.set_loops()
+	_letter_pulse_tween.set_trans(Tween.TRANS_SINE)
+	_letter_pulse_tween.set_ease(Tween.EASE_IN_OUT)
+
+	_letter_pulse_tween.tween_property(envelope_icon, "scale", base_scale * 1.06, 1.6)
+	_letter_pulse_tween.tween_property(envelope_icon, "scale", base_scale, 1.6)
+
+func _stop_letter_pulse() -> void:
+	if _letter_pulse_tween != null and _letter_pulse_tween.is_valid():
+		_letter_pulse_tween.kill()
+
+	_letter_pulse_tween = null
+	envelope_icon.scale = Vector2.ONE
+
+func _update_envelope_pulse_state() -> void:
+	var levels_data: Dictionary = config.get("levels", {}) as Dictionary
+	var count: int = int(levels_data.get("count", 0))
+	var completed: int = ProgressManager.completed_level
+
+	if completed >= count:
+		_start_letter_pulse()
+	else:
+		_stop_letter_pulse()
+
 func _on_letter_requested() -> void:
 	AudioManager.play_sfx_by_key("button", -16)
 

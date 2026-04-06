@@ -323,11 +323,16 @@ func _on_retry_pressed():
 	SceneLoader.goto_scene("res://scenes/levels/IntuitionLevel.tscn")
 	
 func _normalize_selected_level_after_finish() -> void:
-	ProgressManager.selected_level = max(ProgressManager.selected_level, ProgressManager.completed_level + 1)
-	ProgressManager.save_progress()
+	ProgressManager.selected_level = max(
+		ProgressManager.selected_level,
+		ProgressManager.completed_level + 1
+	)
 
 func _on_next_pressed(_type: String):
 	AudioManager.play_sfx_by_key("whoosh", -12)
+
+	if _type == "win":
+		_normalize_selected_level_after_finish()
 
 	ProgressManager.last_screen = "map"
 	ProgressManager.last_level_id = 0
@@ -335,7 +340,6 @@ func _on_next_pressed(_type: String):
 
 	if PlatformManager.is_ios_web() and current_id == 2 and _type == "win" and OS.has_feature("web"):
 		_store_level2_reload_checkpoint()
-		_normalize_selected_level_after_finish()
 		_mark_map_music_resume_flag()
 		JavaScriptBridge.force_fs_sync()
 
@@ -347,6 +351,7 @@ func _on_next_pressed(_type: String):
 
 	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
 
+	
 func _mark_map_music_resume_flag() -> void:
 	if not OS.has_feature("web"):
 		return
