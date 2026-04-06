@@ -1,6 +1,5 @@
 extends Control
 
-@onready var background: TextureRect = $Background
 @onready var scroll: ScrollContainer = $VBox/Control/ScrollContainer
 @onready var paper: NinePatchRect = $VBox/Control/ScrollContainer/Paper
 @onready var text_label: RichTextLabel = $VBox/Control/ScrollContainer/Paper/MarginContainer/TextLabel
@@ -33,7 +32,6 @@ func _ready() -> void:
 	AudioManager.play_music_by_key("final")
 
 	_apply_ui_style()
-	_apply_letter_visuals()
 	await _load_text()
 	_configure_scroll()
 	_start_letter()
@@ -45,7 +43,43 @@ func _ready() -> void:
 	text_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	paper.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
+func _apply_ui_style() -> void:
+	var ui: Dictionary = DataLoader.config.get("ui", {})
+	var font_rel: String = str(ui.get("font", ""))
 
+	if font_rel != "":
+		var font_path: String = DataLoader.resolve_client_path(font_rel)
+		var font: FontFile = load(font_path) as FontFile
+		if font:
+			text_label.add_theme_font_override("normal_font", font)
+
+	text_label.add_theme_font_size_override("normal_font_size", 55)
+	text_label.add_theme_color_override("default_color", Color(0.28, 0.20, 0.15))
+	text_label.add_theme_constant_override("line_separation", 25)
+	text_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	text_label.autowrap_mode = TextServer.AUTOWRAP_WORD
+
+	var letter_cfg: Dictionary = DataLoader.config.get("screens", {}).get("letter", {})
+	var close_btn_cfg: Dictionary = letter_cfg.get("close_button", {})
+
+	close_button.text = str(close_btn_cfg.get("text", "..."))
+	close_button.add_theme_font_size_override("font_size", int(ui.get("button_font_size", 50)))
+
+	if font_rel != "":
+		var close_font_path: String = DataLoader.resolve_client_path(font_rel)
+		var close_font: FontFile = load(close_font_path) as FontFile
+		if close_font:
+			close_button.add_theme_font_override("font", close_font)
+
+	var icon_rel: String = str(close_btn_cfg.get("icon", ""))
+	if icon_rel != "":
+		var icon_path: String = DataLoader.resolve_client_path(icon_rel)
+		var icon_tex: Texture2D = load(icon_path) as Texture2D
+		if icon_tex:
+			close_button.icon = icon_tex
+			close_button.expand_icon = true
+		text_margin.add_theme_constant_override("margin_top", int(_paper_top_padding))
+		text_margin.add_theme_constant_override("margin_bottom", 0)
 		
 func _load_text() -> void:
 	var letter_data: Dictionary = DataLoader.texts.get("letter", {})
@@ -58,68 +92,6 @@ func _load_text() -> void:
 	paper.custom_minimum_size.y = _paper_height
 
 	text_label.visible_characters = 0
-
-func _apply_ui_style() -> void:
-	var ui: Dictionary = DataLoader.config.get("ui", {}) as Dictionary
-	var letter_cfg: Dictionary = DataLoader.config.get("screens", {}).get("letter", {}) as Dictionary
-	var close_btn_cfg: Dictionary = letter_cfg.get("close_button", {}) as Dictionary
-
-	var font_rel: String = str(ui.get("font", ""))
-	if font_rel != "":
-		var font_path: String = DataLoader.resolve_client_path(font_rel)
-		var font: FontFile = load(font_path) as FontFile
-		if font:
-			text_label.add_theme_font_override("normal_font", font)
-			close_button.add_theme_font_override("font", font)
-
-	var letter_font_size: int = int(letter_cfg.get("letter_font_size", 55))
-	var letter_text_color: String = str(letter_cfg.get("letter_text_color", "#29241C"))
-
-	text_label.add_theme_font_size_override("normal_font_size", letter_font_size)
-	text_label.add_theme_color_override("default_color", Color(letter_text_color))
-	text_label.add_theme_constant_override("line_separation", 25)
-	text_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	text_label.autowrap_mode = TextServer.AUTOWRAP_WORD
-
-	close_button.text = str(close_btn_cfg.get("text", "..."))
-	close_button.add_theme_font_size_override("font_size", int(ui.get("button_font_size", 50)))
-	var button_text_color: Color = Color(str(ui.get("button_text_color", "#E8D7B4")))
-	close_button.add_theme_color_override("font_color", button_text_color)
-
-	var icon_rel: String = str(close_btn_cfg.get("icon", ""))
-	if icon_rel != "":
-		var icon_path: String = DataLoader.resolve_client_path(icon_rel)
-		var icon_tex: Texture2D = load(icon_path) as Texture2D
-		if icon_tex:
-			close_button.icon = icon_tex
-			close_button.expand_icon = true
-
-	text_margin.add_theme_constant_override("margin_top", int(_paper_top_padding))
-	text_margin.add_theme_constant_override("margin_bottom", 0)
-
-func _apply_letter_visuals() -> void:
-	var letter_cfg: Dictionary = DataLoader.config.get("screens", {}).get("letter", {}) as Dictionary
-
-	var bg_rel: String = str(letter_cfg.get("background", ""))
-	if bg_rel != "":
-		var bg_path: String = DataLoader.resolve_client_path(bg_rel)
-		var bg_tex: Texture2D = load(bg_path) as Texture2D
-		if bg_tex:
-			background.texture = bg_tex
-
-	var paper_rel: String = str(letter_cfg.get("paper", ""))
-	if paper_rel != "":
-		var paper_path: String = DataLoader.resolve_client_path(paper_rel)
-		var paper_tex: Texture2D = load(paper_path) as Texture2D
-		if paper_tex:
-			paper.texture = paper_tex
-
-	var heart_rel: String = str(letter_cfg.get("heart", ""))
-	if heart_rel != "":
-		var heart_path: String = DataLoader.resolve_client_path(heart_rel)
-		var heart_tex: Texture2D = load(heart_path) as Texture2D
-		if heart_tex:
-			heart.texture = heart_tex
 
 func _configure_scroll() -> void:
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED

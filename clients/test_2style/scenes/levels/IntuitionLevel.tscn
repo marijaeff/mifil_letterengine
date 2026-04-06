@@ -1,8 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dihqqufwaf06i"]
+[gd_scene load_steps=4 format=3 uid="uid://bcexihovsahyf"]
 
-[ext_resource type="Script" uid="uid://wd30p2vgtqsh" path="res://scenes/levels/IntuitionLevel.gd" id="1_snlua"]
-[ext_resource type="PackedScene" uid="uid://bkl0f7opgqrlu" path="res://scenes/screens/ResultOverlay.tscn" id="2_ohmiu"]
-[ext_resource type="PackedScene" uid="uid://d2op6qcc3uo4e" path="res://scenes/screens/PausePopup.tscn" id="3_a7ck8"]
+[ext_resource type="Script" path="res://clients/test_2style/scenes/levels/IntuitionLevel.gd" id="1_snlua"]
+[ext_resource type="PackedScene" path="res://clients/test_2style/scenes/screens/ResultOverlay.tscn" id="2_ohmiu"]
+[ext_resource type="PackedScene" path="res://clients/test_2style/scenes/screens/PausePopup.tscn" id="3_a7ck8"]
 
 [node name="IntuitionLevel" type="Control"]
 layout_mode = 3

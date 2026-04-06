@@ -44,13 +44,19 @@ func load_content():
 	label.text = DataLoader.texts["intro"]["text"]
 
 
+
+	rope.texture = load(base_path + config["decor"]["top_line"])
 	ground.texture = load(base_path + config["decor"]["ground"])
 
 	girl.texture = load(base_path + config["characters"]["girl"])
-
+	baby.texture = load(base_path + config["characters"]["baby"])
+	cat.texture = load(base_path + config["characters"]["cat"])
+	
 	button_yes.text = DataLoader.texts["intro"]["buttons"]["yes"]
 	button_no.text = DataLoader.texts["intro"]["buttons"]["no"]
 	
+	button_yes.icon = load(base_path + config["buttons"]["yes"]["outline"])
+	button_no.icon = load(base_path + config["buttons"]["no"]["outline"])
 	
 	apply_colors_from_config()
 

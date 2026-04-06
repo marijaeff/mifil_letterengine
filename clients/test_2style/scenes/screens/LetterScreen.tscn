@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://cer03srt3g5vu"]
+[gd_scene load_steps=3 format=3 uid="uid://de7gbv0apkf4t"]
 
 [ext_resource type="Script" uid="uid://c2vopp4plije4" path="res://scenes/screens/LetterScreen.gd" id="1_8q2r2"]
 [ext_resource type="Script" uid="uid://bn5yfaitfruy1" path="res://scenes/ui/AnimatedButton.gd" id="5_l6cg8"]

@@ -1,8 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cfqdw0yujjnsq"]
+[gd_scene load_steps=4 format=3 uid="uid://dcmha002vsf0w"]
 
-[ext_resource type="Script" uid="uid://br517cx1soucv" path="res://scenes/screens/PausePopup.gd" id="1_1sabg"]
-[ext_resource type="Texture2D" uid="uid://d1vic1c4ljpsd" path="res://clients/test_3style/assets/ui/envelope_1.png" id="2_1sabg"]
-[ext_resource type="Script" uid="uid://bn5yfaitfruy1" path="res://scenes/ui/AnimatedButton.gd" id="4_0c8al"]
+[ext_resource type="Script" path="res://clients/test_2style/scenes/screens/PausePopup.gd" id="1_1sabg"]
+[ext_resource type="Texture2D" path="res://clients/test_2style/assets/ui/envelope_1.png" id="2_1sabg"]
+[ext_resource type="Script" path="res://scenes/ui/AnimatedButton.gd" id="4_0c8al"]
 
 [node name="PausePopup" type="Control"]
 layout_mode = 3

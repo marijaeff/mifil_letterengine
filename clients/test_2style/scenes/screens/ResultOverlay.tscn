@@ -1,9 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://d2yjesl4pp6p0"]
+[gd_scene load_steps=5 format=3 uid="uid://cklwwm5jp8bon"]
 
-[ext_resource type="Script" uid="uid://ba3qjfq3qwk67" path="res://scenes/screens/ResultOverlay.gd" id="1_7wg85"]
-[ext_resource type="Texture2D" uid="uid://dxs6elg4fru27" path="res://clients/test_3style/assets/ui/result_win.png" id="2_o0lpy"]
-[ext_resource type="Texture2D" uid="uid://d1vic1c4ljpsd" path="res://clients/test_3style/assets/ui/envelope_1.png" id="3_7wg85"]
-[ext_resource type="Script" uid="uid://bn5yfaitfruy1" path="res://scenes/ui/AnimatedButton.gd" id="5_k7vfr"]
+[ext_resource type="Script" path="res://clients/test_2style/scenes/screens/ResultOverlay.gd" id="1_7wg85"]
+[ext_resource type="Texture2D" path="res://clients/test_2style/assets/ui/result_win.png" id="2_o0lpy"]
+[ext_resource type="Texture2D" path="res://clients/test_2style/assets/ui/envelope_1.png" id="3_7wg85"]
+[ext_resource type="Script" path="res://scenes/ui/AnimatedButton.gd" id="5_k7vfr"]
 
 [node name="ResultOverlay" type="Control"]
 layout_mode = 3

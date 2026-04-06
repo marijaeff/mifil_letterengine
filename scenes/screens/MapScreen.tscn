@@ -1,13 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://sv12r2t3448l"]
+[gd_scene load_steps=5 format=3 uid="uid://sv12r2t3448l"]
 
 [ext_resource type="Script" uid="uid://bycjah7yrq2vk" path="res://scenes/screens/MapScreen.gd" id="1_03exp"]
 [ext_resource type="PackedScene" uid="uid://d2op6qcc3uo4e" path="res://scenes/screens/PausePopup.tscn" id="2_1vr7n"]
 [ext_resource type="Script" uid="uid://cjki707wiyrjt" path="res://scenes/screens/EnvelopeIcon.gd" id="2_7sm12"]
 [ext_resource type="Script" uid="uid://bn5yfaitfruy1" path="res://scenes/ui/AnimatedButton.gd" id="3_16o3d"]
-[ext_resource type="Texture2D" uid="uid://dloh4w4afxfml" path="res://clients/test_3style/assets/objects/base1.png" id="4_a6rbi"]
-[ext_resource type="Texture2D" uid="uid://b2jps8lyglj77" path="res://clients/test_3style/assets/objects/base2.png" id="5_6e32h"]
-[ext_resource type="Texture2D" uid="uid://c6nrvyflgbvwe" path="res://clients/test_3style/assets/objects/base3.png" id="6_7sm12"]
-[ext_resource type="Texture2D" uid="uid://l0bm5rtt3nv3" path="res://clients/test_3style/assets/objects/base4.png" id="7_wr5ju"]
 
 [node name="MapScreen" type="Control"]
 layout_mode = 3
@@ -57,16 +53,15 @@ anchor_left = 0.758
 anchor_top = 0.179
 anchor_right = 0.758
 anchor_bottom = 0.179
-offset_left = -102.64
-offset_top = -111.68
-offset_right = 119.36
-offset_bottom = 19.32
+offset_left = -62.64
+offset_top = -156.68
+offset_right = 64.36
+offset_bottom = -71.68
 size_flags_horizontal = 8
 size_flags_vertical = 4
 script = ExtResource("2_7sm12")
 
 [node name="glow" type="TextureRect" parent="CenterWrap/Canvas/EnvelopeIcon"]
-visible = false
 layout_mode = 0
 offset_left = -139.0
 offset_top = -100.0
@@ -78,49 +73,36 @@ scale = Vector2(1.05308, 0.8274)
 layout_mode = 0
 offset_left = -3.0
 offset_top = -2.0
-offset_right = 330.0
-offset_bottom = 223.0
+offset_right = 200.0
+offset_bottom = 154.0
 scale = Vector2(0.715347, 0.697468)
-texture = ExtResource("4_a6rbi")
 
 [node name="base2" type="TextureRect" parent="CenterWrap/Canvas/EnvelopeIcon"]
 visible = false
 layout_mode = 0
-offset_left = -2.0
-offset_top = 1.0
-offset_right = 319.0
-offset_bottom = 216.0
+offset_left = -6.0
+offset_top = -4.0
+offset_right = 85.0
+offset_bottom = 69.0
 scale = Vector2(0.728747, 0.719752)
-texture = ExtResource("5_6e32h")
 
 [node name="base3" type="TextureRect" parent="CenterWrap/Canvas/EnvelopeIcon"]
 visible = false
 layout_mode = 0
-offset_left = -4.0
-offset_right = 317.0
-offset_bottom = 225.0
+offset_left = -6.0
+offset_top = -4.0
+offset_right = 197.0
+offset_bottom = 150.0
 scale = Vector2(0.734462, 0.701005)
-texture = ExtResource("6_7sm12")
 
 [node name="base4" type="TextureRect" parent="CenterWrap/Canvas/EnvelopeIcon"]
 visible = false
 layout_mode = 0
 offset_left = -3.0
 offset_top = 2.0
-offset_right = 327.0
-offset_bottom = 234.0
+offset_right = 200.0
+offset_bottom = 156.0
 scale = Vector2(0.709077, 0.679865)
-texture = ExtResource("7_wr5ju")
-
-[node name="base5" type="TextureRect" parent="CenterWrap/Canvas/EnvelopeIcon"]
-visible = false
-layout_mode = 0
-offset_left = -5.12726
-offset_top = 3.35973
-offset_right = 324.873
-offset_bottom = 235.36
-scale = Vector2(0.709077, 0.679865)
-texture = ExtResource("7_wr5ju")
 
 [node name="piece1" type="TextureRect" parent="CenterWrap/Canvas/EnvelopeIcon"]
 visible = false

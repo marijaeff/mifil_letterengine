@@ -41,8 +41,6 @@ var light_finger_offset: Vector2 = Vector2(0, -140)
 var _light_dirty: bool = true
 var _last_pointer_pos: Vector2 = Vector2(-99999, -99999)
 
-var level_was_already_completed := false
-
 # ---------------------------------------------------
 # READY
 # ---------------------------------------------------
@@ -52,8 +50,6 @@ func _ready():
 	await get_tree().process_frame
 
 	current_id = ProgressManager.selected_level
-	level_was_already_completed = ProgressManager.completed_level >= current_id
-	
 	var route_def: Dictionary = LevelRouter.get_level_def(current_id)
 
 	if route_def.is_empty():
@@ -253,7 +249,7 @@ func start_timer():
 	var config: Dictionary = DataLoader.config
 	var level_def: Dictionary = config.get("levels", {}).get("light", {})
 	
-	timer_label.add_theme_font_size_override("font_size", 100)
+	timer_label.add_theme_font_size_override("font_size", 70)
 	
 	time_left = level_def.get("timer", {}).get("time", 20)
 	timer_active = true
@@ -296,14 +292,13 @@ func finish_level():
 
 	if not level_completed_once:
 		level_completed_once = true
-
-		if not level_was_already_completed:
-			ProgressManager.advance_envelope()
-			ProgressManager.complete_level(current_id)
+		ProgressManager.advance_envelope()
+		ProgressManager.complete_level(current_id)
 	
 	AudioManager.play_sfx_by_key("correct", -14)
 	
 	show_result_overlay("win")
+
 
 func game_over():
 
@@ -317,12 +312,6 @@ func game_over():
 	AudioManager.play_sfx_by_key("wrong", -14)
 
 	show_result_overlay("lose")
-	
-func _normalize_selected_level_after_finish() -> void:
-	ProgressManager.selected_level = max(
-		ProgressManager.selected_level,
-		ProgressManager.completed_level + 1
-	)
 
 func show_result_overlay(type: String):
 
@@ -332,7 +321,7 @@ func show_result_overlay(type: String):
 	overlay.show_from_config(type)
 
 	overlay.retry_pressed.connect(_on_retry_pressed)
-	overlay.next_pressed.connect(_on_next_pressed.bind(type))
+	overlay.next_pressed.connect(_on_next_pressed)
 	
 func _on_retry_pressed():
 
@@ -342,7 +331,6 @@ func _on_retry_pressed():
 func _restart_level():
 	AudioManager.play_sfx_by_key("whoosh", -12)
 
-	ProgressManager.selected_level = current_id
 	ProgressManager.last_screen = "level"
 	ProgressManager.last_level_id = current_id
 	ProgressManager.save_progress()
@@ -352,14 +340,12 @@ func _restart_level():
 
 	SceneLoader.goto_scene("res://scenes/levels/LightLevel.tscn")
 
-func _on_next_pressed(type: String):
-	call_deferred("_go_to_map", type)
+func _on_next_pressed():
 
-func _go_to_map(type: String):
+	call_deferred("_go_to_map")
+
+func _go_to_map():
 	AudioManager.play_sfx_by_key("whoosh", -12)
-
-	if type == "win":
-		_normalize_selected_level_after_finish()
 
 	ProgressManager.last_screen = "map"
 	ProgressManager.last_level_id = 0

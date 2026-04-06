@@ -1,7 +1,7 @@
 extends Control
 class_name EnvelopeIcon
 
-@export var total: int = 5
+@export var total: int = 4
 
 @onready var glow: TextureRect = $glow
 
@@ -12,21 +12,21 @@ func setup_from_map_def(map_def: Dictionary) -> void:
 	var env: Dictionary = map_def.get("envelope", {}) as Dictionary
 
 	var bases_any: Array = env.get("bases", []) as Array
+	var pieces_any: Array = env.get("pieces", []) as Array
 
-	if bases_any.size() < total:
-		push_warning("EnvelopeIcon: not enough bases in config.")
+	if bases_any.size() < total or pieces_any.size() < total:
+		push_warning("EnvelopeIcon: not enough bases/pieces in config.")
 		return
 
 	for i: int in range(1, total + 1):
 		var base_node: TextureRect = get_node("base%d" % i) as TextureRect
+		var piece_node: TextureRect = get_node("piece%d" % i) as TextureRect
+
 		var base_path: String = DataLoader.resolve_client_path(str(bases_any[i - 1]))
+		var piece_path: String = DataLoader.resolve_client_path(str(pieces_any[i - 1]))
+
 		base_node.texture = load(base_path) as Texture2D
-		
-	for i: int in range(1, total + 1):
-		var piece_path := "piece%d" % i
-		if has_node(piece_path):
-			var piece_node: CanvasItem = get_node(piece_path) as CanvasItem
-			piece_node.visible = false
+		piece_node.texture = load(piece_path) as Texture2D
 
 	var glow_rel: String = str(env.get("glow", ""))
 	if glow_rel != "":
@@ -41,19 +41,23 @@ func apply_progress(completed_level: int) -> void:
 	var c: int = clamp(completed_level, 0, total)
 	var stage: int = clamp(c + 1, 1, total)
 
+	# Базы
 	for i: int in range(1, total + 1):
 		var base_item: CanvasItem = get_node("base%d" % i) as CanvasItem
 		base_item.visible = (i == stage)
-		base_item.self_modulate = Color(1, 1, 1, 1)
+		base_item.self_modulate.a = 0.9  
 
 	for i: int in range(1, total + 1):
-		var piece_path := "piece%d" % i
-		if has_node(piece_path):
-			var piece: CanvasItem = get_node(piece_path) as CanvasItem
-			piece.visible = false
-			piece.self_modulate = Color(1, 1, 1, 1)
+		var piece: CanvasItem = get_node("piece%d" % i) as CanvasItem
+		piece.visible = false
+		piece.self_modulate = Color(1, 1, 1, 1)
 
 	_stop_pulse()
+
+	if c < total:
+		var current_piece: CanvasItem = get_node("piece%d" % stage) as CanvasItem
+		current_piece.visible = true
+		_start_soft_pulse(current_piece)
 
 func _start_soft_pulse(node: CanvasItem) -> void:
 	node.self_modulate = Color(1, 1, 1, 1)
@@ -85,5 +89,5 @@ func _stop_pulse() -> void:
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			if ProgressManager.completed_level >= total - 1:
+			if ProgressManager.completed_level >= total:
 				emit_signal("letter_requested")

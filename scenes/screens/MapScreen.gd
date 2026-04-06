@@ -24,7 +24,6 @@ var cached_raw_points: Array = []
 var _resume_music_on_first_tap := false
 var _map_music_started := false
 var _letter_pulse_tween: Tween = null
-var _settings_popup: Control = null
 
 func _ready():
 	config = DataLoader.config["screens"]["map"] as Dictionary
@@ -42,7 +41,6 @@ func _ready():
 	load_content()
 	build_path()
 	update_start_button_state()
-	_update_envelope_pulse_state()
 	show_button()
 
 	if not _resume_music_on_first_tap:
@@ -64,12 +62,7 @@ func load_content():
 	title_label.add_theme_color_override("font_color", Color("FFE9AC"))
 	
 	start_button.text = map_texts.get("button", "")
-	var ui_cfg: Dictionary = DataLoader.config.get("ui", {}) as Dictionary
-	var button_font_size: int = int(ui_cfg.get("button_font_size", 50))
-	var button_text_color: Color = Color(str(ui_cfg.get("button_text_color", "#E8D7B4")))
-
-	start_button.add_theme_font_size_override("font_size", button_font_size)
-	start_button.add_theme_color_override("font_color", button_text_color)
+	start_button.icon = load(base_path + config["button"]["texture"])
 	
 	envelope_icon.setup_from_map_def(config)
 	envelope_icon.apply_progress(ProgressManager.completed_level)
@@ -114,141 +107,94 @@ func build_path() -> void:
 		curve.set_point_in(i, -dir * distance)
 		curve.set_point_out(i, dir * distance)
 
-		curve.bake_interval = 2.0
+	curve.bake_interval = 2.0
+	var baked: Array = curve.get_baked_points()
 
-		var width_curve: Curve = Curve.new()
-		width_curve.add_point(Vector2(0.0, path_data["width_start"]))
-		width_curve.add_point(Vector2(1.0, path_data["width_end"]))
-		path_line.width_curve = width_curve
+	var width_curve: Curve = Curve.new()
+	width_curve.add_point(Vector2(0.0, path_data["width_start"]))
+	width_curve.add_point(Vector2(1.0, path_data["width_end"]))
+	path_line.width_curve = width_curve
 
-		build_levels_on_arc(cached_raw_points)
+	build_dashed_line(baked, path_data)
+	build_levels(cached_raw_points)
 
 
-func build_levels_on_arc(raw_points: Array) -> void:
-	for child in lights_container.get_children():
+func build_dashed_line(points, path_data):
+
+	for child in path_line.get_children():
 		child.queue_free()
 
-	var levels_data: Dictionary = config.get("levels", {}) as Dictionary
-	var count: int = int(levels_data.get("count", 0))
-	var completed: int = ProgressManager.completed_level
-	var active: int = completed + 1
-	var tex_paths: Dictionary = levels_data.get("textures", {}) as Dictionary
+	var style = path_data["style"]
 
-	if count <= 0 or raw_points.size() < 3:
-		return
+	var line_color = Color(style["color"])
+	var glow_color = Color(style["glow_color"])
+	var glow_alpha = float(style["glow_alpha"])
+	var glow_multiplier = float(style["glow_width_multiplier"])
+	var perspective_power = float(style["perspective_power"])
 
-	var a: Vector2 = raw_points[0] as Vector2
-	var c: Vector2 = raw_points[raw_points.size() - 1] as Vector2
+	var width_start = float(path_data["width_start"])
+	var width_end = float(path_data["width_end"])
 
-	var mid: Vector2 = (a + c) * 0.5
-	var dir: Vector2 = (c - a).normalized()
+	var total_length = 0.0
+	for i in range(points.size() - 1):
+		total_length += points[i].distance_to(points[i + 1])
 
-	var normal: Vector2 = Vector2(dir.y, -dir.x)
+	var traveled_global = 0.0
+	var distance_accumulated = 0.0
+	var drawing = true
 
-	var arc_strength: float = 250.0
+	for i in range(points.size() - 1):
 
-	var b: Vector2 = mid - normal * arc_strength
+		var a = points[i]
+		var b = points[i + 1]
 
+		var segment_length = a.distance_to(b)
+		var dir = (b - a).normalized()
+		var segment_traveled = 0.0
 
-	var start_t: float = 0.12
-	var end_t: float = 0.82
+		while segment_traveled < segment_length:
 
-	for i in range(count):
-		var state: String = "locked"
-		if i + 1 == active:
-			state = "active"
-		elif i + 1 <= completed:
-			state = "completed"
+			var progress = traveled_global / total_length
+			progress = pow(progress, perspective_power)
 
-		var t: float = 0.0
-		if count > 1:
-			t = float(i) / float(count - 1)
+			var current_width = lerp(width_start, width_end, progress)
 
-		var mapped_t: float = lerp(start_t, end_t, t)
-		var pos: Vector2 = quadratic_bezier(a, b, c, mapped_t)
+			var dash_length = lerp(float(path_data["dash_length"]), float(path_data["dash_length"]) * 0.5, progress)
+			var gap_length = lerp(float(path_data["gap_length"]), float(path_data["gap_length"]) * 0.6, progress)
+			var total_local = dash_length + gap_length
 
-		create_level_point(pos, state, mapped_t, tex_paths, i + 1)
+			var step = min(total_local - distance_accumulated, segment_length - segment_traveled)
 
-func quadratic_bezier(a: Vector2, b: Vector2, c: Vector2, t: float) -> Vector2:
-	var u: float = 1.0 - t
-	return u * u * a + 2.0 * u * t * b + t * t * c
+			if drawing:
 
-#func build_dashed_line(points, path_data):
-#
-	#for child in path_line.get_children():
-		#child.queue_free()
-#
-	#var style = path_data["style"]
-#
-	#var line_color = Color(style["color"])
-	#var glow_color = Color(style["glow_color"])
-	#var glow_alpha = float(style["glow_alpha"])
-	#var glow_multiplier = float(style["glow_width_multiplier"])
-	#var perspective_power = float(style["perspective_power"])
-#
-	#var width_start = float(path_data["width_start"])
-	#var width_end = float(path_data["width_end"])
-#
-	#var total_length = 0.0
-	#for i in range(points.size() - 1):
-		#total_length += points[i].distance_to(points[i + 1])
-#
-	#var traveled_global = 0.0
-	#var distance_accumulated = 0.0
-	#var drawing = true
-#
-	#for i in range(points.size() - 1):
-#
-		#var a = points[i]
-		#var b = points[i + 1]
-#
-		#var segment_length = a.distance_to(b)
-		#var dir = (b - a).normalized()
-		#var segment_traveled = 0.0
-#
-		#while segment_traveled < segment_length:
-#
-			#var progress = traveled_global / total_length
-			#progress = pow(progress, perspective_power)
-#
-			#var current_width = lerp(width_start, width_end, progress)
-#
-			#var dash_length = lerp(float(path_data["dash_length"]), float(path_data["dash_length"]) * 0.5, progress)
-			#var gap_length = lerp(float(path_data["gap_length"]), float(path_data["gap_length"]) * 0.6, progress)
-			#var total_local = dash_length + gap_length
-#
-			#var step = min(total_local - distance_accumulated, segment_length - segment_traveled)
-#
-			#if drawing:
-#
-				#var start = a + dir * segment_traveled
-				#var end = a + dir * (segment_traveled + step)
-#
-				#var glow_line = Line2D.new()
-				#glow_line.width = current_width * glow_multiplier
-				#glow_line.default_color = Color(glow_color.r, glow_color.g, glow_color.b, glow_alpha)
-				#glow_line.begin_cap_mode = Line2D.LINE_CAP_ROUND
-				#glow_line.end_cap_mode = Line2D.LINE_CAP_ROUND
-				#glow_line.add_point(start)
-				#glow_line.add_point(end)
-				#path_line.add_child(glow_line)
-#
-				#var dash_line = Line2D.new()
-				#dash_line.width = current_width
-				#dash_line.default_color = line_color
-				#dash_line.begin_cap_mode = Line2D.LINE_CAP_ROUND
-				#dash_line.end_cap_mode = Line2D.LINE_CAP_ROUND
-				#dash_line.add_point(start)
-				#dash_line.add_point(end)
-				#path_line.add_child(dash_line)
-#
-			#segment_traveled += step
-			#traveled_global += step
-			#distance_accumulated += step
-#
-			#if distance_accumulated >= total_local:
-				#distance_accumulated = 0.0
-				#drawing = not drawing
+				var start = a + dir * segment_traveled
+				var end = a + dir * (segment_traveled + step)
+
+				var glow_line = Line2D.new()
+				glow_line.width = current_width * glow_multiplier
+				glow_line.default_color = Color(glow_color.r, glow_color.g, glow_color.b, glow_alpha)
+				glow_line.begin_cap_mode = Line2D.LINE_CAP_ROUND
+				glow_line.end_cap_mode = Line2D.LINE_CAP_ROUND
+				glow_line.add_point(start)
+				glow_line.add_point(end)
+				path_line.add_child(glow_line)
+
+				var dash_line = Line2D.new()
+				dash_line.width = current_width
+				dash_line.default_color = line_color
+				dash_line.begin_cap_mode = Line2D.LINE_CAP_ROUND
+				dash_line.end_cap_mode = Line2D.LINE_CAP_ROUND
+				dash_line.add_point(start)
+				dash_line.add_point(end)
+				path_line.add_child(dash_line)
+
+			segment_traveled += step
+			traveled_global += step
+			distance_accumulated += step
+
+			if distance_accumulated >= total_local:
+				distance_accumulated = 0.0
+				drawing = not drawing
 
 func _detect_resume_music_flag() -> void:
 	if not OS.has_feature("web"):
@@ -380,9 +326,8 @@ func build_levels(raw_points: Array) -> void:
 		_start_letter_pulse()
 
 func rebuild_levels_only() -> void:
-	build_path()
+	build_levels(cached_raw_points)
 	envelope_icon.apply_progress(ProgressManager.completed_level)
-	_update_envelope_pulse_state()
 
 func _on_level_pressed(level_index: int) -> void:
 	if not LevelRouter.can_open(level_index):
@@ -396,24 +341,14 @@ func _on_level_pressed(level_index: int) -> void:
 	rebuild_levels_only()
 
 func _on_settings_pressed() -> void:
-	if _settings_popup != null and is_instance_valid(_settings_popup):
-		return
-
 	AudioManager.play_sfx_by_key("button", -14)
 
 	var popup = pause_popup_scene.instantiate()
-	_settings_popup = popup
-
 	add_child(popup)
 
 	popup.process_mode = Node.PROCESS_MODE_ALWAYS
 	popup.show()
 	popup.show_settings_from_config(true)
-
-	popup.tree_exited.connect(func():
-		if _settings_popup == popup:
-			_settings_popup = null
-	)
 
 func _on_start_pressed() -> void:
 
@@ -441,39 +376,16 @@ func _on_start_pressed() -> void:
 	LevelRouter.start_level(selected_level)
 
 func _start_letter_pulse() -> void:
-	if _letter_pulse_tween != null and _letter_pulse_tween.is_valid():
-		_letter_pulse_tween.kill()
+	var base_scale: Vector2 = envelope_icon.scale
+	
+	var tween: Tween = envelope_icon.create_tween()
+	tween.set_loops()
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_IN_OUT)
 
-	envelope_icon.pivot_offset = envelope_icon.size * 0.5
-	envelope_icon.scale = Vector2.ONE
-
-	var base_scale: Vector2 = Vector2.ONE
-
-	_letter_pulse_tween = envelope_icon.create_tween()
-	_letter_pulse_tween.set_loops()
-	_letter_pulse_tween.set_trans(Tween.TRANS_SINE)
-	_letter_pulse_tween.set_ease(Tween.EASE_IN_OUT)
-
-	_letter_pulse_tween.tween_property(envelope_icon, "scale", base_scale * 1.06, 1.6)
-	_letter_pulse_tween.tween_property(envelope_icon, "scale", base_scale, 1.6)
-
-func _stop_letter_pulse() -> void:
-	if _letter_pulse_tween != null and _letter_pulse_tween.is_valid():
-		_letter_pulse_tween.kill()
-
-	_letter_pulse_tween = null
-	envelope_icon.scale = Vector2.ONE
-
-func _update_envelope_pulse_state() -> void:
-	var levels_data: Dictionary = config.get("levels", {}) as Dictionary
-	var count: int = int(levels_data.get("count", 0))
-	var completed: int = ProgressManager.completed_level
-
-	if completed >= count:
-		_start_letter_pulse()
-	else:
-		_stop_letter_pulse()
-
+	tween.tween_property(envelope_icon, "scale", base_scale * 1.06, 1.6)
+	tween.tween_property(envelope_icon, "scale", base_scale, 1.6)
+	
 func _on_letter_requested() -> void:
 	AudioManager.play_sfx_by_key("button", -16)
 

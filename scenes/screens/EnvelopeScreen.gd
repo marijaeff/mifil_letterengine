@@ -27,33 +27,28 @@ func load_content():
 	var envelope_texts: Dictionary = DataLoader.texts.get("envelope", {}) as Dictionary
 	
 	read_button.text = envelope_texts.get("button_text", "")
+	read_button.icon = load(base_path + config["button_outline"])
 
 
 func setup_initial_state():
-	read_button.visible = true
 	read_button.modulate.a = 0.0
-	read_button.disabled = true
-	read_button.position.y += 12
+	read_button.visible = false
 
-	var ui_cfg: Dictionary = DataLoader.config.get("ui", {}) as Dictionary
-	var button_font_size: int = int(ui_cfg.get("button_font_size", 50))
-	var button_text_color: Color = Color(str(ui_cfg.get("button_text_color", "#E8D7B4")))
+	read_button.add_theme_font_size_override(
+		"font_size",
+		DataLoader.config["ui"]["button_font_size"]
+	)
 
-	read_button.add_theme_font_size_override("font_size", button_font_size)
-	read_button.add_theme_color_override("font_color", button_text_color)
 
 func show_button():
 	await get_tree().create_timer(0.4).timeout
 
-	var tween = create_tween()
-	tween.set_trans(Tween.TRANS_SINE)
-	tween.set_ease(Tween.EASE_OUT)
-	tween.parallel().tween_property(read_button, "modulate:a", 1.0, 0.8)
-	tween.parallel().tween_property(read_button, "position:y", read_button.position.y - 12, 0.8)
+	read_button.visible = true
 
+	var tween = create_tween()
+	tween.tween_property(read_button, "modulate:a", 1.0, 0.6)
 	await tween.finished
 
-	read_button.disabled = false
 	read_button.pressed.connect(_on_read_pressed)
 
 

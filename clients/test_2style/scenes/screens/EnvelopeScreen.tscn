@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://c40bhx526a2dj"]
+[gd_scene load_steps=3 format=3 uid="uid://dx3m2yeqps4md"]
 
-[ext_resource type="Script" uid="uid://b0i8pkycyvtfg" path="res://scenes/screens/EnvelopeScreen.gd" id="1_pq3gq"]
-[ext_resource type="Script" uid="uid://bn5yfaitfruy1" path="res://scenes/ui/AnimatedButton.gd" id="2_wput5"]
+[ext_resource type="Script" path="res://clients/test_2style/scenes/screens/EnvelopeScreen.gd" id="1_pq3gq"]
+[ext_resource type="Script" path="res://scenes/ui/AnimatedButton.gd" id="2_wput5"]
 
 [node name="EnvelopeScreen" type="Control"]
 layout_mode = 3

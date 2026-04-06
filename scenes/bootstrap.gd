@@ -1,6 +1,6 @@
 extends Node
 
-@export var client_id: String = "test_1style"
+@export var client_id: String = "test_2style"
 
 func _ready():
 	DataLoader.load_client(client_id)
@@ -17,14 +17,31 @@ func _ready():
 		return
 
 	if ProgressManager.last_screen == "map":
+		print("BOOT client_id =", client_id)
+		print("BOOT DataLoader.client_id =", DataLoader.client_id)
+		print("BOOT last_screen =", ProgressManager.last_screen)
+		print("BOOT map path =", DataLoader.resolve_scene_path("screens/MapScreen.tscn"))
 		SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/MapScreen.tscn"))
 	elif ProgressManager.last_screen == "letter":
+		print("BOOT client_id =", client_id)
+		print("BOOT DataLoader.client_id =", DataLoader.client_id)
+		print("BOOT last_screen =", ProgressManager.last_screen)
+		print("BOOT map path =", DataLoader.resolve_scene_path("screens/MapScreen.tscn"))
 		SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/LetterScreen.tscn"))
 	elif ProgressManager.last_screen == "hug":
+		print("BOOT client_id =", client_id)
+		print("BOOT DataLoader.client_id =", DataLoader.client_id)
+		print("BOOT last_screen =", ProgressManager.last_screen)
+		print("BOOT map path =", DataLoader.resolve_scene_path("screens/MapScreen.tscn"))
 		SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/HugScreen.tscn"))
 	elif ProgressManager.last_screen == "level" and ProgressManager.last_level_id > 0:
+		
 		LevelRouter.start_level(ProgressManager.last_level_id)
 	else:
+		print("BOOT client_id =", client_id)
+		print("BOOT DataLoader.client_id =", DataLoader.client_id)
+		print("BOOT last_screen =", ProgressManager.last_screen)
+		print("BOOT map path =", DataLoader.resolve_scene_path("screens/MapScreen.tscn"))
 		SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/HeartScreen.tscn"))
 
 func _restore_level2_reload_checkpoint() -> bool:

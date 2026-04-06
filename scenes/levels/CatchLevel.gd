@@ -18,7 +18,7 @@ var heart_icon: Texture2D = null
 var good_items: Array[Texture2D] = []
 var bad_items: Array[Texture2D] = []
 var good_caught: int = 0
-var total_needed: int = 1
+var total_needed: int = 15
 
 var is_touching: bool = false
 var last_spawn_zone: int = -1
@@ -38,19 +38,15 @@ var difficulty_factor: float = 0.0
 var current_hearts: int = 0
 var is_game_over: bool = false
 
-var level_completed_once := false
-var level_was_already_completed := false
-var current_id: int = 0
 
 func _ready() -> void:
+	
 	AudioManager.set_music_volume(0.06) 
 	AudioManager.play_music_by_key("level")
 	
-	current_id = ProgressManager.selected_level
-	level_was_already_completed = ProgressManager.completed_level >= current_id
-	
+	var current_id: int = ProgressManager.selected_level
 	var def: Dictionary = LevelRouter.get_level_def(current_id)
-
+	
 	ProgressManager.last_screen = "level"
 	ProgressManager.last_level_id = current_id
 	ProgressManager.save_progress()
@@ -80,16 +76,12 @@ func _ready() -> void:
 	setup_hint(catch_def)
 	
 	$PlantRoot/CatchArea.area_entered.connect(_on_item_caught)
-	pause_btn.pressed.connect(_on_pause_pressed)
+	pause_btn.pressed.connect(show_pause)
 
 	await show_intro_hint(catch_def)
 
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 	spawn_timer.start()
-
-func _on_pause_pressed() -> void:
-	hint_label.visible = false
-	show_pause()
 
 func load_visuals(def: Dictionary) -> void:
 	var base_path: String = "res://clients/%s/" % DataLoader.client_id
@@ -451,13 +443,6 @@ func _process(delta: float) -> void:
 	new_spawn_time = clamp(new_spawn_time, min_spawn_time, base_spawn_time)
 	
 	spawn_timer.wait_time = new_spawn_time
-	
-func _normalize_selected_level_after_finish() -> void:
-	ProgressManager.selected_level = max(
-		ProgressManager.selected_level,
-		ProgressManager.completed_level + 1
-	)
-	ProgressManager.save_progress()
 
 func show_result_overlay(type: String):
 
@@ -472,18 +457,14 @@ func show_result_overlay(type: String):
 func _on_retry_pressed():
 	AudioManager.play_sfx_by_key("whoosh", -12)
 
-	ProgressManager.selected_level = current_id
 	ProgressManager.last_screen = "level"
-	ProgressManager.last_level_id = current_id
+	ProgressManager.last_level_id = level_id
 	ProgressManager.save_progress()
 
 	SceneLoader.goto_scene("res://scenes/levels/CatchLevel.tscn")
 
 func _on_next_pressed(_type: String):
 	AudioManager.play_sfx_by_key("whoosh", -12)
-
-	if _type == "win":
-		_normalize_selected_level_after_finish()
 
 	ProgressManager.last_screen = "map"
 	ProgressManager.last_level_id = 0
@@ -501,16 +482,13 @@ func lose():
 	show_result_overlay("lose")
 
 func win() -> void:
+
 	is_game_over = true
 	spawn_timer.stop()
 
 	AudioManager.play_sfx_by_key("correct", -12)
 
-	if not level_completed_once:
-		level_completed_once = true
-
-		if not level_was_already_completed:
-			ProgressManager.advance_envelope()
-			ProgressManager.complete_level(current_id)
+	ProgressManager.advance_envelope()
+	ProgressManager.complete_level(level_id)
 
 	show_result_overlay("win")

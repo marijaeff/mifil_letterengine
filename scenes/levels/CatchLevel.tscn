@@ -35,7 +35,7 @@ metadata/_edit_use_anchors_ = true
 position = Vector2(556, 1319)
 
 [node name="Plant" type="Sprite2D" parent="PlantRoot"]
-position = Vector2(-20, 199)
+position = Vector2(-10, 204)
 scale = Vector2(1, 1.0901)
 
 [node name="Hands" type="Sprite2D" parent="PlantRoot"]
@@ -85,8 +85,6 @@ offset_right = 0.5
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="SpawnTimer" type="Timer" parent="."]
 wait_time = 1.2

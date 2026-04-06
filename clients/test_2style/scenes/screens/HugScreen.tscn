@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bh2ikiwdmydet"]
+[gd_scene load_steps=3 format=3 uid="uid://d2hnxb0pnwavf"]
 
-[ext_resource type="Script" uid="uid://blayjmosutjr" path="res://scenes/screens/HugScreen.gd" id="1_04dpv"]
-[ext_resource type="Script" uid="uid://bn5yfaitfruy1" path="res://scenes/ui/AnimatedButton.gd" id="4_aj7yd"]
+[ext_resource type="Script" path="res://clients/test_2style/scenes/screens/HugScreen.gd" id="1_04dpv"]
+[ext_resource type="Script" path="res://scenes/ui/AnimatedButton.gd" id="4_aj7yd"]
 
 [node name="HugScreen" type="Control"]
 layout_mode = 3
