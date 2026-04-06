@@ -367,7 +367,7 @@ func _on_start_pressed() -> void:
 		ProgressManager.last_level_id = 0
 		ProgressManager.save_progress()
 
-		SceneLoader.goto_scene("res://scenes/screens/LetterScreen.tscn")
+		SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/LetterScreen.tscn"))
 		return
 
 	if not LevelRouter.can_open(selected_level):
@@ -398,4 +398,4 @@ func _on_letter_requested() -> void:
 	ProgressManager.last_level_id = 0
 	ProgressManager.save_progress()
 
-	SceneLoader.goto_scene("res://scenes/screens/LetterScreen.tscn")
+	SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/LetterScreen.tscn"))

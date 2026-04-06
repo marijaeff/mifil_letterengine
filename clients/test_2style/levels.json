@@ -2,25 +2,25 @@
   "levels": [
 	{
 	  "id": 1,
-	  "scene": "res://scenes/levels/CatchLevel.tscn",
+	  "scene": "levels/CatchLevel.tscn",
 	  "title": "Росток",
 	  "background": "assets/backgrounds/envelope_bg.png"
 	},
 	{
 	  "id": 2,
-	  "scene": "res://scenes/levels/IntuitionLevel.tscn",
+	  "scene": "levels/IntuitionLevel.tscn",
 	  "title": "Интуиция",
 	  "background": "assets/backgrounds/envelope_bg.png"
 	},
 	{
 	  "id": 3,
-	  "scene": "res://scenes/levels/QuestionLevel.tscn",
+	  "scene": "levels/QuestionLevel.tscn",
 	  "title": "Вопросы",
 	  "background": "assets/backgrounds/envelope_bg.png"
 	},
 	{
 	  "id": 4,
-	  "scene": "res://scenes/levels/LightLevel.tscn",
+	  "scene": "levels/LightLevel.tscn",
 	  "title": "Свет",
 	  "background": "assets/backgrounds/envelope_bg.png"
 	}
