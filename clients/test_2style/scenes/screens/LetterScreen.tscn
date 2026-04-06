@@ -1,0 +1,117 @@
+[gd_scene load_steps=3 format=3 uid="uid://cer03srt3g5vu"]
+
+[ext_resource type="Script" uid="uid://c2vopp4plije4" path="res://scenes/screens/LetterScreen.gd" id="1_8q2r2"]
+[ext_resource type="Script" uid="uid://bn5yfaitfruy1" path="res://scenes/ui/AnimatedButton.gd" id="5_l6cg8"]
+
+[node name="LetterScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8q2r2")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 6
+
+[node name="Control2" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Heart" type="TextureRect" parent="VBox/Control"]
+layout_mode = 2
+anchor_left = 0.5
+anchor_top = 0.008
+anchor_right = 0.5
+anchor_bottom = 0.008
+offset_left = -172.0
+offset_top = 120.64
+offset_right = 187.0
+offset_bottom = 419.64
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBox/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 68.0
+offset_top = 559.0
+offset_right = -58.0
+offset_bottom = -366.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1, 1.05377)
+mouse_filter = 0
+horizontal_scroll_mode = 0
+
+[node name="Paper" type="NinePatchRect" parent="VBox/Control/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+patch_margin_left = 40
+patch_margin_top = 40
+patch_margin_right = 40
+patch_margin_bottom = 40
+
+[node name="MarginContainer" type="MarginContainer" parent="VBox/Control/ScrollContainer/Paper"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 43.0
+offset_top = 32.0
+offset_right = -20.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 70
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 90
+theme_override_constants/margin_bottom = 70
+
+[node name="TextLabel" type="RichTextLabel" parent="VBox/Control/ScrollContainer/Paper/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+fit_content = true
+scroll_active = false
+autowrap_mode = 2
+horizontal_alignment = 1
+
+[node name="CloseButton" type="Button" parent="VBox/Control"]
+layout_mode = 2
+anchor_left = 0.5
+anchor_top = 0.854
+anchor_right = 0.5
+anchor_bottom = 0.854
+offset_left = -236.0
+offset_top = 24.3201
+offset_right = 252.0
+offset_bottom = 136.32
+theme_override_font_sizes/font_size = 60
+flat = true
+icon_alignment = 1
+script = ExtResource("5_l6cg8")

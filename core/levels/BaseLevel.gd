@@ -14,7 +14,7 @@ func setup(level_def: Dictionary) -> void:
 
 func complete() -> void:
 	ProgressManager.complete_level(level_id)
-	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
+	SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/MapScreen.tscn"))
 
 
 func show_pause() -> void:
@@ -77,6 +77,5 @@ func _on_pause_restart() -> void:
 
 
 func _on_pause_map() -> void:
-
 	close_pause()
-	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
+	SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/MapScreen.tscn"))

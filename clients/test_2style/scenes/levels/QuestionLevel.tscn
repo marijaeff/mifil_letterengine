@@ -1,0 +1,282 @@
+[gd_scene load_steps=8 format=3 uid="uid://dyloebapdjy1"]
+
+[ext_resource type="Script" uid="uid://bqfu8fvg3sg5q" path="res://scenes/levels/QuestionLevel.gd" id="1_lkm2a"]
+[ext_resource type="PackedScene" uid="uid://bkl0f7opgqrlu" path="res://scenes/screens/ResultOverlay.tscn" id="2_8lw1p"]
+[ext_resource type="Texture2D" uid="uid://d4bg2ol3y80rs" path="res://clients/test_3style/assets/objects/question/box.png" id="3_1tm65"]
+[ext_resource type="Script" uid="uid://bieb7m6fhkoi" path="res://scenes/levels/Fireflies.gd" id="3_ts5er"]
+[ext_resource type="PackedScene" uid="uid://d2op6qcc3uo4e" path="res://scenes/screens/PausePopup.tscn" id="3_ygj76"]
+[ext_resource type="Texture2D" uid="uid://djb4tlm6lky0c" path="res://clients/test_3style/assets/objects/question/ground.png" id="5_pcg7u"]
+[ext_resource type="Texture2D" uid="uid://dtclrcp74y34x" path="res://clients/test_3style/assets/objects/question/torch_off.png" id="7_tgh10"]
+
+[node name="QuestionLevel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lkm2a")
+result_overlay_scene = ExtResource("2_8lw1p")
+pause_popup_scene = ExtResource("3_ygj76")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Fireflies" type="Node2D" parent="."]
+script = ExtResource("3_ts5er")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="HeartsContainer" type="HBoxContainer" parent="UI"]
+offset_left = 40.0
+offset_top = 40.0
+offset_right = 440.0
+offset_bottom = 188.0
+theme_override_constants/separation = 10
+alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="PauseButton" type="TextureButton" parent="UI"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -152.0
+offset_top = 56.0
+offset_right = -31.0
+offset_bottom = 168.0
+metadata/_edit_use_anchors_ = true
+
+[node name="SafeArea" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Main" type="VBoxContainer" parent="SafeArea"]
+layout_mode = 2
+
+[node name="SpacerTop" type="Control" parent="SafeArea/Main"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="QuestionBlock" type="Control" parent="SafeArea/Main"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TimerCircle" type="TextureRect" parent="SafeArea/Main/QuestionBlock"]
+layout_mode = 2
+anchor_left = 0.5
+anchor_top = -1.01
+anchor_right = 0.5
+anchor_bottom = -1.01
+offset_left = -87.0
+offset_top = 195.71
+offset_right = 86.0
+offset_bottom = 352.71
+size_flags_horizontal = 4
+size_flags_vertical = 3
+
+[node name="TimerLabel" type="Label" parent="SafeArea/Main/QuestionBlock/TimerCircle"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = -1.247
+anchor_right = 0.5
+anchor_bottom = -1.247
+offset_left = -84.5
+offset_top = 206.879
+offset_right = 85.5
+offset_bottom = 356.879
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 100
+text = "5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="QuestionLabel" type="Label" parent="SafeArea/Main/QuestionBlock"]
+layout_mode = 2
+anchor_left = 0.504
+anchor_top = -1.007
+anchor_right = 0.504
+anchor_bottom = -1.007
+offset_left = -371.32
+offset_top = 368.667
+offset_right = 371.68
+offset_bottom = 761.667
+theme_override_font_sizes/font_size = 50
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Answers" type="Control" parent="SafeArea/Main"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="AnswerBtn1" type="Button" parent="SafeArea/Main/Answers"]
+layout_mode = 2
+anchor_left = 0.5
+anchor_top = -2.014
+anchor_right = 0.5
+anchor_bottom = -2.014
+offset_left = -537.0
+offset_top = 752.334
+offset_right = 543.0
+offset_bottom = 879.334
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 70
+flat = true
+icon_alignment = 1
+
+[node name="AnswerBtn2" type="Button" parent="SafeArea/Main/Answers"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = -2.007
+anchor_right = 0.5
+anchor_bottom = -2.007
+offset_left = -540.0
+offset_top = 891.667
+offset_right = 545.0
+offset_bottom = 1018.67
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 70
+flat = true
+icon_alignment = 1
+
+[node name="AnswerBtn3" type="Button" parent="SafeArea/Main/Answers"]
+layout_mode = 2
+anchor_left = 0.5
+anchor_top = -2.028
+anchor_right = 0.5
+anchor_bottom = -2.028
+offset_left = -540.0
+offset_top = 1044.67
+offset_right = 540.0
+offset_bottom = 1171.67
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 70
+flat = true
+icon_alignment = 1
+
+[node name="SpacerBottom" type="Control" parent="SafeArea/Main"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BoxArea" type="Control" parent="SafeArea/Main"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Ground" type="TextureRect" parent="SafeArea/Main/BoxArea"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.997
+anchor_right = 0.5
+anchor_bottom = 0.997
+offset_left = -504.0
+offset_top = -396.857
+offset_right = 503.0
+offset_bottom = -16.857
+texture = ExtResource("5_pcg7u")
+stretch_mode = 2
+
+[node name="BoxSprite" type="TextureRect" parent="SafeArea/Main/BoxArea"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -261.0
+offset_top = -559.0
+offset_right = 293.0
+offset_bottom = -192.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_1tm65")
+stretch_mode = 2
+
+[node name="Lamps" type="Control" parent="SafeArea/Main/BoxArea"]
+layout_mode = 1
+anchor_left = 0.501
+anchor_top = 0.89
+anchor_right = 0.501
+anchor_bottom = 0.89
+offset_left = -548.08
+offset_top = -604.09
+offset_right = 554.92
+offset_bottom = 14.91
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Lamp1" type="TextureRect" parent="SafeArea/Main/BoxArea/Lamps"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -269.5
+offset_top = -534.0
+offset_right = -219.5
+offset_bottom = -371.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("7_tgh10")
+
+[node name="Lamp2" type="TextureRect" parent="SafeArea/Main/BoxArea/Lamps"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -86.4999
+offset_top = -532.0
+offset_right = -37.4999
+offset_bottom = -372.0
+texture = ExtResource("7_tgh10")
+
+[node name="Lamp3" type="TextureRect" parent="SafeArea/Main/BoxArea/Lamps"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 94.5001
+offset_top = -535.0
+offset_right = 146.5
+offset_bottom = -370.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("7_tgh10")
+
+[node name="Lamp4" type="TextureRect" parent="SafeArea/Main/BoxArea/Lamps"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.509
+anchor_top = 1.0
+anchor_right = 0.509
+anchor_bottom = 1.0
+offset_left = 235.573
+offset_top = -533.0
+offset_right = 289.573
+offset_bottom = -367.0
+texture = ExtResource("7_tgh10")
+
+[node name="QuestionTimer" type="Timer" parent="."]

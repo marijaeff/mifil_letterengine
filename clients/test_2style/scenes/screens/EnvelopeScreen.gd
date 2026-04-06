@@ -1,0 +1,89 @@
+extends Control
+
+@onready var background = $Background
+@onready var envelope = $VBoxContainer/CenterContainer/Envelope
+@onready var read_button = $VBoxContainer/ReadButton
+
+var config
+var transitioning := false
+
+
+func _ready():
+	config = DataLoader.config["screens"]["envelope"]
+
+	load_content()
+	setup_initial_state()
+
+	await show_button()
+	start_idle_animation()
+
+
+func load_content():
+	var base_path = "res://clients/%s/" % DataLoader.client_id
+
+	background.texture = load(base_path + config["background"])
+	envelope.texture = load(base_path + config["envelope_texture"])
+	
+	var envelope_texts: Dictionary = DataLoader.texts.get("envelope", {}) as Dictionary
+	
+	read_button.text = envelope_texts.get("button_text", "")
+
+
+func setup_initial_state():
+	read_button.visible = true
+	read_button.modulate.a = 0.0
+	read_button.disabled = true
+	read_button.position.y += 12
+
+	var ui_cfg: Dictionary = DataLoader.config.get("ui", {}) as Dictionary
+	var button_font_size: int = int(ui_cfg.get("button_font_size", 50))
+	var button_text_color: Color = Color(str(ui_cfg.get("button_text_color", "#E8D7B4")))
+
+	read_button.add_theme_font_size_override("font_size", button_font_size)
+	read_button.add_theme_color_override("font_color", button_text_color)
+
+func show_button():
+	await get_tree().create_timer(0.4).timeout
+
+	var tween = create_tween()
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_OUT)
+	tween.parallel().tween_property(read_button, "modulate:a", 1.0, 0.8)
+	tween.parallel().tween_property(read_button, "position:y", read_button.position.y - 12, 0.8)
+
+	await tween.finished
+
+	read_button.disabled = false
+	read_button.pressed.connect(_on_read_pressed)
+
+
+func start_idle_animation():
+	envelope.pivot_offset = envelope.size * 0.5
+
+	var tween = create_tween().set_loops()
+
+	tween.tween_property(envelope, "scale", Vector2(1.02, 1.02), 2.0)\
+		.set_trans(Tween.TRANS_SINE)\
+		.set_ease(Tween.EASE_IN_OUT)
+
+	tween.tween_property(envelope, "scale", Vector2.ONE, 2.0)\
+		.set_trans(Tween.TRANS_SINE)\
+		.set_ease(Tween.EASE_IN_OUT)
+
+
+func _on_read_pressed():
+	if transitioning:
+		return
+
+	transitioning = true
+	
+	AudioManager.play_sfx_by_key("whoosh", -12)
+	
+	var tween = create_tween()
+	tween.tween_property(envelope, "scale", Vector2(1.08, 1.08), 0.4)\
+		.set_trans(Tween.TRANS_SINE)\
+		.set_ease(Tween.EASE_OUT)
+
+	await tween.finished
+	await get_tree().process_frame
+	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")

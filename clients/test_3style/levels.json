@@ -1,28 +1,8 @@
 {
   "levels": [
-	{
-	  "id": 1,
-	  "scene": "res://scenes/levels/CatchLevel.tscn",
-	  "title": "Росток",
-	  "background": "assets/backgrounds/envelope_bg.png"
-	},
-	{
-	  "id": 2,
-	  "scene": "res://scenes/levels/IntuitionLevel.tscn",
-	  "title": "Интуиция",
-	  "background": "assets/backgrounds/envelope_bg.png"
-	},
-	{
-	  "id": 3,
-	  "scene": "res://scenes/levels/QuestionLevel.tscn",
-	  "title": "Вопросы",
-	  "background": "assets/backgrounds/envelope_bg.png"
-	},
-	{
-	  "id": 4,
-	  "scene": "res://scenes/levels/LightLevel.tscn",
-	  "title": "Свет",
-	  "background": "assets/backgrounds/envelope_bg.png"
-	}
+	{ "id": 1, "scene": "levels/CatchLevel.tscn", "title": "Росток", "background": "assets/backgrounds/envelope_bg.png" },
+	{ "id": 2, "scene": "levels/IntuitionLevel.tscn", "title": "Интуиция", "background": "assets/backgrounds/envelope_bg.png" },
+	{ "id": 3, "scene": "levels/QuestionLevel.tscn", "title": "Вопросы", "background": "assets/backgrounds/envelope_bg.png" },
+	{ "id": 4, "scene": "levels/LightLevel.tscn", "title": "Свет", "background": "assets/backgrounds/envelope_bg.png" }
   ]
 }

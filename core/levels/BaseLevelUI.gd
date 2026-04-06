@@ -8,7 +8,7 @@ func setup(level_def: Dictionary) -> void:
 
 func complete() -> void:
 	ProgressManager.complete_level(level_id)
-	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
+	SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/MapScreen.tscn"))
 
 var _pause_popup: Control = null
 
@@ -63,7 +63,7 @@ func show_pause() -> void:
 		_pause_popup = null
 		popup.queue_free()
 		await get_tree().process_frame
-		SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
+		SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/MapScreen.tscn"))
 	)
 
 	popup.tree_exited.connect(func():
@@ -78,7 +78,7 @@ func _on_pause_resume() -> void:
 func _on_pause_map() -> void:
 
 	get_tree().paused = false
-	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
+	SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/MapScreen.tscn"))
 	
 func _restart_level() -> void:
 

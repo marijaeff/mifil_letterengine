@@ -17,15 +17,15 @@ func _ready():
 		return
 
 	if ProgressManager.last_screen == "map":
-		SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
+		SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/MapScreen.tscn"))
 	elif ProgressManager.last_screen == "letter":
-		SceneLoader.goto_scene("res://scenes/screens/LetterScreen.tscn")
+		SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/LetterScreen.tscn"))
 	elif ProgressManager.last_screen == "hug":
-		SceneLoader.goto_scene("res://scenes/screens/HugScreen.tscn")
+		SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/HugScreen.tscn"))
 	elif ProgressManager.last_screen == "level" and ProgressManager.last_level_id > 0:
 		LevelRouter.start_level(ProgressManager.last_level_id)
 	else:
-		SceneLoader.goto_scene("res://scenes/screens/HeartScreen.tscn")
+		SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/HeartScreen.tscn"))
 
 func _restore_level2_reload_checkpoint() -> bool:
 	if not OS.has_feature("web"):
@@ -68,5 +68,5 @@ window.sessionStorage.removeItem('mifil_selected_level');
 window.sessionStorage.removeItem('mifil_envelope_stage');
 """, true)
 
-	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
+	SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/MapScreen.tscn"))
 	return true

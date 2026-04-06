@@ -2,12 +2,10 @@ extends Node
 
 func get_level_def(level_id: int) -> Dictionary:
 	var arr: Array = DataLoader.levels.get("levels", []) as Array
-	
 	for item in arr:
 		var d: Dictionary = item as Dictionary
 		if int(d.get("id", -1)) == level_id:
 			return d
-	
 	return {}
 
 func can_open(level_id: int) -> bool:
@@ -22,11 +20,12 @@ func start_level(level_id: int) -> void:
 		push_error("Level definition not found for id: %s" % level_id)
 		return
 
-	var scene_path: String = str(def.get("scene", ""))
-	if scene_path == "":
+	var scene_key: String = str(def.get("scene", ""))
+	if scene_key == "":
 		push_error("Level scene missing for id: %s" % level_id)
 		return
 
-	ProgressManager.select_level(level_id)
+	var scene_path := DataLoader.resolve_scene_path(scene_key)
 
+	ProgressManager.select_level(level_id)
 	SceneLoader.goto_scene(scene_path)

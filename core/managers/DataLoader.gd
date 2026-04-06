@@ -35,6 +35,8 @@ func load_client(id: String) -> void:
 		levels = {}
 		push_warning("Levels not found: " + levels_path)
 
+
+
 func load_json(path: String) -> Dictionary:
 	var file: FileAccess = FileAccess.open(path, FileAccess.READ)
 	var content: String = file.get_as_text()
@@ -57,3 +59,22 @@ func resolve_client_path(rel_path: String) -> String:
 		return rel_path
 
 	return "res://clients/%s/%s" % [client_id, rel_path]
+	
+func resolve_scene_path(rel_path: String) -> String:
+	if rel_path.begins_with("res://") or rel_path.begins_with("user://"):
+		return rel_path
+
+	if client_id.is_empty():
+		push_error("DataLoader.resolve_scene_path: client_id is empty. Call load_client() first.")
+		return rel_path
+
+	var client_scene_path := "res://clients/%s/scenes/%s" % [client_id, rel_path]
+	if ResourceLoader.exists(client_scene_path):
+		return client_scene_path
+
+	var shared_scene_path := "res://scenes/%s" % rel_path
+	if ResourceLoader.exists(shared_scene_path):
+		return shared_scene_path
+
+	push_error("Scene not found: " + rel_path)
+	return shared_scene_path

@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=3 uid="uid://bh2ikiwdmydet"]
+
+[ext_resource type="Script" uid="uid://blayjmosutjr" path="res://scenes/screens/HugScreen.gd" id="1_04dpv"]
+[ext_resource type="Script" uid="uid://bn5yfaitfruy1" path="res://scenes/ui/AnimatedButton.gd" id="4_aj7yd"]
+
+[node name="HugScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_04dpv")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Heart" type="Sprite2D" parent="."]
+
+[node name="Characters" type="Sprite2D" parent="."]
+
+[node name="Duo" type="Sprite2D" parent="Characters"]
+
+[node name="ButtonsContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -207.0
+offset_top = -607.0
+offset_right = 227.0
+offset_bottom = -176.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 25
+
+[node name="DownloadButton" type="Button" parent="ButtonsContainer"]
+layout_mode = 2
+flat = true
+icon_alignment = 1
+script = ExtResource("4_aj7yd")
+
+[node name="MapButton" type="Button" parent="ButtonsContainer"]
+layout_mode = 2
+flat = true
+icon_alignment = 1
+script = ExtResource("4_aj7yd")
+
+[node name="FinishButton" type="Button" parent="ButtonsContainer"]
+layout_mode = 2
+flat = true
+icon_alignment = 1
+script = ExtResource("4_aj7yd")
