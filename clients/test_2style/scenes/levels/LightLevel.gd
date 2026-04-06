@@ -350,7 +350,7 @@ func _restart_level():
 	_release_heavy_resources()
 	await get_tree().process_frame
 
-	SceneLoader.goto_scene("res://scenes/levels/LightLevel.tscn")
+	SceneLoader.goto_scene(DataLoader.resolve_scene_path("levels/LightLevel.tscn"))
 
 func _on_next_pressed(type: String):
 	call_deferred("_go_to_map", type)
@@ -368,7 +368,7 @@ func _go_to_map(type: String):
 	_release_heavy_resources()
 	await get_tree().process_frame
 
-	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
+	SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/MapScreen.tscn"))
 
 # ---------------------------------------------------
 # INPUT

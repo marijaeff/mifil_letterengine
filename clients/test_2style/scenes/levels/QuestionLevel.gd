@@ -602,7 +602,7 @@ func _on_retry_pressed():
 	ProgressManager.last_level_id = current_id
 	ProgressManager.save_progress()
 
-	SceneLoader.goto_scene("res://scenes/levels/QuestionLevel.tscn")
+	SceneLoader.goto_scene(DataLoader.resolve_scene_path("levels/QuestionLevel.tscn"))
 
 
 func _on_next_pressed(type: String):
@@ -613,4 +613,4 @@ func _on_next_pressed(type: String):
 	ProgressManager.last_level_id = 0
 	ProgressManager.save_progress()
 
-	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
+	SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/MapScreen.tscn"))

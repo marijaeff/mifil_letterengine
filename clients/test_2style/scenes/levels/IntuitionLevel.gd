@@ -320,7 +320,7 @@ func _on_retry_pressed():
 	ProgressManager.last_level_id = current_id
 	ProgressManager.save_progress()
 
-	SceneLoader.goto_scene("res://scenes/levels/IntuitionLevel.tscn")
+	SceneLoader.goto_scene(DataLoader.resolve_scene_path("levels/IntuitionLevel.tscn"))
 	
 func _normalize_selected_level_after_finish() -> void:
 	ProgressManager.selected_level = max(
@@ -349,7 +349,7 @@ func _on_next_pressed(_type: String):
 		""", true)
 		return
 
-	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
+	SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/MapScreen.tscn"))
 
 	
 func _mark_map_music_resume_flag() -> void:
