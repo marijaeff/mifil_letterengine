@@ -4,7 +4,6 @@ signal resume_pressed
 signal restart_pressed
 signal map_pressed
 
-
 # ---------------------------------------------------
 # NODES
 # ---------------------------------------------------
@@ -64,6 +63,7 @@ func _ready():
 
 	_update_toggle_visual(sound_toggle)
 	_update_toggle_visual(music_toggle)
+	
 
 # ---------------------------------------------------
 # PAUSE CONFIG

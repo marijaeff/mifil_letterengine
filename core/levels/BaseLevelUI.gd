@@ -23,6 +23,15 @@ func show_pause() -> void:
 		push_error("Pause popup scene is not assigned")
 		return
 
+	var hint_was_visible := false
+	var hint_label: CanvasItem = null
+
+	if has_node("UI/Label"):
+		hint_label = get_node("UI/Label") as CanvasItem
+		if hint_label != null:
+			hint_was_visible = hint_label.visible
+			hint_label.visible = false
+
 	get_tree().paused = true
 
 	var popup := pause_popup_scene.instantiate()
@@ -33,6 +42,9 @@ func show_pause() -> void:
 	popup.show_from_config()
 
 	popup.resume_pressed.connect(func():
+		if hint_label != null and hint_was_visible:
+			hint_label.visible = true
+
 		get_tree().paused = false
 		_pause_popup = null
 		popup.queue_free()

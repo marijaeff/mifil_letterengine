@@ -80,12 +80,16 @@ func _ready() -> void:
 	setup_hint(catch_def)
 	
 	$PlantRoot/CatchArea.area_entered.connect(_on_item_caught)
-	pause_btn.pressed.connect(show_pause)
+	pause_btn.pressed.connect(_on_pause_pressed)
 
 	await show_intro_hint(catch_def)
 
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 	spawn_timer.start()
+
+func _on_pause_pressed() -> void:
+	hint_label.visible = false
+	show_pause()
 
 func load_visuals(def: Dictionary) -> void:
 	var base_path: String = "res://clients/%s/" % DataLoader.client_id

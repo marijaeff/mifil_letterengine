@@ -24,6 +24,7 @@ var cached_raw_points: Array = []
 var _resume_music_on_first_tap := false
 var _map_music_started := false
 var _letter_pulse_tween: Tween = null
+var _settings_popup: Control = null
 
 func _ready():
 	config = DataLoader.config["screens"]["map"] as Dictionary
@@ -395,14 +396,24 @@ func _on_level_pressed(level_index: int) -> void:
 	rebuild_levels_only()
 
 func _on_settings_pressed() -> void:
+	if _settings_popup != null and is_instance_valid(_settings_popup):
+		return
+
 	AudioManager.play_sfx_by_key("button", -14)
 
 	var popup = pause_popup_scene.instantiate()
+	_settings_popup = popup
+
 	add_child(popup)
 
 	popup.process_mode = Node.PROCESS_MODE_ALWAYS
 	popup.show()
 	popup.show_settings_from_config(true)
+
+	popup.tree_exited.connect(func():
+		if _settings_popup == popup:
+			_settings_popup = null
+	)
 
 func _on_start_pressed() -> void:
 
