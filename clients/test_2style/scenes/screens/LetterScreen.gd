@@ -299,4 +299,4 @@ func _on_close_pressed() -> void:
 	ProgressManager.save_progress()
 
 	await get_tree().process_frame
-	SceneLoader.goto_scene("res://scenes/screens/HugScreen.tscn")
+	SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/HugScreen.tscn"))

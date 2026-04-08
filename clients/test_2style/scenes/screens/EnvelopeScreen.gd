@@ -86,4 +86,4 @@ func _on_read_pressed():
 
 	await tween.finished
 	await get_tree().process_frame
-	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
+	SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/MapScreen.tscn"))

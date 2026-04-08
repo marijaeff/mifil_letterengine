@@ -105,7 +105,8 @@ func _on_download_pressed() -> void:
 	var pdf_path: String = DataLoader.resolve_client_path(pdf_rel)
 
 	if not FileAccess.file_exists(pdf_path):
-		pdf_path = "res://clients/vika/assets/files/letter.pdf"
+		push_error("HugScreen: pdf file not found: " + pdf_path)
+		return
 
 	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(pdf_path)
 
@@ -125,7 +126,7 @@ func _on_download_pressed() -> void:
 
 func _on_map_pressed() -> void:
 	AudioManager.play_sfx_by_key("whoosh", -12)
-	SceneLoader.goto_scene("res://scenes/screens/MapScreen.tscn")
+	SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/MapScreen.tscn"))
 
 
 func _on_finish_pressed() -> void:
@@ -135,7 +136,7 @@ func _on_finish_pressed() -> void:
 
 	await get_tree().process_frame
 
-	SceneLoader.goto_scene("res://scenes/screens/HeartScreen.tscn")
+	SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/HeartScreen.tscn"))
 
 func _start_heart_pulse() -> void:
 	heart.scale = heart_base_scale

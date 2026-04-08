@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://civbv4rw722x2"]
 
-[ext_resource type="Script" uid="uid://cx8erhmpcj2k6" path="res://scenes/screens/HeartScreen.gd" id="1_132yt"]
+[ext_resource type="Script" path="res://clients/test_2style/scenes/screens/HeartScreen.gd" id="1_132yt"]
 
 [sub_resource type="Animation" id="Animation_vw43y"]
 length = 0.001

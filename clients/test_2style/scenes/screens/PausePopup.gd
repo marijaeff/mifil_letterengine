@@ -106,7 +106,8 @@ func _on_music_toggle_pressed() -> void:
 func show_from_config() -> void:
 	opened_directly_to_settings = false
 	if DataLoader.client_id.is_empty():
-		DataLoader.load_client("vika")
+		push_error("PausePopup: DataLoader.client_id is empty. Client must be loaded before opening pause popup.")
+		return
 
 	var cfg: Dictionary = DataLoader.config.get("levels", {}).get("pause", {})
 	if cfg.is_empty():
@@ -269,7 +270,7 @@ func _on_reset_pressed() -> void:
 	hide()
 	get_tree().paused = false
 	ProgressManager.reset_progress()
-	SceneLoader.goto_scene("res://scenes/screens/HeartScreen.tscn")
+	SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/HeartScreen.tscn"))
 
 # ---------------------------------------------------
 # ANIMATION

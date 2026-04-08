@@ -72,4 +72,4 @@ func go_next() -> void:
 	tween.tween_property(heart, "scale", Vector2.ONE, 0.6).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 
 	await tween.finished
-	SceneLoader.goto_scene("res://scenes/screens/IntroScreen.tscn")
+	SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/IntroScreen.tscn"))
