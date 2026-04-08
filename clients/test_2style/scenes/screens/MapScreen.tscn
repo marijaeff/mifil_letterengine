@@ -1,13 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://bw65hoefcsnib"]
+[gd_scene load_steps=5 format=3 uid="uid://bw65hoefcsnib"]
 
-[ext_resource type="Script" path="res://clients/test_2style/scenes/screens/MapScreen.gd" id="1_03exp"]
-[ext_resource type="PackedScene" path="res://clients/test_2style/scenes/screens/PausePopup.tscn" id="2_1vr7n"]
-[ext_resource type="Script" path="res://scenes/screens/EnvelopeIcon.gd" id="2_7sm12"]
-[ext_resource type="Script" path="res://scenes/ui/AnimatedButton.gd" id="3_16o3d"]
-[ext_resource type="Texture2D" path="res://clients/test_2style/assets/objects/base1.png" id="4_a6rbi"]
-[ext_resource type="Texture2D" path="res://clients/test_2style/assets/objects/base2.png" id="5_6e32h"]
-[ext_resource type="Texture2D" path="res://clients/test_2style/assets/objects/base3.png" id="6_7sm12"]
-[ext_resource type="Texture2D" path="res://clients/test_2style/assets/objects/base4.png" id="7_wr5ju"]
+[ext_resource type="Script" uid="uid://wgddmyqac8oe" path="res://clients/test_2style/scenes/screens/MapScreen.gd" id="1_03exp"]
+[ext_resource type="PackedScene" uid="uid://dcmha002vsf0w" path="res://clients/test_2style/scenes/screens/PausePopup.tscn" id="2_1vr7n"]
+[ext_resource type="Script" uid="uid://cjki707wiyrjt" path="res://scenes/screens/EnvelopeIcon.gd" id="2_7sm12"]
+[ext_resource type="Script" uid="uid://bn5yfaitfruy1" path="res://scenes/ui/AnimatedButton.gd" id="3_16o3d"]
 
 [node name="MapScreen" type="Control"]
 layout_mode = 3
@@ -81,7 +77,6 @@ offset_top = -2.0
 offset_right = 330.0
 offset_bottom = 223.0
 scale = Vector2(0.715347, 0.697468)
-texture = ExtResource("4_a6rbi")
 
 [node name="base2" type="TextureRect" parent="CenterWrap/Canvas/EnvelopeIcon"]
 visible = false
@@ -91,7 +86,6 @@ offset_top = 1.0
 offset_right = 319.0
 offset_bottom = 216.0
 scale = Vector2(0.728747, 0.719752)
-texture = ExtResource("5_6e32h")
 
 [node name="base3" type="TextureRect" parent="CenterWrap/Canvas/EnvelopeIcon"]
 visible = false
@@ -100,7 +94,6 @@ offset_left = -4.0
 offset_right = 317.0
 offset_bottom = 225.0
 scale = Vector2(0.734462, 0.701005)
-texture = ExtResource("6_7sm12")
 
 [node name="base4" type="TextureRect" parent="CenterWrap/Canvas/EnvelopeIcon"]
 visible = false
@@ -110,7 +103,6 @@ offset_top = 2.0
 offset_right = 327.0
 offset_bottom = 234.0
 scale = Vector2(0.709077, 0.679865)
-texture = ExtResource("7_wr5ju")
 
 [node name="base5" type="TextureRect" parent="CenterWrap/Canvas/EnvelopeIcon"]
 visible = false
@@ -120,7 +112,6 @@ offset_top = 3.35973
 offset_right = 324.873
 offset_bottom = 235.36
 scale = Vector2(0.709077, 0.679865)
-texture = ExtResource("7_wr5ju")
 
 [node name="piece1" type="TextureRect" parent="CenterWrap/Canvas/EnvelopeIcon"]
 visible = false
