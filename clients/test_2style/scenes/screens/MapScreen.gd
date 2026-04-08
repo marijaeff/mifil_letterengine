@@ -5,7 +5,7 @@ extends Control
 @onready var background = $Background
 @onready var title_label = $CenterWrap/Canvas/TitleLabel
 
-@onready var envelope_icon: EnvelopeIcon = $CenterWrap/Canvas/EnvelopeIcon
+@onready var envelope_icon = $CenterWrap/Canvas/EnvelopeIcon
 
 @onready var path_line = $CenterWrap/Canvas/PathLayer/PathLine
 @onready var lights_container = $CenterWrap/Canvas/PathLayer/LightsContainer

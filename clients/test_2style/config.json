@@ -4,7 +4,8 @@
 	  "font_size": 80,
 	  "button_font_size": 80,
 	  "button_no_font_size": 40,
-	  "button_text_color": "#E8D7B4"
+	  "button_text_color": "#E8D7B4",
+	  "transition_color": "#00000000"
 	},
 
 	"audio": {

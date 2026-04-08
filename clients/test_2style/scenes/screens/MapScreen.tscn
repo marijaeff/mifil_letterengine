@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://wgddmyqac8oe" path="res://clients/test_2style/scenes/screens/MapScreen.gd" id="1_03exp"]
 [ext_resource type="PackedScene" uid="uid://dcmha002vsf0w" path="res://clients/test_2style/scenes/screens/PausePopup.tscn" id="2_1vr7n"]
-[ext_resource type="Script" uid="uid://cjki707wiyrjt" path="res://scenes/screens/EnvelopeIcon.gd" id="2_7sm12"]
+[ext_resource type="Script" uid="uid://dcapdktgkix5f" path="res://clients/test_2style/scenes/screens/EnvelopeIcon.gd" id="2_7sm12"]
 [ext_resource type="Script" uid="uid://bn5yfaitfruy1" path="res://scenes/ui/AnimatedButton.gd" id="3_16o3d"]
 
 [node name="MapScreen" type="Control"]

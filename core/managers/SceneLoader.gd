@@ -7,7 +7,7 @@ var fade_layer: ColorRect = null
 const FADE_OUT_TIME := 0.25
 const BLACK_HOLD_TIME := 0.003
 const FADE_IN_TIME := 0.15
-const FADE_COLOR := Color("11261800")
+const DEFAULT_FADE_COLOR := Color(0, 0, 0, 0)
 const FADE_Z_INDEX := 100
 
 func _ready() -> void:
@@ -25,8 +25,9 @@ func goto_scene(path: String) -> void:
 
 func _transition(path: String) -> void:
 	_ensure_fade_layer()
+	fade_layer.color = _get_fade_color()
 	_bring_fade_to_front()
-
+	
 	var fade_out := create_tween()
 	fade_out.set_trans(Tween.TRANS_SINE)
 	fade_out.set_ease(Tween.EASE_IN_OUT)
@@ -57,6 +58,7 @@ func _transition(path: String) -> void:
 	current_scene = get_tree().current_scene
 
 	_ensure_fade_layer()
+	fade_layer.color = _get_fade_color()
 	_bring_fade_to_front()
 
 	var fade_in := create_tween()
@@ -74,7 +76,7 @@ func _ensure_fade_layer() -> void:
 	fade_layer = ColorRect.new()
 	fade_layer.name = "SceneFadeLayer"
 	fade_layer.process_mode = Node.PROCESS_MODE_ALWAYS
-	fade_layer.color = FADE_COLOR
+	fade_layer.color = _get_fade_color()
 	fade_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	fade_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
 	fade_layer.offset_left = 0
@@ -95,3 +97,20 @@ func _bring_fade_to_front() -> void:
 		root.add_child(fade_layer)
 	else:
 		root.move_child(fade_layer, root.get_child_count() - 1)
+		
+func _get_fade_color() -> Color:
+	if Engine.has_singleton("DataLoader"):
+		var ui_cfg: Dictionary = DataLoader.config.get("ui", {}) as Dictionary
+		var raw = ui_cfg.get("transition_color", "")
+
+		if raw is Color:
+			return raw
+
+		if raw is String:
+			var s: String = String(raw).strip_edges()
+			if s != "":
+				if not s.begins_with("#"):
+					s = "#" + s
+				return Color.html(s)
+
+	return DEFAULT_FADE_COLOR

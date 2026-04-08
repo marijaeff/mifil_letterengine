@@ -3,7 +3,8 @@
 	"font": "assets/fonts/Neucha-Regular.ttf",
 	"font_size": 80,
 	"button_font_size": 50,
-	"button_no_font_size": 30
+	"button_no_font_size": 30,
+	"transition_color": "#11261800"
   },
 
 	"audio": {
