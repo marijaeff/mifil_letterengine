@@ -1,7 +1,7 @@
 extends Node
 
-@export var client_id: String = "test_1style"
-@export var locale: String = "en" # "" = обычные файлы, "en" = английские
+@export var client_id: String = "test_2style"
+@export var locale: String = "en" 
 
 func _ready():
 	DataLoader.load_client(client_id, locale)
