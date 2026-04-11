@@ -1,12 +1,12 @@
 extends Node
 
-@export var client_id: String = "test_2style"
+@export var client_id: String = "test_1style"
+@export var locale: String = "en" # "" = обычные файлы, "en" = английские
 
 func _ready():
-	DataLoader.load_client(client_id)
+	DataLoader.load_client(client_id, locale)
 
 	PlatformManager.debug_force_profile = "ios_web"
-
 	PlatformManager.detect()
 	print("BOOT PROFILE:", PlatformManager.profile)
 
@@ -22,21 +22,24 @@ func _ready():
 		print("BOOT last_screen =", ProgressManager.last_screen)
 		print("BOOT map path =", DataLoader.resolve_scene_path("screens/MapScreen.tscn"))
 		SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/MapScreen.tscn"))
+
 	elif ProgressManager.last_screen == "letter":
 		print("BOOT client_id =", client_id)
 		print("BOOT DataLoader.client_id =", DataLoader.client_id)
 		print("BOOT last_screen =", ProgressManager.last_screen)
 		print("BOOT map path =", DataLoader.resolve_scene_path("screens/MapScreen.tscn"))
 		SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/LetterScreen.tscn"))
+
 	elif ProgressManager.last_screen == "hug":
 		print("BOOT client_id =", client_id)
 		print("BOOT DataLoader.client_id =", DataLoader.client_id)
 		print("BOOT last_screen =", ProgressManager.last_screen)
 		print("BOOT map path =", DataLoader.resolve_scene_path("screens/MapScreen.tscn"))
 		SceneLoader.goto_scene(DataLoader.resolve_scene_path("screens/HugScreen.tscn"))
+
 	elif ProgressManager.last_screen == "level" and ProgressManager.last_level_id > 0:
-		
 		LevelRouter.start_level(ProgressManager.last_level_id)
+
 	else:
 		print("BOOT client_id =", client_id)
 		print("BOOT DataLoader.client_id =", DataLoader.client_id)

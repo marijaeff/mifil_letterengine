@@ -1,0 +1,411 @@
+{
+  "ui": {
+	"font": "assets/fonts/Neucha-Regular.ttf",
+	"font_size": 80,
+	"button_font_size": 80,
+	"button_no_font_size": 40,
+	"button_text_color": "#E8D7B4",
+	"transition_color": "#00000000"
+  },
+
+  "audio": {
+	"music": {
+	  "map": "assets/music/main_theme.mp3",
+	  "level": "assets/music/main_theme.mp3",
+	  "final": "assets/music/main_theme.mp3"
+	},
+	"sfx": {
+	  "heartbeat": "assets/music/sfx/heartbeat.wav",
+	  "button": "assets/music/sfx/button.wav",
+	  "whoosh": "assets/music/sfx/whoosh.wav",
+	  "correct": "assets/music/sfx/correct.wav",
+	  "wrong": "assets/music/sfx/wrong.wav",
+	  "heart_loss": "assets/music/sfx/heart_loss.wav",
+	  "pickup": "assets/music/sfx/pickup.mp3",
+	  "letter_found": "assets/music/sfx/letter_found.wav",
+	  "paper": "assets/music/sfx/paper.wav"
+	}
+  },
+
+  "screens": {
+	"heart": {
+	  "background": "assets/backgrounds/heart_bg.png",
+	  "heart_texture": "assets/ui/heart.png",
+	  "beats": 4,
+	  "music": "assets/music/ambient.mp3",
+	  "heartbeat_sfx": "assets/sfx/heartbeat.wav"
+	},
+
+	"intro": {
+	  "background": "assets/backgrounds/intro_bg.png",
+	  "button_no_rotation": -5,
+	  "colors": {
+		"text": "#E8D7B4",
+		"button_yes": "#E8D7B4",
+		"button_no": "#ABABAB"
+	  },
+	  "decor": {
+		"top_line": "",
+		"ground": "assets/objects/ground_line.png"
+	  },
+	  "buttons": {
+		"yes": {
+		  "outline": ""
+		},
+		"no": {
+		  "outline": ""
+		}
+	  },
+	  "characters": {
+		"girl": "assets/characters/girl_letter.png",
+		"baby": "",
+		"cat": ""
+	  }
+	},
+
+	"envelope": {
+	  "background": "assets/backgrounds/envelope_bg.png",
+	  "envelope_texture": "assets/objects/envelope.png",
+	  "button_outline": ""
+	},
+
+	"map": {
+	  "levels": {
+		"count": 4,
+		"textures": {
+		  "locked": "assets/ui/lvl_locked.png",
+		  "active": "assets/ui/lvl_active.png",
+		  "completed": "assets/ui/lvl_completed.png"
+		}
+	  },
+	  "background": "assets/backgrounds/map_bg_1.png",
+
+	  "button": {
+		"texture": ""
+	  },
+
+	  "settings_button": {
+		"icon": "assets/ui/setting_icon.png"
+	  },
+
+	  "envelope": {
+		"bases": [
+		  "assets/objects/base1.png",
+		  "assets/objects/base2.png",
+		  "assets/objects/base3.png",
+		  "assets/objects/base4.png",
+		  "assets/objects/base5.png"
+		],
+		"pieces": [
+		  "assets/objects/piece1.png",
+		  "assets/objects/piece2.png",
+		  "assets/objects/piece3.png",
+		  "assets/objects/piece4.png"
+		],
+		"glow": ""
+	  },
+
+	  "path": {
+		"points": [
+		  [344, 1512],
+		  [728, 1184],
+		  [488, 815],
+		  [896, 559],
+		  [584, 463],
+		  [784, 351]
+		],
+		"dash_length": 40,
+		"gap_length": 30,
+		"width_start": 9,
+		"width_end": 3,
+		"style": {
+		  "color": "#FFB200",
+		  "glow_color": "#FFD98A",
+		  "glow_alpha": 0.06,
+		  "glow_width_multiplier": 1.8,
+		  "perspective_power": 1.2
+		}
+	  }
+	},
+
+	"letter": {
+	  "background": "assets/backgrounds/intro_bg.png",
+	  "heart": "assets/objects/heart_letter.png",
+	  "paper": "",
+	  "letter_font_size": 70,
+	  "letter_text_color": "#CAC28E",
+	  "close_button": {
+		"icon": "",
+		"text": "Next"
+	  }
+	},
+
+	"hug": {
+	  "background": "assets/backgrounds/hug_bg.png",
+	  "duo": "assets/characters/hug.png",
+	  "heart": "assets/objects/heart_hug.png",
+	  "buttons": {
+		"icon": "assets/ui/btn_map.png",
+		"save": {
+		  "text": "Save"
+		},
+		"map": {
+		  "text": "To the map"
+		},
+		"finish": {
+		  "text": "Start over"
+		}
+	  },
+	  "pdf": "assets/files/letter.pdf"
+	}
+  },
+
+  "levels": {
+	"shared": {
+	  "pause_icon": "assets/ui/pause.png",
+	  "hearts": {
+		"max": 3,
+		"icon": "assets/ui/heart_life.png"
+	  }
+	},
+
+	"catch": {
+	  "background": "assets/backgrounds/catch_bg.png",
+	  "hands": "assets/objects/catch/hands.png",
+	  "hint": {
+		"text": "Catch what I like",
+		"color": "#FFE9AC",
+		"size": 48
+	  },
+	  "plant_stages": [
+		"assets/objects/catch/plant_1.png",
+		"assets/objects/catch/plant_2.png",
+		"assets/objects/catch/plant_3.png",
+		"assets/objects/catch/plant_4.png"
+	  ],
+	  "items": {
+		"good": [
+		  "assets/objects/catch/items/chocolate.png",
+		  "assets/objects/catch/items/kixtochka.png"
+		],
+		"bad": [
+		  "assets/objects/catch/items/kapla.png"
+		]
+	  }
+	},
+
+	"intuition": {
+	  "rounds_total": 5,
+	  "rounds": [
+		{ "question": 0, "correct": 2 },
+		{ "question": 0, "correct": 1 },
+		{ "question": 0, "correct": 0 },
+		{ "question": 0, "correct": 1 },
+		{ "question": 0, "correct": 2 }
+	  ],
+	  "box_closed": "assets/objects/intuition/box_intuition.png",
+	  "box_empty": "assets/objects/intuition/box_intuition_lose.png",
+	  "box_letter": "assets/objects/intuition/box_intuition_win.png",
+	  "table": "assets/objects/intuition/table.png",
+	  "questions": [
+		{
+		  "text": "What do you think... which little box did I choose to hide the piece of the letter in?"
+		}
+	  ],
+	  "question_style": {
+		"color": "#B9A98B",
+		"size": 70
+	  },
+	  "background": "assets/backgrounds/intuition_bg.png"
+	},
+
+	"question": {
+	  "background": "assets/backgrounds/question_bg.png",
+	  "box": "",
+	  "final_box": "assets/objects/question/box_open_letter.png",
+	  "timer_circle": "",
+	  "timer": {
+		"time_per_question": 7
+	  },
+	  "buttons": {
+		"outline": "assets/objects/question/btn_quest.png"
+	  },
+	  "torches": {
+		"off": "assets/objects/question/torch_off.png",
+		"on": "assets/objects/question/torch_on.png"
+	  },
+	  "ground": "assets/objects/question/ground.png",
+	  "questions": [
+		{
+		  "text": "What do I love ordering the most?",
+		  "answers": ["Pizza", "Sushiiii", "Burger"],
+		  "correct": 1
+		},
+		{
+		  "text": "How much money did we roughly spend on treating our little stray Milka?",
+		  "answers": ["about €500", "about €300", "about €400"],
+		  "correct": 0
+		},
+		{
+		  "text": "What would we have named Oliver if we had listened to my mom?",
+		  "answers": ["Nikanor", "Pavel", "Nikita"],
+		  "correct": 0
+		},
+		{
+		  "text": "How many years have we been married?",
+		  "answers": ["5", "6", "7"],
+		  "correct": 0
+		}
+	  ],
+	  "text_styles": {
+		"question": {
+		  "color": "#B9A98B",
+		  "size": 70
+		},
+		"answers": {
+		  "color": "#B9A98B",
+		  "size": 70
+		},
+		"timer": {
+		  "color": "#FFDA96",
+		  "size": 100
+		}
+	  }
+	},
+
+	"light": {
+	  "background": "assets/backgrounds/light_bg.jpg",
+
+	  "light": {
+		"texture": "assets/objects/light/light.png",
+		"scale": 0.75
+	  },
+
+	  "letters": {
+		"word": "OLIVER"
+	  },
+
+	  "word_ui": {
+		"line_texture": "assets/objects/light/line.png"
+	  },
+
+	  "ui": {
+		"timer_circle": "",
+		"pause_icon": "assets/ui/pause.png"
+	  },
+
+	  "timer": {
+		"time": 50
+	  }
+	},
+
+	"result": {
+	  "common": {
+		"icon_size": [220, 160],
+		"panel_scale": 0.92,
+		"fonts": {
+		  "title_size": 100,
+		  "subtitle_size": 50,
+		  "button_size": 50
+		},
+		"envelopes": [
+		  "assets/ui/envelope_1.png",
+		  "assets/ui/envelope_2.png",
+		  "assets/ui/envelope_3.png",
+		  "assets/ui/envelope_4.png"
+		]
+	  },
+
+	  "win": {
+		"title": "Hooray!",
+		"subtitle": " ",
+		"panel": "assets/ui/result_win.png",
+		"icon": "assets/ui/envelope_1.png",
+		"colors": {
+		  "title": "#443C10",
+		  "subtitle": "#143F1D",
+		  "buttons": "#443C10"
+		},
+		"buttons": {
+		  "retry": {
+			"text": "I want to do it again!",
+			"icon": ""
+		  },
+		  "next": {
+			"text": "Continue on",
+			"icon": ""
+		  }
+		}
+	  },
+
+	  "lose": {
+		"title": "Alas!",
+		"subtitle": "",
+		"panel": "assets/ui/result_lose.png",
+		"icon": "assets/ui/sad_envelope.png",
+		"colors": {
+		  "title": "#131420",
+		  "subtitle": "#CFCFCF",
+		  "buttons": "#131420"
+		},
+		"buttons": {
+		  "retry": {
+			"text": "Try again!",
+			"icon": ""
+		  },
+		  "next": {
+			"text": "To the map",
+			"icon": ""
+		  }
+		}
+	  }
+	},
+
+	"pause": {
+	  "title": "Pause",
+	  "panel": "assets/ui/pause_panel.png",
+	  "icon": "",
+	  "buttons": {
+		"resume": {
+		  "text": "Continue"
+		},
+		"restart": {
+		  "text": "Start over"
+		},
+		"settings": {
+		  "text": "Settings"
+		},
+		"map": {
+		  "text": "To the map"
+		}
+	  },
+	  "colors": {
+		"title": "#E8D7B4",
+		"buttons": "#E8D7B4"
+	  }
+	},
+
+	"settings": {
+	  "title": "Settings",
+	  "panel": "assets/ui/pause_panel.png",
+	  "icon": "",
+	  "buttons": {
+		"reset": {
+		  "text": "Reset progress"
+		},
+		"back": {
+		  "text": "Back"
+		}
+	  },
+	  "labels": {
+		"sound": "Sound",
+		"music": "Music"
+	  },
+	  "colors": {
+		"title": "#F8F0C4",
+		"buttons": "#E8D6B4",
+		"labels": "#E8D7B4"
+	  }
+	}
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "intro": {
+	"text": "Hi.\nI've prepared\nsomething for you.\nDo you want to see it?",
+	"buttons": {
+	  "yes": "I do",
+	  "no": "No"
+	}
+  },
+
+  "envelope": {
+	"button_text": "Read"
+  },
+
+  "map": {
+	"title": "Each\nlittle light —\none step closer",
+	"button": "Let's go"
+  },
+
+  "letter": {
+	"content": "I love you very much.\n\nAnd I thank God\nthat you are in my life.\n\nFor the fact that one day\nyou wrote to me:\n\n\"Hello, Viktoria\" —\nand our story began.\n\nI am grateful to you\nfor your support.\n\nFor always being there\nfor my dreams,\nfor my new beginnings.\n\nFor always telling me\nthat my drawings are beautiful.\nThat I will succeed.\n\nIt means so much to me.\nThank you, my sunshine.\n\nI am grateful to you for your help,\nfor your care,\nfor your selflessness toward me.\n\nYou always put my wishes above your own.\n\nThank you.\n\nI am very sorry\nthat sometimes I can be rude,\nindifferent,\nand blind toward you.\n\nForgive me for that.\nBut I love you.\n\nI love you with all my heart.\nAnd I will change for you —\nand I already believe that I am changing.\n\nThank you for your patience and for all your\n\"I forgive you\"s.\n\nI love you, my treasure.\n\nMay this day not become\njust another sorrow for you\nand a day of sad memories.\n\nMay it be filled\nwith our warm,\nshared memories.\n"
+  }
+}

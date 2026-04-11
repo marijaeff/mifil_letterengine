@@ -344,7 +344,10 @@ func update_start_button_state():
 	var completed: int = ProgressManager.completed_level
 
 	if completed >= count:
-		start_button.text = "Прочесть"
+		if DataLoader.locale == "en":
+			start_button.text = "Read"
+		else:
+			start_button.text = "Прочесть"
 	else:
 		var map_texts: Dictionary = DataLoader.texts.get("map", {}) as Dictionary
 		start_button.text = map_texts.get("button", "")
