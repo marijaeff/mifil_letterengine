@@ -18,7 +18,7 @@ var heart_icon: Texture2D = null
 var good_items: Array[Texture2D] = []
 var bad_items: Array[Texture2D] = []
 var good_caught: int = 0
-var total_needed: int = 1
+var total_needed: int = 10
 
 var is_touching: bool = false
 var last_spawn_zone: int = -1
